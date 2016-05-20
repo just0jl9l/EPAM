@@ -5,7 +5,6 @@
 	xmlns:tns="http://www.epam.tc.com/web-app">
 	<element name="web-app">
 		<complexType>
-			<sequence>
 				<choice 
 					maxOccurs="unbounded"
 					minOccurs="1">
@@ -25,7 +24,6 @@
 					<element name="error-page" 
 						type="tns:Error-page"/>
 				</choice>
-			</sequence>	
 		<attribute name="id" type="string" use="required"/>
 		<attribute name="version" type="string" use="required"/>
 		</complexType>
