@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema 
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.epam.tc.com/menu"
+	xmlns:tns="http://www.epam.tc.com/menu">
+	<element name="menu">
+		<complexType>
+				<sequence>
+					<element name="menu-item" type="tns:Menu-item" maxOccurs="unbounded" minOccurs="1"/>
+				</sequence>
+		</complexType>
+	</element>	
+	
+	<complexType name="Menu-item">
+		<sequence>
+			<element name="dish" 
+				type="tns:Dish" minOccurs="1" maxOccurs="unbounded"/>
+		</sequence>		
+		<attribute name="id" type="ID" use="required"/>
+		<attribute name="name" type="tns:Name" use="required"/>
+	</complexType>
+	
+	<complexType name="Dish">
+		<sequence>
+			<element name="photo" type="string" minOccurs="0"/>			
+			<element name="name" type="tns:Name"/>
+			<element name="description" type="tns:Description" minOccurs="0"/>	
+			<element name="portion" type="tns:Portion"/>	
+		</sequence>
+		<attribute name="id" type="ID" use="required"/>		
+	</complexType>
+	
+	
+	<simpleType name="Name">
+		<restriction base="string">
+			<pattern value="[А-Яа-я]+([,]?[ ][А-Яа-я]+)*([ (А-Яа-я)+]?[-(А-Яа-я)+])*" />
+		</restriction>
+	</simpleType>
+	
+	
+	<complexType name="Description">
+		<sequence>
+			<element name="general" type="string" minOccurs="0"/>	
+			<element name="list-item" type="tns:List-item" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	
+	
+	<complexType name="List-item">	
+		<sequence>
+			<element name="text" type="string"  minOccurs="0"/>
+			<element name="price" type="int" minOccurs="0"/>
+		</sequence>
+		<attribute name="number" type="int" use="optional"/>	
+	</complexType>
+	
+	
+	<complexType name="Portion">
+		<choice>
+			<element name="weight" type="int" maxOccurs="unbounded"/>
+			<element name="amount" type="tns:Amount" />
+		</choice>
+	</complexType>
+	
+	
+	<simpleType name="Amount">
+		<restriction base="string">
+			<pattern value="[1-9]+[0-9]*[ ][ш][т][.]" />
+		</restriction>
+	</simpleType>
+</schema>
