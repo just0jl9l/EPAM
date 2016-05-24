@@ -20,7 +20,7 @@ public class DOMElement implements DOMNode {
 	}
 
 	public short getElementType() {
-		return 0;
+		return DOMConstants.ELEMENT;
 	}
 
 	public String getNodeValue() {

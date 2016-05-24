@@ -23,7 +23,7 @@ public class DOMText implements DOMNode {
 	}
 
 	public short getElementType() {
-		return 2;
+		return DOMConstants.TEXT;
 	}
 
 	public String getNodeValue() {

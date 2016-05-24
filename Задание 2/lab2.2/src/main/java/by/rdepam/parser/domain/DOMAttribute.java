@@ -30,7 +30,7 @@ public class DOMAttribute implements DOMNode {
 	}
 
 	public short getElementType() {
-		return 1;
+		return DOMConstants.ATTRIBUTE;
 	}
 
 	public String getNodeValue() {

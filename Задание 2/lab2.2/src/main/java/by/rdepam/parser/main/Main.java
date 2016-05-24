@@ -21,8 +21,8 @@ public class Main {
 				DOMParser parser=new DOMParser();
 				parser.parse(file);
 				DOMDocument document = parser.getDocument();
-				DOMViewer view = new DOMViewer();
-				System.out.println(view.show(document));
+				DOMViewer creator = new DOMViewer();
+				System.out.println(creator.show(document));
 			} catch (IOException e) {
 				System.out.println(":(");
 			}
