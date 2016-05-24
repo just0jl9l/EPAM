@@ -14,11 +14,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import domain.Description;
-import domain.Dish;
-import domain.ListItem;
-import domain.MenuItem;
-import domain.Portion;
+import by.rdepam.parsing_with_xerces.domain.Description;
+import by.rdepam.parsing_with_xerces.domain.Dish;
+import by.rdepam.parsing_with_xerces.domain.ListItem;
+import by.rdepam.parsing_with_xerces.domain.MenuItem;
+import by.rdepam.parsing_with_xerces.domain.Portion;
 
 public class Main {
 		
@@ -49,12 +49,11 @@ public class Main {
 					items.add(item);
 				}
 			}
-			System.out.println("There is " + items.size() + " menu items:");
+			System.out.println("There is " + items.size() + " menu items:");		
 			
-			Iterator it = items.iterator();
-			while(it.hasNext()) {
+			for(MenuItem it: items) {
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-				System.out.println(it.next().toString());
+				System.out.println(it.show());
 			}
 		}
 		

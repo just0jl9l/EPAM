@@ -1,4 +1,4 @@
-package domain;
+package by.rdepam.parsing_with_xerces.domain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class Portion {
 		weight=new ArrayList<Integer>();
 	}
 
-	public String toString(){
+	public String show(){
 		String str=new String();
 		if(amount!=null){
 			str+="\n   -Amount: "+amount+".";			
@@ -24,7 +24,7 @@ public class Portion {
 		if(weight.size()>0){
 			str+="\n   -Weight: ";		
 			for(Integer d:weight){
-				str+=d.toString();
+				str+=d;
 				str+='/';
 			}
 			str=str.substring(0, str.length()-1);

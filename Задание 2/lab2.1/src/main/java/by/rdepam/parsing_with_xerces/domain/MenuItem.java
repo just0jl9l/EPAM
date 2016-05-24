@@ -1,4 +1,4 @@
-package domain;
+package by.rdepam.parsing_with_xerces.domain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +14,10 @@ public class MenuItem {
 		dishs=dishs2;		
 	}
 	
-	public String toString(){
+	public String show(){
 		String str= " ID: "+id+":\n\n";
 		for(Dish d:dishs){
-			str+=d.toString();
+			str+=d.show();
 			str+='\n';
 			str+=("-------------------------------------\n");
 		}

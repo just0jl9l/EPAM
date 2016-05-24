@@ -1,4 +1,4 @@
-package domain;
+package by.rdepam.parsing_with_xerces.domain;
 
 public class ListItem {
 	private String text;
@@ -10,7 +10,7 @@ public class ListItem {
 		price=textValue2;
 	}
 	
-	public String toString(){
+	public String show(){
 		String str=new String();
 		if(text!=null){
 			str+="\n      *Text: "+text;

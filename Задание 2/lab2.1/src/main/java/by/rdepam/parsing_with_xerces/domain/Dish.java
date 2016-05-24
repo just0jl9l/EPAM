@@ -1,4 +1,4 @@
-package domain;
+package by.rdepam.parsing_with_xerces.domain;
 import java.util.List;
 
 public class Dish {
@@ -24,7 +24,7 @@ public class Dish {
 		}
 	}
 	
-	public String toString(){
+	public String show(){
 		String str= " ID: "+id;
 		if(photo!=null && photo.length()>0){
 			str+=";\n Photo: "+photo;
@@ -33,10 +33,10 @@ public class Dish {
 			str+=";\n Name: "+name;
 		}
 		if(descr!=null){
-			str+=";\n Description: "+descr.toString();
+			str+=";\n Description: "+descr.show();
 		}
 		if(portion!=null){
-			str+=";\n Portion: "+portion.toString()+".";
+			str+=";\n Portion: "+portion.show()+".";
 		}
 		return str;
 	}	

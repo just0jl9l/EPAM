@@ -1,4 +1,4 @@
-package domain;
+package by.rdepam.parsing_with_xerces.domain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class Description {
 		general=new String();
 	}
 
-	public String toString(){
+	public String show(){
 		String str=new String();
 		if(general!=null && general.length()>0){
 			str+="\n   -General: "+general;
@@ -25,7 +25,7 @@ public class Description {
 			str+="\n   -List: ";
 		}		
 		for(ListItem d:listItem){
-			str+=d.toString();
+			str+=d.show();
 		}
 		return str;
 	}
