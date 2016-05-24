@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tc:menu
+	xmlns:tc="http://www.epam.tc.com/menu"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.epam.tc.com/menu menu-schema.xsd">
+	<menu-item name="Холодные закуски" id="Холодные_закуски">
+		<dish id="Ассорти_рыбное">
+			<photo>img1.png</photo>
+			<name>Ассорти рыбное</name>
+			<description>
+				<list-item>
+					<text>Слабосолёная форель, сёмга</text>
+				</list-item>
+			</description>
+			<portion>
+				<weight>100</weight>
+				<weight>20</weight>
+				<weight>15</weight>
+			</portion>
+		</dish>
+		<dish id="Тарталетки_с_красной_икрой">
+			<photo>img2.png</photo>
+			<name>Тарталетки с красной икрой</name>
+			<description>
+				<list-item>
+					<text>Тарталетки с красной икрой</text>
+				</list-item>
+			</description>
+			<portion>
+				<weight>50</weight>
+				<weight>60</weight>
+			</portion>
+		</dish>
+		<dish id="Закуска_по-русски">
+			<photo>img3.png</photo>
+			<name>Закуска по-русски</name>
+			<description>
+				<list-item>
+					<text>Кусочки атлантической сельди с отварным картофелем, луком, лимоном, зеленью</text>
+				</list-item>
+			</description>
+			<portion>
+				<weight>70</weight>
+				<weight>50</weight>
+				<weight>2</weight>
+				<weight>10</weight>
+			</portion>
+		</dish>
+		<dish id="Куриный_рулет">
+			<photo>img4.png</photo>
+			<name>Куриный рулет</name>
+			<description>
+				<list-item>
+					<text>Куриный рулет собственного производства</text>
+				</list-item>
+			</description>
+			<portion>
+				<weight>100</weight>
+				<weight>5</weight>
+			</portion>
+		</dish>
+		<dish id="Ассорти_баклажаны">
+			<photo>img5.png</photo>
+			<name>Ассорти баклажаны</name>
+			<description>
+				<general>Жареные баклажаны</general>				
+				<list-item number="1">
+					<text>с помидорами</text>
+				</list-item>
+				<list-item number="2">
+					<text>с чесноком</text>
+				</list-item>
+				<list-item number="3">
+					<text>с орехами</text>
+				</list-item>
+			</description>
+			<portion>
+				<weight>100</weight>
+				<weight>5</weight>
+			</portion>
+		</dish>		
+		<dish id="Фестиваль_салатов">
+			<photo>img6.png</photo>
+			<name>Фестиваль салатов</name>
+			<portion>
+				<weight>400</weight>
+				<weight>10</weight>
+			</portion>
+		</dish>
+	</menu-item>
+	
+	<menu-item name="Горячие закуски" id="Горячие_закуски">
+		<dish id="Лобио_с_шампиньонами">
+			<photo>img7.png</photo>
+			<name>Лобио с шампиньонами</name>
+			<description>
+				<list-item>
+					<text>Фасоль с шампиньонами и грецким орехом</text>
+					<price>105</price>
+				</list-item>
+			</description>
+			<portion>
+				<weight>150</weight>
+				<weight>5</weight>
+			</portion>
+		</dish>
+		<dish id="Жульен">
+			<photo>img8.png</photo>
+			<name>Жульен</name>
+			<description>				
+				<list-item number="1">
+					<text>с курицей</text>					
+					<price>145</price>
+				</list-item>
+				<list-item number="2">
+					<text>с грибами</text>					
+					<price>155</price>
+				</list-item>
+			</description>
+			<portion>
+				<weight>200</weight>
+				<weight>1</weight>
+			</portion>
+		</dish>	
+		<dish id="Ахтамар_мясной">
+			<photo>img9.png</photo>
+			<name>Ахтамар мясной</name>
+			<description>
+				<list-item>
+					<text>Колбаса, ветчина, буженина, сыр, запеченные на мангале в лаваше</text>
+					<price>165</price>
+				</list-item>
+			</description>
+			<portion>
+				<amount>1 шт.</amount>
+			</portion>
+		</dish>
+		<dish id="Ахтамар_с_овощами">
+			<photo>img10.png</photo>
+			<name>Ахтамар с овощами</name>
+			<description>
+				<list-item>
+					<text>Сыр, помидоры, зелень, запеченные на мангале в лаваше</text>
+					<price>150</price>
+				</list-item>
+			</description>
+			<portion>
+				<amount>1 шт.</amount>
+			</portion>
+		</dish>
+		<dish id="Сюрприз">
+			<name>Сюрприз</name>
+			<description>
+				<list-item>
+					<price>260</price>
+				</list-item>
+			</description>
+			<portion>
+				<amount>1 шт.</amount>
+			</portion>
+		</dish>
+		<dish id="Креветки">
+			<photo>img11.png</photo>
+			<name>Креветки</name>
+			<description>				
+				<list-item number="1">
+					<text>отварные</text>					
+					<price>135</price>
+				</list-item>
+				<list-item number="2">
+					<text>жаренные</text>					
+					<price>155</price>
+				</list-item>
+			</description>
+			<portion>
+				<weight>120</weight>
+				<weight>30</weight>
+			</portion>
+		</dish>	
+		<dish id="Мидии_по-турецки">
+			<photo>img12.png</photo>
+			<name>Мидии по-турецки</name>
+			<description>				
+				<list-item>
+					<text>Мидии, фаршированные сыром и грецким орехом</text>					
+					<price>190</price>
+				</list-item>
+			</description>
+			<portion>
+				<weight>150</weight>
+				<weight>30</weight>
+			</portion>
+		</dish>			
+		<dish id="Эскарго">
+			<photo>img13.png</photo>
+			<name>Эскарго</name>
+			<description>				
+				<list-item>
+					<text>Виноградные улитки, фаршированные по-бургундски</text>					
+					<price>230</price>
+				</list-item>
+			</description>
+			<portion>
+				<amount>12 шт.</amount>
+			</portion>
+		</dish>
+	</menu-item>
+	
+	<menu-item name="Завтраки" id="Завтраки">
+		<dish id="Глазунья">
+			<photo>img14.png</photo>
+			<name>Глазунья</name>
+			<description>
+				<general>Два яйца</general>
+				<list-item>
+					<text>с ветчиной</text>
+				</list-item>
+				<list-item>
+					<text>с сыром</text>
+				</list-item>
+				<list-item>
+					<text>с помидорами</text>
+				</list-item>
+			</description>
+			<portion>
+				<weight>150</weight>
+			</portion>
+		</dish>
+		<dish id="Омлет">
+			<photo>img15.png</photo>
+			<name>Омлет</name>
+			<portion>
+				<weight>100</weight>
+			</portion>
+		</dish>			
+		<dish id="Блинчики_с_мясом">
+			<photo>img16.png</photo>
+			<name>Блинчики с мясом</name>
+			<description>				
+				<list-item>
+					<text>Жаренные блинчики с мясом</text>
+				</list-item>
+			</description>
+			<portion>
+				<weight>150</weight>
+			</portion>
+		</dish>
+	</menu-item>
+</tc:menu>

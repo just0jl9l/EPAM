@@ -1,4 +1,4 @@
-package by.rdepam.parsing_with_xerces.domain;
+package by.rdepam.sax_and_stax.domain;
 
 public class ListItem {
 	private String text;

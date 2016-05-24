@@ -11,7 +11,7 @@ import by.rdepam.parser.service.DOMViewer;
 
 public class Main {
 	public static void main(String[] args){
-		JFileChooser fileopen = new JFileChooser("E:/!еоюл!");
+		JFileChooser fileopen = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("*.xml", "xml");
 		fileopen.setFileFilter(filter);
 		int ret = fileopen.showOpenDialog(null);

@@ -1,4 +1,4 @@
-package by.rdepam.parsing_with_xerces.domain;
+package by.rdepam.sax_and_stax.domain;
 
 import java.util.ArrayList;
 import java.util.List;
