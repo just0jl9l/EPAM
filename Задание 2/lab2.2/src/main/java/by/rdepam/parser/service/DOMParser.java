@@ -2,6 +2,7 @@ package by.rdepam.parser.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import by.rdepam.parser.domain.DOMAttribute;
@@ -12,18 +13,25 @@ import by.rdepam.parser.domain.DOMElement;
 import by.rdepam.parser.domain.DOMNodeList;
 import by.rdepam.parser.domain.DOMText;
 
-public class DOMParser {
+public class DOMParser implements IParser{
 	private DOMDocument document;
 
-	@SuppressWarnings("resource")
-	public void parse(File file) throws IOException {
-		FileInputStream inFile = new FileInputStream(file);
-		byte[] str = new byte[inFile.available()];
-		inFile.read(str);
-		String readDocument = new String(str);
-		document = new DOMDocument();
-		readDocument = remove(readDocument);
-		document.setDocumentElement(findElements(readDocument, null).getFirst());
+	public void parse(File file) {
+		FileInputStream inFile;
+		try {
+			inFile = new FileInputStream(file);
+			byte[] str;
+			str = new byte[inFile.available()];			
+			inFile.read(str);
+			String readDocument = new String(str);
+			document = new DOMDocument();
+			readDocument = remove(readDocument);
+			document.setDocumentElement(findElements(readDocument, null).getFirst());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 
 	public DOMDocument getDocument() {

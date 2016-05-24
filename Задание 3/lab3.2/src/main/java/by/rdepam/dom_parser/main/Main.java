@@ -1,4 +1,4 @@
-package by.rdepam.parser.main;
+package by.rdepam.dom_parser.main;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -8,6 +8,7 @@ import by.rdepam.factory.DOMFactory;
 import by.rdepam.parser.domain.DOMDocument;
 import by.rdepam.parser.service.DOMViewer;
 import by.rdepam.parser.service.IParser;
+
 
 public class Main {
 	public static void main(String[] args){

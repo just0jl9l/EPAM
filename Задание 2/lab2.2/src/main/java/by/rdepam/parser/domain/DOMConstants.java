@@ -6,7 +6,7 @@ public class DOMConstants {
 	public static final String BEGINING_OF_XML_COMMENT = "<!--";
 	public static final String ENDING_OF_XML_COMMENT = "?>";
 	public static final String BEGINING_OF_XML_DOCTYPE = "<!";
-	public static final String BEGINING_OF_XML_CLOSING_TAG = "/<";
+	public static final String BEGINING_OF_XML_CLOSING_TAG = "</";
 	public static final char BEGINING_OF_XML_TAG = '<';
 	public static final char ENDING_OF_XML_TAG = '>';
 	public static final char SPACE = ' ';
