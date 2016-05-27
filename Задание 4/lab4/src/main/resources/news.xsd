@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema 
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.epam.tc.com/news"
+	xmlns:tns="http://www.epam.tc.com/news">
+	<element name="catalog">
+		<complexType>
+				<sequence>
+					<element name="category" 
+						type="tns:Category" minOccurs="1" 
+						maxOccurs="unbounded"/>
+				</sequence>
+		</complexType>
+	</element>	
+	
+	<complexType name="Category">
+		<sequence>
+			<element name="subcategory" 
+				type="tns:Subcategory" minOccurs="1" 
+				maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="name" type="string" use="required"/>
+	</complexType>
+	<complexType name="Subcategory">
+		<sequence>
+			<element name="news" 
+				type="tns:News" minOccurs="1" 
+				maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="name" type="string" use="required"/>
+	</complexType>
+	<complexType name="News">
+		<sequence>
+			<element name="name" type="string"/>			
+			<element name="provider" type="tns:Provider"/>				
+			<element name="dateOfIssue" type="date"/>			
+			<element name="body" type="string"/>
+		</sequence>
+	</complexType>
+	<complexType name="Provider">
+		<sequence>
+			<element name="author" 
+				type="string" minOccurs="1" 
+				maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+</schema>

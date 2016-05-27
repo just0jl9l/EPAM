@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tc:catalog
+	xmlns:tc="http://www.epam.tc.com/news"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.epam.tc.com/news news.xsd">
+	<category name="фильмы" >
+		<subcategory name="приключения">
+			<news>
+				<name>Алиса в Зазеркалье</name>
+				<provider>
+					<author>Джеймс Бобин</author>
+				</provider>
+				<dateOfIssue>2016-05-26</dateOfIssue>
+				<body>Поклонники фильма "Алиса в Сиране чудес" ликуют - 26 мая в России выходит прокат продолжение вольной интерпретации по книгам Льюиса Кэрролла. На сей раз Тим Бёртон не стал заниматься съёмками и остался продюсером, а к кинокомпании Disney присоединился режисёр Джеймс Бобин.</body>
+			</news>
+			<news>
+				<name>Варкрафт</name>
+				<provider>
+					<author>Дункан Джонс</author>
+				</provider>
+				<dateOfIssue>2016-05-26</dateOfIssue>
+				<body>26 мая в российский прокат выходит фильм, который ждало целое поколение геймеров. В 1994 году компания Blizzard Entertainment представила миру компьютерную игру Warcraft: Orcs and Humans, ставшую золотым эталоном жанра стратегий в реальном времени.</body>
+			</news>
+		</subcategory>
+		<subcategory name="драма">
+			<news>
+				<name>Разрушение</name>
+				<provider>
+					<author>Жан-Марк Валле</author>
+				</provider>
+				<dateOfIssue>2016-06-30</dateOfIssue>
+				<body>Сюжет фильма был включён в так называемый «чёрный список» 2007 года. Это список нереализованных сценариев, фильмы по которым вполне могли бы стать кассовыми.</body>
+			</news>
+			<news>
+				<name>Гений</name>
+				<provider>
+					<author>Майкл Грандадж</author>
+				</provider>
+				<dateOfIssue>2016-07-07</dateOfIssue>
+				<body>История жизни Макса Перкинса, литературного редактора таких знаменитых писателей, как Томас Вульф, Эрнест Хемингуэй, Френсис Скотт Фицджеральд и других.</body>
+			</news>
+		</subcategory>
+	</category>
+	<category name="диски" >
+		<subcategory name="рок">
+			<news>
+				<name>Режущее лезвие 1965-1966: Контрабандная серия 12</name>
+				<provider>
+					<author>Боб Дилан</author>
+				</provider>
+				<dateOfIssue>2016-11-06</dateOfIssue>
+				<body>Всемирно известный музыкант Боб Дилан издает обновленный альбом под названием «Режущее лезвие 1965-1966: Контрабандная серия 12». Недавно стало известно, что сборник появится на прилавках музыкальных магазинов в ноябре 2016-го года.</body>
+			</news>
+			<news>
+				<name>Unleashed</name>
+				<provider>
+					<author>Skillet</author>
+				</provider>
+				<dateOfIssue>2016-08-05</dateOfIssue>
+				<body>Американская альтернативная рок-группа Skillet анонсировала выход своего нового альбома. Грядущий релиз получит название "Unleashed" и выйдет 5 августа 2016 года. Всего на диске будет 12 песен.</body>
+			</news>			
+		</subcategory>		
+		<subcategory name="симфонический метал">
+			<news>
+				<name>Apocalyptica - Plays Metallica by Four Cellos [Remastered]</name>
+				<provider>
+					<author>Apocalyptica</author>
+				</provider>
+				<dateOfIssue>2016-07-22</dateOfIssue>
+				<body>10 мая 1996 года финская группа Apocalyptica выпустила дебютный альбом "Plays Metallica By Four Cellos". К двадцатилетию с момента релиза коллектив решил переиздать лонгплей и добавить в него три бонус-трека. На новом издании появятся ранее невыпущенные инструментальные версии песен "Battery", "Nothing Else Matters" и "Seek and Destroy". Альбом выйдет 22 июля 2016 года.</body>
+			</news>
+		</subcategory>
+	</category>
+	<category name="книги" >
+		<subcategory name="фэнтези">
+			<news>
+				<name>Гарри Поттер и проклятое дитя</name>
+				<provider>
+					<author>Джоан Роулинг</author>
+				</provider>
+				<dateOfIssue>2016-07-31</dateOfIssue>
+				<body>Эта книга стала настоящим феноменом 21 столетия и ее фанатами стали сотни тысяч читателей всех возрастов из разных стран. С четвертой части все последующие книги Джоан Роулинг о Гарри Поттере были событием мирового масштаба и вся мировая общественность праздновала и внимательно следила за происходящем. Теперь же мы рады сообщить вам о выходе седьмой книги, которая станет последней частью о Гарри Поттере.</body>
+			</news>
+		</subcategory>
+				<subcategory name="роман">
+			<news>
+				<name>Тень горы</name>
+				<provider>
+					<author>Грегори Дэвид Робертс</author>
+				</provider>
+				<dateOfIssue>2016-02-05</dateOfIssue>
+				<body>«Шантарам» Грегори Робертса и его захватывающее продолжение «Тень горы» — один из самых популярных романов, вышедших в последние 15 лет. Первое издание было выпущено и распродано тиражом более чем в 4 миллиона экземпляров, из которых около полумиллиона приобретено в России. 5 февраля в продажу поступит новое издание, объединившее два замечательных произведения.</body>
+			</news>
+		</subcategory>
+	</category>
+</tc:catalog>
