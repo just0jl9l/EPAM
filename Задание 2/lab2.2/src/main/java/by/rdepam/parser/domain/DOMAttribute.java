@@ -8,7 +8,6 @@ public class DOMAttribute implements DOMNode {
 	public DOMAttribute() {
 		name = new String();
 		value = new String();
-		owner = new DOMElement();
 	}
 
 	public DOMAttribute(String name, DOMElement owner) {

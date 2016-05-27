@@ -34,7 +34,7 @@ public class DOMViewer {
 		}
 		if(node.getElementType()==DOMConstants.ATTRIBUTE){
 			DOMAttribute attribute = (DOMAttribute) node;
-			str+=attribute.getName()+DOMConstants.EQUAL_SIGN+attribute.getValue();
+			str+=attribute.getName()+DOMConstants.EQUAL_SIGN+DOMConstants.DOUBLE_QUOTE+attribute.getValue()+DOMConstants.DOUBLE_QUOTE;
 		}
 		if(node.getElementType()==DOMConstants.TEXT){
 			str+=node.getNodeValue();

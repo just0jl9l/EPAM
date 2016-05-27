@@ -5,16 +5,15 @@ public class DOMElement implements DOMNode {
 	private DOMNodeList children;
 	private DOMElement parent;
 
-	public DOMElement() {
-		name = new String();
-		parent = new DOMElement();
+	public DOMElement(String name, DOMElement parent) {
+		this.name = name;
+		this.parent = parent;
 		children = new DOMNodeList();
 		attrs = new DOMAttributeList();
 	}
 
-	public DOMElement(String name, DOMElement parent) {
+	public DOMElement(String name) {
 		this.name = name;
-		this.parent = parent;;
 		children = new DOMNodeList();
 		attrs = new DOMAttributeList();
 	}
@@ -77,6 +76,11 @@ public class DOMElement implements DOMNode {
 
 	public void setChildren(DOMNodeList els) {
 		children=els;
+		
+	}
+
+	public void setParent(DOMElement parent) {
+		this.parent = parent;
 		
 	}
 }

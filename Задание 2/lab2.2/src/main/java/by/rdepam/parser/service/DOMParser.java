@@ -41,11 +41,13 @@ public class DOMParser implements IParser{
 	private String remove(String text) {
 		while (text.indexOf(DOMConstants.BEGINING_OF_XML_DECLARATION) > -1) {
 			text = text.substring(0, text.indexOf(DOMConstants.BEGINING_OF_XML_DECLARATION))
-					+ text.substring(text.indexOf(DOMConstants.ENDING_OF_XML_DECLARATION) + 2);
+					+ text.substring(text.indexOf(DOMConstants.ENDING_OF_XML_DECLARATION) + DOMConstants.ENDING_OF_XML_DECLARATION.length());
+			text=text.trim();
 		}
 		while (text.indexOf(DOMConstants.BEGINING_OF_XML_COMMENT) > -1) {
 			text = text.substring(0, text.indexOf(DOMConstants.BEGINING_OF_XML_COMMENT))
-					+ text.substring(text.indexOf(DOMConstants.ENDING_OF_XML_COMMENT) + 3);
+					+ text.substring(text.indexOf(DOMConstants.ENDING_OF_XML_COMMENT) + DOMConstants.ENDING_OF_XML_COMMENT.length());
+			text=text.trim();
 		}
 		while (text.indexOf(DOMConstants.BEGINING_OF_XML_DOCTYPE) > -1) {
 			int positionOfOpenDoctypesTag = text.indexOf(DOMConstants.BEGINING_OF_XML_DOCTYPE);
@@ -65,6 +67,7 @@ public class DOMParser implements IParser{
 					break;
 				}
 			}
+			text=text.trim();
 		}
 		return text;
 	}
@@ -77,48 +80,78 @@ public class DOMParser implements IParser{
 			nodes.add(text);
 		}
 		while (openingTagPosition > -1) {
-			int numberOfOpenTags = 0;
+			int numberOfOpenElements = 0;
 			int len = mainElement.length();
 			char[] chars = mainElement.toCharArray();
 			for (int i = openingTagPosition; i < len - 1; i++) {
 				if (chars[i] == DOMConstants.BEGINING_OF_XML_TAG) {
 					if (chars[i + 1] == DOMConstants.SLASH) {
-						numberOfOpenTags--;
+						numberOfOpenElements--;
 					} else {
-						numberOfOpenTags++;
+						numberOfOpenElements++;
 					}
 				}
-				if (numberOfOpenTags == 0) {
+				if (numberOfOpenElements == 0) {
 					int closingTagPosition = i;
-					while (true) {
-						if (chars[i] == DOMConstants.ENDING_OF_XML_TAG) {
-							String curel = mainElement.substring(openingTagPosition, i + 1);
-							mainElement = mainElement.substring(i + 1);
-							String tag = curel.substring(curel.indexOf(DOMConstants.BEGINING_OF_XML_TAG) + 1,
-									curel.indexOf(DOMConstants.ENDING_OF_XML_TAG));
-							int spase = tag.indexOf(DOMConstants.SPACE);
-							DOMElement element;
-							if (!(spase > -1)) {
-								element = new DOMElement(tag, parent);
-							} else {
-								element = new DOMElement(tag.substring(0, spase), parent);
-								element.setAttributes(findAttributes(tag.substring(spase + 1), element));
-							}
-							String substr = curel.substring(curel.indexOf(DOMConstants.ENDING_OF_XML_TAG) + 1,
-									closingTagPosition - openingTagPosition);
-							element.setChildren(findElements(substr, element));
-							nodes.add(element);
-							break;
-						} else {
-							i++;
-						}
-					}
+					while (chars[i] != DOMConstants.ENDING_OF_XML_TAG)
+					{
+						i++;
+					} 
+					DOMElement element = parseElement(mainElement.substring(openingTagPosition, i + 1),closingTagPosition - openingTagPosition);
+					mainElement = mainElement.substring(i + 1);
+					element.setParent(parent);
+					nodes.add(element);							
 					break;
 				}
+				if (chars[i] == DOMConstants.SLASH && chars[i + 1] == DOMConstants.ENDING_OF_XML_TAG) {
+					numberOfOpenElements--;
+				}
+				if (numberOfOpenElements == 0) {
+					DOMElement element = parseOpeningClosingElement(mainElement.substring(openingTagPosition,
+							i + DOMConstants.CLOSING_END_OF_XML_TAG.length()));
+					mainElement = mainElement.substring(i + DOMConstants.CLOSING_END_OF_XML_TAG.length());
+					element.setParent(parent);
+					nodes.add(element);
+					break;
+				}
+				
 			}
 			openingTagPosition = mainElement.indexOf(DOMConstants.BEGINING_OF_XML_TAG);
 		}
 		return nodes;
+	}
+	
+	private DOMElement parseElement(String currentElement,int end)
+	{
+		DOMElement element;
+		String tag = currentElement.substring(currentElement.indexOf(DOMConstants.BEGINING_OF_XML_TAG) + 1,
+				currentElement.indexOf(DOMConstants.ENDING_OF_XML_TAG));
+		element=parseElementTag(tag);
+		String substr = currentElement.substring(currentElement.indexOf(DOMConstants.ENDING_OF_XML_TAG) + 1,end);
+		element.setChildren(findElements(substr, element));
+		return element;
+	}
+	
+	private DOMElement parseOpeningClosingElement(String currentElement) {
+		DOMElement element;
+		String tag = currentElement.substring(currentElement.indexOf(DOMConstants.BEGINING_OF_XML_TAG) + 1,
+				currentElement.indexOf(DOMConstants.CLOSING_END_OF_XML_TAG));
+		element = parseElementTag(tag);
+		return element;
+	}
+	
+	private DOMElement parseElementTag(String tag)
+	{
+		tag=tag.replaceAll(System.getProperty("line.separator"), DOMConstants.SPACE);
+		int spase = tag.indexOf(DOMConstants.SPACE);
+		DOMElement element;
+		if (spase > -1) {
+			element = new DOMElement(tag.substring(0, spase).trim());
+			element.setAttributes(findAttributes(tag.substring(spase + 1), element));
+		} else {
+				element = new DOMElement(tag);
+		}
+		return element;
 	}
 
 	private DOMAttributeList findAttributes(String str, DOMElement owner) {

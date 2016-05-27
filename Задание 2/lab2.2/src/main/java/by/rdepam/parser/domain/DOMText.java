@@ -6,7 +6,6 @@ public class DOMText implements DOMNode {
 	
 	public DOMText(){
 		text= new String();
-		owner=new DOMElement();
 	}
 
 	public DOMText(String text, DOMElement owner) {
