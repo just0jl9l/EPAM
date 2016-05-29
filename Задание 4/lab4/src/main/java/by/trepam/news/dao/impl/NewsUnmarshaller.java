@@ -1,4 +1,4 @@
-package by.trepam.news.service;
+package by.trepam.news.dao.impl;
 
 import java.io.File;
 
@@ -8,7 +8,7 @@ import javax.xml.bind.Unmarshaller;
 
 import by.trepam.news.domain.Catalog;
 
-public class NewsJAXBUnmarshaller {	
+public class NewsUnmarshaller {	
 	private Catalog newsList;
 	
 	public void unmarsh(String filePath) throws JAXBException{

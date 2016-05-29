@@ -1,4 +1,4 @@
-package by.trepam.news.service;
+package by.trepam.news.dao.impl;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,12 +9,11 @@ import javax.xml.bind.Marshaller;
 
 import by.trepam.news.domain.Catalog;
 
-public class NewsJAXBMarshaller {
-	public void marshal(Catalog list) throws JAXBException, FileNotFoundException{
+public class NewsMarshaller {
+	public void marshal(Catalog list,String file) throws JAXBException, FileNotFoundException{
 		JAXBContext context = JAXBContext.newInstance(Catalog.class);
 		Marshaller m = context.createMarshaller();
 		
-		m.marshal(list, new FileOutputStream("src/main/resources/new-news.xml"));
-		m.marshal(list, System.out);
+		m.marshal(list, new FileOutputStream(file));
 	}
 }

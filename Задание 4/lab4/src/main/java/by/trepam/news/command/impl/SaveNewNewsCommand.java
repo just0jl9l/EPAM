@@ -1,5 +1,36 @@
 package by.trepam.news.command.impl;
 
-public class SaveNewNewsCommand {
+import by.trepam.news.command.Command;
+import by.trepam.news.domain.request.Request;
+import by.trepam.news.domain.request.RequestSaveNewNews;
+import by.trepam.news.domain.response.Response;
+import by.trepam.news.domain.response.ResponseSaveNewNews;
+import by.trepam.news.service.IService;
+import by.trepam.news.service.ServiceFactory;
+import by.trepam.news.service.exception.ServiceException;
 
+public class SaveNewNewsCommand implements Command{
+	public Response execute(Request request){
+		System.out.println("SaveNewNewsCommand execute");
+		RequestSaveNewNews req = (RequestSaveNewNews) request;
+		Response response = new ResponseSaveNewNews();
+		if(req.isOK()){
+			ServiceFactory factory = ServiceFactory.getInstance();
+			IService service = factory.getNewsService();
+			try{
+				service.saveNewNews(req.getParams());
+				response.setStatus(true);
+				response.setMessage("everything is ok with "+request.getTitle());
+			}catch(ServiceException e){
+				// logging
+				response.setStatus(false);
+				response.setMessage("something went wrong with "+request.getTitle());
+				System.out.println("Error");
+			}
+		}else{
+			response.setStatus(false);
+			response.setMessage("something went wrong with "+request.getTitle());
+		}
+		return response;
+	}
 }

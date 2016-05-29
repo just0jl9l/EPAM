@@ -39,4 +39,13 @@ public class Catalog {
 		return new Category(categoryN);
 	}
 
+	public String show() {
+		String str=new String();
+		str+="Catalog"+'\n'+'\n';
+		for (Category category:categories) {
+			str+=category.show();
+		}
+		return str;
+	}
+
 }
