@@ -20,7 +20,6 @@ public class RequestGetCatalog implements Request{
 
 	public void setParams(Object params) {
 
-		System.out.println("RequestGetCatalog setParams");
 		return ;
 	}
 

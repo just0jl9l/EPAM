@@ -10,7 +10,6 @@ import by.trepam.news.service.exception.ServiceException;
 
 public class GetCatalogCommand implements Command{
 	public Response execute(Request request){
-		System.out.println("GetCatalogCommand execute");
 		ResponseGetCatalog response = new ResponseGetCatalog();
 		ServiceFactory factory = ServiceFactory.getInstance();
 		IService service = factory.getNewsService();

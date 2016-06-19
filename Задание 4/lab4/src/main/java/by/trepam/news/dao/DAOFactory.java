@@ -7,7 +7,6 @@ public class DAOFactory {
 	private INewsDAO newsDAO = new NewsDAOImpl();
 
 	public INewsDAO getNewsDAO() {
-		System.out.println("DAOFactory getNewsDAO");
 		return newsDAO;
 	}
 

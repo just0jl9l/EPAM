@@ -11,10 +11,8 @@ import by.trepam.news.service.exception.ServiceException;
 
 public class SaveNewNewsCommand implements Command{
 	public Response execute(Request request){
-		System.out.println("SaveNewNewsCommand execute");
 		RequestSaveNewNews req = (RequestSaveNewNews) request;
 		Response response = new ResponseSaveNewNews();
-		if(req.isOK()){
 			ServiceFactory factory = ServiceFactory.getInstance();
 			IService service = factory.getNewsService();
 			try{
@@ -25,12 +23,9 @@ public class SaveNewNewsCommand implements Command{
 				// logging
 				response.setStatus(false);
 				response.setMessage("something went wrong with "+request.getTitle());
-				System.out.println("Error");
+				e.printStackTrace();
 			}
-		}else{
-			response.setStatus(false);
-			response.setMessage("something went wrong with "+request.getTitle());
-		}
+		
 		return response;
 	}
 }

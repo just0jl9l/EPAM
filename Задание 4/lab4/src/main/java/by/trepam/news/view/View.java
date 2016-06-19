@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import by.trepam.news.controller.CommandName;
@@ -83,10 +84,18 @@ public class View {
 				providers = providers.substring(begin + 1);
 				begin = providers.indexOf(';');
 			}
-			String[]  str = new String[authors.size()];
-			str = authors.toArray(str);
-			String[][] s={{name},str,{dateOfIssue},{body},{subcategoryN},{categoryN}};
-			req=doUserAction(CommandName.SAVE_NEW_NEWS,s);
+			HashMap<String,String> hm=new HashMap<String,String>();
+			hm.put("name", name);
+			hm.put("dateOfIssue", dateOfIssue);
+			hm.put("body", body);
+			hm.put("subcategoryName", subcategoryN);
+			hm.put("categoryName", categoryN);
+			int i=0;
+			for(String auth:authors){
+				hm.put("author"+i, auth);
+				i++;
+			}
+			req=doUserAction(CommandName.SAVE_NEW_NEWS,hm);
 		}break;
 		}
 		
@@ -94,7 +103,6 @@ public class View {
 	}
 	
 	public Request doUserAction(CommandName c,Object params) {
-		System.out.println("View doUserAction");
 		Request request=null;
 		switch(c){
 		case SAVE_NEW_NEWS:{
@@ -117,7 +125,6 @@ public class View {
 	}
 	
 	public void printAnswer(Response response){
-		System.out.println("View printAnswer");
 		 switch(response.getCommandType()){
 		 case SAVE_NEW_NEWS:{
 			 	ResponseSaveNewNews resp = (ResponseSaveNewNews) response;

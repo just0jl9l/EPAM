@@ -16,7 +16,6 @@ public class Main {
 		View view = new View();
 
 		Request request = view.start();
-		System.out.println("Main");
 		Response response = controller.doAction(request);
 		view.printAnswer(response);
 	}

@@ -6,6 +6,8 @@ import javax.xml.bind.JAXBException;
 
 import by.trepam.news.dao.INewsDAO;
 import by.trepam.news.dao.exception.DAOException;
+import by.trepam.news.dao.util.NewsMarshaller;
+import by.trepam.news.dao.util.NewsUnmarshaller;
 import by.trepam.news.domain.Catalog;
 import by.trepam.news.domain.Category;
 import by.trepam.news.domain.News;
@@ -14,7 +16,7 @@ import by.trepam.news.domain.Subcategory;
 public class NewsDAOImpl implements INewsDAO{
 	
 	public void saveNewNews(News news,String cat,String subcat) throws DAOException{
-		System.out.println("NewsDAOImpl saveNewNews");
+		
 		Catalog list = getCatalog();
 		Category category = list.getCategoryByName(cat);
 		Subcategory subcategory = category.getSubcategoryByName(subcat);
@@ -35,7 +37,7 @@ public class NewsDAOImpl implements INewsDAO{
 	}
 		 
 	public Catalog getCatalog() throws DAOException{
-		System.out.println("NewsDAOImpl getCatalog");
+		
 		NewsUnmarshaller unm = new NewsUnmarshaller();
 		try {
 			unm.unmarsh("src/main/resources/news.xml");

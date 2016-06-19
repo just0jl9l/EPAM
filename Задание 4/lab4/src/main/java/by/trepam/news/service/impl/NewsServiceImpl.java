@@ -1,6 +1,7 @@
 package by.trepam.news.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,11 +22,10 @@ import by.trepam.news.service.exception.ServiceException;
 
 public class NewsServiceImpl implements IService{
 
-	public void saveNewNews(String[][] n) throws ServiceException {
-		System.out.println("NewsServiceImpl saveNewNews");
+	public void saveNewNews(HashMap<String,String> n) throws ServiceException {
 		News news = new News();
-		if(n.length==6){
-			String current = n[0][0];
+		if(n.size()==6){
+			String current = n.get("name");
 			Pattern p = Pattern.compile("^[a-zA-Z_0-9-]+$");  
 	        Matcher m = p.matcher(current);  
 	        if(m.matches()){
@@ -33,15 +33,7 @@ public class NewsServiceImpl implements IService{
 	        }else{
 	        	throw new ServiceException("wrong input data");
 	        }
-			for(String s:n[1]){
-				p.matcher(s);
-				if(m.matches()){
-					news.getProviders().addAuthor(s);
-		        }else{
-		        	throw new ServiceException("wrong input data");
-		        }				
-			}
-			current = n[2][0];
+	        current = n.get("dateOfIssue");
 			p = Pattern.compile("^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$");  
 			m = p.matcher(current);  
 	        if(m.matches()){
@@ -49,18 +41,21 @@ public class NewsServiceImpl implements IService{
 	        }else{
 	        	throw new ServiceException("wrong input data");
 	        }	
-			news.setBody(n[3][0]);		
-			String category = n[4][0];
+			news.setBody(n.get("body"));
+			String category = n.get("category");
 			p = Pattern.compile("^[a-zA-Z_0-9-]+$");  
 	        m = p.matcher(category);  
 	        if(!m.matches()){
 	        	throw new ServiceException("wrong input data");
 	        }  
-	        String subcategory = n[5][0];
+	        String subcategory = n.get("subcategory");
 	        m = p.matcher(subcategory);  
 	        if(!m.matches()){
 	        	throw new ServiceException("wrong input data");
 	        }
+			for(int j=0;j<n.size();j++){
+				news.getProviders().addAuthor(n.get("author"+j));	
+			}
 			DAOFactory factory = DAOFactory.getInstance();
 			INewsDAO newDAO = factory.getNewsDAO();
 			try{
@@ -74,7 +69,6 @@ public class NewsServiceImpl implements IService{
 	}
 
 	public News findNews(ICriteria criteria) throws ServiceException {
-		System.out.println("NewsServiceImpl findNews");
 		List<News> allNews = new ArrayList<News>();
 		List<Category> allCategories = getCatalog().getCategories();
 		int len = allCategories.size();
@@ -124,7 +118,6 @@ public class NewsServiceImpl implements IService{
 	}
 
 	public Catalog getCatalog() throws ServiceException {
-		System.out.println("NewsServiceImpl getCatalog");
 		DAOFactory factory = DAOFactory.getInstance();
 		INewsDAO newDAO = factory.getNewsDAO();
 		try{

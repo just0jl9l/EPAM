@@ -11,7 +11,6 @@ import by.trepam.news.service.exception.ServiceException;
 
 public class FindNewsCommand implements Command{
 	public Response execute(Request request){
-		System.out.println("FindNewsCommand execute");
 		RequestFindNews req = (RequestFindNews) request;
 		ResponseFindNews response = new ResponseFindNews();
 		ServiceFactory factory = ServiceFactory.getInstance();

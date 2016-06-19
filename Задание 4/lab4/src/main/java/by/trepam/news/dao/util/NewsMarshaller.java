@@ -1,4 +1,4 @@
-package by.trepam.news.dao.impl;
+package by.trepam.news.dao.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
