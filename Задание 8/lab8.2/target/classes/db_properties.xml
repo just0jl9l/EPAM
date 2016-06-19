@@ -1,0 +1,7 @@
+<properties>
+	<driver>org.postgresql.Driver</driver>
+	<url>jdbc:postgresql://127.0.0.1:5432/LikeIT</url>
+	<user>postgres</user>
+	<password>root</password>
+	<connectionsNumber>5</connectionsNumber>
+</properties>
