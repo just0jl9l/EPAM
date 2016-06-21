@@ -15,14 +15,11 @@ import by.trepam.domain.Account;
 import by.trepam.domain.Message;
 
 public class PostgresqlMessageDAO implements MessageDAO{
-	
-	Connection connection;
 
 	public void insert(Message message,int categoryID)  throws DAOException {
-		try(Connection connection = PostgresqlDAOFactory.createConnection()) {
-			String sql = QueryConstants.INSERT_MESSAGE;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.INSERT_MESSAGE;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, message.getId());
 			stm.setString(2, message.getName());
 			stm.setString(3, message.getText());
@@ -36,10 +33,9 @@ public class PostgresqlMessageDAO implements MessageDAO{
 	}
 
 	public void delete(int messageID) throws DAOException {
-		try(Connection connection = PostgresqlDAOFactory.createConnection()) {
-			String sql = QueryConstants.DELETE_MESSAGE_BY_ID;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.DELETE_MESSAGE_BY_ID;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
@@ -49,12 +45,10 @@ public class PostgresqlMessageDAO implements MessageDAO{
 	}
 
 	public Message getMessage(int messageID)  throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.GET_MESSAGE_BY_ID;
 		Message message = null;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
@@ -65,9 +59,6 @@ public class PostgresqlMessageDAO implements MessageDAO{
 				message.setAuthor(new Account(rs.getInt(4)));
 				message.setDateOfPosting(rs.getTimestamp(5));
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return message;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -75,13 +66,11 @@ public class PostgresqlMessageDAO implements MessageDAO{
 	}
 
 	public List<Message> getAllMessagesOfCategory(int categoryID) throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.GET_ALL_MESSAGES_OF_CATEGORY;
 		List<Message> messages = new ArrayList<Message>();
 		Message message = null;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, categoryID);
 			ResultSet rs = stm.executeQuery();
 			while (rs.next()) {
@@ -93,9 +82,6 @@ public class PostgresqlMessageDAO implements MessageDAO{
 				message.setDateOfPosting(rs.getTimestamp(5));
 				messages.add(message);
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return messages;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -103,11 +89,9 @@ public class PostgresqlMessageDAO implements MessageDAO{
 	}
 
 	public void update(Message message,int categoryID) throws DAOException {
-		try {
-			Connection connection = PostgresqlDAOFactory.createConnection();
-			String sql = QueryConstants.UPDATE_MESSAGE;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.UPDATE_MESSAGE;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, message.getName());
 			stm.setString(2, message.getText());
 			stm.setInt(3, message.getAuthor().getId());

@@ -1,4 +1,4 @@
-package by.trepam.dbcp.exception;
+package by.trepam.connection_pool.exception;
 
 public class ConnectionPoolException extends Exception{
 	private static final long serialVersionUID = 1L;

@@ -7,9 +7,10 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import by.trepam.dbcp.exception.ConnectionPoolException;
+import by.trepam.connection_pool.ConnectionPool;
+import by.trepam.connection_pool.exception.ConnectionPoolException;
 
-public class ConnectionPoolTest {
+public class ConnectionPoolTest extends Thread{
 
 	@Test
 	public void connectionPoolTest() {
@@ -36,6 +37,7 @@ public class ConnectionPoolTest {
 								s += rs.getString("id_account");
 								s += "\n";
 							}
+							ps.close();
 							connection.close();
 						} catch (SQLException e) {
 							e.printStackTrace();
@@ -46,6 +48,11 @@ public class ConnectionPoolTest {
 					}
 				});
 				myThready.start();
+			}
+			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 			pool.close();
 		} catch (ConnectionPoolException e1) {

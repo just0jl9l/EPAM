@@ -14,14 +14,11 @@ import by.trepam.domain.Category;
 import by.trepam.domain.Image;
 
 public class PostgresqlCategoryDAO implements CategoryDAO{
-	
-	Connection connection;
 
 	public void insert(Category category) throws DAOException {
-		try(Connection connection = PostgresqlDAOFactory.createConnection()) {
-			String sql = QueryConstants.INSERT_CATEGORY;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.INSERT_CATEGORY;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, category.getId());
 			stm.setString(2, category.getName());
 			stm.setString(3, category.getDescription());
@@ -33,10 +30,9 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 	}
 
 	public void delete(int categoryID) throws DAOException {
-		try(Connection connection = PostgresqlDAOFactory.createConnection()) {
-			String sql = QueryConstants.DELETE_CATEGORY_BY_ID;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.DELETE_CATEGORY_BY_ID;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, categoryID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
@@ -46,12 +42,10 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 	}
 
 	public Category getCategory(int categoryID)  throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.GET_CATEGORY_BY_ID;
 		Category category = null;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, categoryID);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
@@ -61,9 +55,6 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 				category.setDescription(rs.getString(3));
 				category.setImage(new Image(rs.getInt(4)));
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return category;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -71,13 +62,11 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 	}
 
 	public List<Category> getAllCategories() throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.GET_ALL_CATEGORIES;
 		List<Category> categories = new ArrayList<Category>();
 		Category category = null;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			ResultSet rs = stm.executeQuery();
 			while (rs.next()) {
 				category = new Category();
@@ -87,9 +76,6 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 				category.setImage(new Image(rs.getInt(4)));
 				categories.add(category);
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return categories;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -97,11 +83,9 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 	}
 
 	public void update(Category category) throws DAOException {
-		try {
-			Connection connection = PostgresqlDAOFactory.createConnection();
-			String sql = QueryConstants.UPDATE_CATEGORY;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.UPDATE_CATEGORY;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, category.getName());
 			stm.setString(2, category.getDescription());
 			stm.setInt(3, category.getImage().getId());

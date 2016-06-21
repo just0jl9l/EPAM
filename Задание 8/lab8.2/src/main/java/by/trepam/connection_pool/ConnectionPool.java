@@ -1,4 +1,4 @@
-package by.trepam.dbcp;
+package by.trepam.connection_pool;
 
 import java.sql.Array;
 import java.sql.Blob;
@@ -21,8 +21,12 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;
 
-import by.trepam.dbcp.exception.ConnectionPoolException;
-import by.trepam.dbcp.properties.DBConnectionProperties;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import by.trepam.connection_pool.exception.ConnectionPoolException;
+import by.trepam.connection_pool.util.DBConnectionProperty;
+import by.trepam.connection_pool.util.PropertiesConstant;
 
 public class ConnectionPool {
 
@@ -34,14 +38,16 @@ public class ConnectionPool {
 	private String user;
 	private String password;
 	private int numberOfConnections;
+	
+	private final static Logger logger = LogManager.getLogger("by.trepam.dbcp.ConnectionPool");
 
 	public ConnectionPool() {
-		DBConnectionProperties properties = DBConnectionProperties.getInstance();
-		this.driver = properties.getDriver();
-		this.url = properties.getURL();
-		this.password = properties.getPassword();
-		this.user = properties.getUser();
-		this.numberOfConnections = properties.getNumberOfConnections();
+		DBConnectionProperty property = DBConnectionProperty.getInstance();
+		this.driver = property.getValue(PropertiesConstant.DRIVER);
+		this.url = property.getValue(PropertiesConstant.URL);
+		this.password = property.getValue(PropertiesConstant.PASSWORD);
+		this.user = property.getValue(PropertiesConstant.USER);
+		this.numberOfConnections = Integer.parseInt(property.getValue(PropertiesConstant.CONNECTIONS_NUMBER));
 	}
 
 	public void init() throws ConnectionPoolException {
@@ -53,10 +59,12 @@ public class ConnectionPool {
 				freeConnections.add(new DBConnection(DriverManager.getConnection(url, user, password)));
 			}
 		} catch (SQLException e) {
-			throw new ConnectionPoolException("SQLException ", e);
+			throw new ConnectionPoolException("SQLException", e);
 		} catch (ClassNotFoundException e) {
-			throw new ConnectionPoolException("ClassNotFoundException ", e);
+			throw new ConnectionPoolException("ClassNotFoundException", e);
 		}
+
+		logger.info("ConnectionPool initialized");
 	}
 
 	public Connection getConnection() throws ConnectionPoolException {
@@ -64,13 +72,8 @@ public class ConnectionPool {
 		try {
 			newConn = freeConnections.take();
 			givenConnections.add(newConn);
-			if(newConn.isClosed()){
-				throw new ConnectionPoolException("Connection is closed");
-			}
 		} catch (InterruptedException e) {
-			throw new ConnectionPoolException("InterruptedException ", e);
-		} catch (SQLException e) {
-			throw new ConnectionPoolException("SQLException ", e);
+			throw new ConnectionPoolException("InterruptedException", e);
 		}
 		return newConn;
 	}
@@ -85,6 +88,7 @@ public class ConnectionPool {
 			throw new ConnectionPoolException("InterruptedException ", e);
 		}
 
+		logger.info("ConnectionPool closed");
 	}
 
 	private void close(ArrayBlockingQueue<Connection> queue) throws SQLException, InterruptedException {
@@ -113,11 +117,11 @@ public class ConnectionPool {
 		}
 
 		public void close() {
-			givenConnections.remove(this);
 			try {
+				givenConnections.remove(this);
 				freeConnections.put(this);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				throw new RuntimeException("InterruptedException occurred during connection closing",e);
 			}
 
 		}

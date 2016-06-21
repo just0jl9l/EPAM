@@ -14,10 +14,9 @@ import by.trepam.domain.Image;
 public class PostgresqlAccountDAO implements AccountDAO {
 
 	public void insert(Account account) throws DAOException {
-		try(Connection connection = PostgresqlDAOFactory.createConnection()) {
-			String sql = QueryConstants.INSERT_ACCOUNT;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.INSERT_ACCOUNT;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, account.getId());
 			stm.setString(2, account.getName());
 			stm.setString(3, account.getSurname());
@@ -33,10 +32,9 @@ public class PostgresqlAccountDAO implements AccountDAO {
 	}
 
 	public void delete(int accountID) throws DAOException {
-		try(Connection connection = PostgresqlDAOFactory.createConnection()) {
-			String sql = QueryConstants.DELETE_ACCOUNT_BY_ID;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.DELETE_ACCOUNT_BY_ID;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, accountID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
@@ -46,12 +44,10 @@ public class PostgresqlAccountDAO implements AccountDAO {
 	}
 
 	public Account getAccount(int accountID) throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.GET_ACCOUNT_BY_ID;
 		Account account = null;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, accountID);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
@@ -62,9 +58,6 @@ public class PostgresqlAccountDAO implements AccountDAO {
 				account.setStatus(rs.getString(4));
 				account.setPhoto(new Image(rs.getInt(5)));
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return account;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -73,11 +66,9 @@ public class PostgresqlAccountDAO implements AccountDAO {
 	}
 
 	public void update(Account account) throws DAOException {
-		try {
-			Connection connection = PostgresqlDAOFactory.createConnection();
-			String sql = QueryConstants.UPDATE_ACCOUNT;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.UPDATE_ACCOUNT;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, account.getName());
 			stm.setString(2, account.getSurname());
 			stm.setInt(3, account.getPhoto().getId());
@@ -89,12 +80,10 @@ public class PostgresqlAccountDAO implements AccountDAO {
 	}
 
 	public Account logIN(String login, String password) throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.ACCOUNT_LOG_IN;
 		Account account = null;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, login);
 			stm.setString(2, password);
 			ResultSet rs = stm.executeQuery();
@@ -106,9 +95,6 @@ public class PostgresqlAccountDAO implements AccountDAO {
 				account.setStatus(rs.getString(4));
 				account.setPhoto(new Image(rs.getInt(5)));
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return account;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -116,20 +102,15 @@ public class PostgresqlAccountDAO implements AccountDAO {
 	}
 
 	public double rating(int accountID) throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.ACCOUNT_RATING_BY_ID;
 		double rating = 0;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, accountID);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
-				rating=rs.getDouble(1);
+				rating = rs.getDouble(1);
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return rating;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);

@@ -1,7 +1,5 @@
 package by.trepam.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -16,7 +14,7 @@ public class PostgresqlAccountDAOUpdateAccountTest {
 	@Test
 	public void updateInformationAboutAccountTest() throws DAOException {
 
-		DAOFactory df = new PostgresqlDAOFactory();
+		DAOFactory df = PostgresqlDAOFactory.getInstance();
 		AccountDAO acdao = df.getAccountDAO();
 		Account before = acdao.getAccount(1000);
 		Account account = new Account();
@@ -28,12 +26,7 @@ public class PostgresqlAccountDAOUpdateAccountTest {
 		acdao.update(account);
 
 		Account actual = acdao.getAccount(1000);
-		assertFalse(before.equals(actual));
-		assertTrue(account.getId()==actual.getId());
-		assertEquals(account.getName(), actual.getName());
-		assertEquals(account.getPhoto().getId(), actual.getPhoto().getId());
-		assertEquals(account.getSurname(), actual.getSurname());
-		assertEquals(account.getStatus(), actual.getStatus());
+		assertTrue(account.isEquals(actual));
 
 	}
 }

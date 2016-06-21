@@ -15,11 +15,12 @@ import by.trepam.dao.impl.PostgresqlCategoryDAO;
 import by.trepam.dao.impl.PostgresqlImageDAO;
 import by.trepam.dao.impl.PostgresqlMarkDAO;
 import by.trepam.dao.impl.PostgresqlMessageDAO;
-import by.trepam.dbcp.ConnectionPool;
-import by.trepam.dbcp.exception.ConnectionPoolException;
+import by.trepam.connection_pool.ConnectionPool;
+import by.trepam.connection_pool.exception.ConnectionPoolException;
 
 public class PostgresqlDAOFactory implements DAOFactory{
 
+	private static PostgresqlDAOFactory factory = new PostgresqlDAOFactory();
 	private static ConnectionPool connectionPool = new ConnectionPool();
 	private AccountDAO accountDAO = new PostgresqlAccountDAO();
 	private AnswerDAO answerDAO = new PostgresqlAnswerDAO();
@@ -28,9 +29,10 @@ public class PostgresqlDAOFactory implements DAOFactory{
 	private MarkDAO markDAO = new PostgresqlMarkDAO();
 	private MessageDAO messageDAO = new PostgresqlMessageDAO();
 	
-	public PostgresqlDAOFactory() throws DAOException{
+	public static PostgresqlDAOFactory getInstance() throws DAOException{
 		try {
 			connectionPool.init();
+			return factory;
 		} catch (ConnectionPoolException e) {
 			throw new DAOException("ConnectionPoolException",e);
 		}

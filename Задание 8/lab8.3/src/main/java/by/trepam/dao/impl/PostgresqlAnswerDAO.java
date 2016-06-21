@@ -17,10 +17,9 @@ import by.trepam.domain.Answer;
 public class PostgresqlAnswerDAO implements AnswerDAO{
 
 	public void insert(Answer answer,int messageID)  throws DAOException {
-		try(Connection connection = PostgresqlDAOFactory.createConnection()) {
-			String sql = QueryConstants.INSERT_ANSWER;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.INSERT_ANSWER;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answer.getId());
 			stm.setInt(2, messageID);
 			stm.setString(3, answer.getText());
@@ -33,10 +32,9 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 	}
 
 	public void delete(int answerID)  throws DAOException {
-		try(Connection connection = PostgresqlDAOFactory.createConnection()) {
-			String sql = QueryConstants.DELETE_ANSWER_BY_ID;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.DELETE_ANSWER_BY_ID;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
@@ -46,12 +44,10 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 	}
 
 	public Answer getAnswer(int answerID) throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.GET_ANSWER_BY_ID;
 		Answer answer = null;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
@@ -61,9 +57,6 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 				answer.setDateOfPosting(rs.getTimestamp(3));
 				answer.setAuthor(new Account(rs.getInt(4)));
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return answer;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -71,13 +64,11 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 	}
 
 	public List<Answer> getAllAnswersOfMessage(int messageID)  throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.GET_ALL_ANSWER_OF_MESSAGE;
 		List<Answer> answers = new ArrayList<Answer>();
 		Answer answer = null;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			ResultSet rs = stm.executeQuery();
 			while (rs.next()) {
@@ -98,11 +89,9 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 	}
 
 	public void update(Answer answer,int messageID) throws DAOException {
-		try {
-			Connection connection = PostgresqlDAOFactory.createConnection();
-			String sql = QueryConstants.UPDATE_ANSWER;
-			PreparedStatement stm;
-			stm = connection.prepareStatement(sql);
+		String sql = QueryConstants.UPDATE_ANSWER;
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			stm.setString(2, answer.getText());
 			stm.setTimestamp(3, new Timestamp(answer.getDateOfPosting().getTime()));
@@ -115,12 +104,10 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 	}
 
 	public double rating(int answerID) throws DAOException {
-		Connection connection = PostgresqlDAOFactory.createConnection();
 		String sql = QueryConstants.ANSWER_RATING_BY_ID;
 		double rating = 0;
-		PreparedStatement stm;
-		try {
-			stm = connection.prepareStatement(sql);
+		try (Connection connection = PostgresqlDAOFactory.createConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {

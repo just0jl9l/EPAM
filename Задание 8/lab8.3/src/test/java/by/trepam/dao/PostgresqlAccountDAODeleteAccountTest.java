@@ -13,7 +13,7 @@ public class PostgresqlAccountDAODeleteAccountTest {
 	@Test
 	public void deleteInformationAboutAccountTest() throws DAOException {
 
-		DAOFactory df = new PostgresqlDAOFactory();
+		DAOFactory df = PostgresqlDAOFactory.getInstance();
 		AccountDAO acdao = df.getAccountDAO();
 		Account before = acdao.getAccount(1000);
 		if(before!=null){

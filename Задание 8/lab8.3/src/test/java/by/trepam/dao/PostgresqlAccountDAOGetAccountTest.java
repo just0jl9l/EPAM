@@ -39,7 +39,7 @@ public class PostgresqlAccountDAOGetAccountTest {
 
 	@Test
 	public void getInformationAboutAccountTest() throws DAOException {
-		DAOFactory df = new PostgresqlDAOFactory();
+		DAOFactory df = PostgresqlDAOFactory.getInstance();
 		AccountDAO acdao = df.getAccountDAO();
 		Account account = acdao.getAccount(accountID);
 		String expected = "";
