@@ -16,9 +16,8 @@ public class PostgresqlImageDAO implements ImageDAO{
 		String sql = QueryConstants.INSERT_IMAGE;
 		try (Connection connection = PostgresqlDAOFactory.createConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, image.getId());
-			stm.setString(2, image.getFormat());
-			stm.setString(3, image.getPath());
+			stm.setString(1, image.getFormat());
+			stm.setString(2, image.getPath());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -46,9 +45,9 @@ public class PostgresqlImageDAO implements ImageDAO{
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				image = new Image();
-				image.setId(rs.getInt(1));
-				image.setPath(rs.getString(2));
-				image.setFormat(rs.getString(3));
+				image.setId(imageID);
+				image.setPath(rs.getString(1));
+				image.setFormat(rs.getString(2));
 			}
 			return image;
 		} catch (SQLException e) {

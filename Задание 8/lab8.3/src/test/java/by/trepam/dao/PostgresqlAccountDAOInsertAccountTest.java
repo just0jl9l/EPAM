@@ -8,7 +8,6 @@ import by.trepam.dao.exception.DAOException;
 import by.trepam.dao.factory.DAOFactory;
 import by.trepam.dao.factory.PostgresqlDAOFactory;
 import by.trepam.domain.Account;
-import by.trepam.domain.Image;
 
 
 public class PostgresqlAccountDAOInsertAccountTest {
@@ -18,22 +17,18 @@ public class PostgresqlAccountDAOInsertAccountTest {
 
 		DAOFactory df = PostgresqlDAOFactory.getInstance();
 		AccountDAO acdao = df.getAccountDAO();
-		if(acdao.getAccount(1000)==null){
+		
 			Account account = new Account();
-			account.setId(1000);
-			account.setName("name");
-			account.setSurname("surname");
+			account.setName("Федор");
+			account.setSurname("Федоров");
 			account.setStatus("client");
-			account.setPhoto(new Image(0));
-			account.setLogin("client_login0");
+			account.setLogin("fedor");
 			account.setPassword("password");
 			acdao.insert(account);
 
-			account.setLogin("");
-			account.setPassword("");
-			Account actual = acdao.getAccount(1000);
+			Account actual = acdao.logIN("fedor","password");
+			account.setId(actual.getId());
 			assertTrue(account.isEquals(actual));
-		}
 
 	}
 }

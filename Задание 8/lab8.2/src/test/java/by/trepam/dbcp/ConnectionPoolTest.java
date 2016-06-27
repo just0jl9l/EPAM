@@ -10,7 +10,7 @@ import org.junit.Test;
 import by.trepam.connection_pool.ConnectionPool;
 import by.trepam.connection_pool.exception.ConnectionPoolException;
 
-public class ConnectionPoolTest extends Thread{
+public class ConnectionPoolTest{
 
 	@Test
 	public void connectionPoolTest() {
@@ -48,15 +48,13 @@ public class ConnectionPoolTest extends Thread{
 					}
 				});
 				myThready.start();
-			}
-			try {
-				sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				myThready.join();
 			}
 			pool.close();
 		} catch (ConnectionPoolException e1) {
 			e1.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -20,12 +20,11 @@ public class PostgresqlMessageDAO implements MessageDAO{
 		String sql = QueryConstants.INSERT_MESSAGE;
 		try (Connection connection = PostgresqlDAOFactory.createConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, message.getId());
-			stm.setString(2, message.getName());
-			stm.setString(3, message.getText());
+			stm.setString(1, message.getName());
+			stm.setString(2, message.getText());
+			stm.setInt(3, categoryID);
 			stm.setInt(4, message.getAuthor().getId());
-			stm.setInt(5, categoryID);
-			stm.setTimestamp(6, new Timestamp(message.getDateOfPosting().getTime()));
+			stm.setTimestamp(5, new Timestamp(message.getDateOfPosting().getTime()));
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -53,11 +52,11 @@ public class PostgresqlMessageDAO implements MessageDAO{
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				message = new Message();
-				message.setId(rs.getInt(1));
-				message.setName(rs.getString(2));
-				message.setText(rs.getString(3));
-				message.setAuthor(new Account(rs.getInt(4)));
-				message.setDateOfPosting(rs.getTimestamp(5));
+				message.setId(messageID);
+				message.setName(rs.getString(1));
+				message.setText(rs.getString(2));
+				message.setAuthor(new Account(rs.getInt(3)));
+				message.setDateOfPosting(rs.getTimestamp(4));
 			}
 			return message;
 		} catch (SQLException e) {

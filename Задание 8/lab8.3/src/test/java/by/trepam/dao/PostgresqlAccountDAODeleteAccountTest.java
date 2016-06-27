@@ -15,10 +15,10 @@ public class PostgresqlAccountDAODeleteAccountTest {
 
 		DAOFactory df = PostgresqlDAOFactory.getInstance();
 		AccountDAO acdao = df.getAccountDAO();
-		Account before = acdao.getAccount(1000);
+		Account before = acdao.getAccount(18);
 		if(before!=null){
-			acdao.delete(1000);	
-			Account actual = acdao.getAccount(1000);
+			acdao.delete(18);	
+			Account actual = acdao.getAccount(18);
 			assertNull(actual);
 		}
 

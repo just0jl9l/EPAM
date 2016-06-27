@@ -19,10 +19,9 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 		String sql = QueryConstants.INSERT_CATEGORY;
 		try (Connection connection = PostgresqlDAOFactory.createConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, category.getId());
-			stm.setString(2, category.getName());
-			stm.setString(3, category.getDescription());
-			stm.setInt(4, category.getImage().getId());
+			stm.setString(1, category.getName());
+			stm.setString(2, category.getDescription());
+			stm.setInt(3, category.getImage().getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -50,10 +49,10 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				category = new Category();
-				category.setId(rs.getInt(1));
-				category.setName(rs.getString(2));
-				category.setDescription(rs.getString(3));
-				category.setImage(new Image(rs.getInt(4)));
+				category.setId(categoryID);
+				category.setName(rs.getString(1));
+				category.setDescription(rs.getString(2));
+				category.setImage(new Image(rs.getInt(3)));
 			}
 			return category;
 		} catch (SQLException e) {

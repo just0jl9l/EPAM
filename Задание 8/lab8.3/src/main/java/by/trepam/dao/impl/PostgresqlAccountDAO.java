@@ -17,13 +17,11 @@ public class PostgresqlAccountDAO implements AccountDAO {
 		String sql = QueryConstants.INSERT_ACCOUNT;
 		try (Connection connection = PostgresqlDAOFactory.createConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, account.getId());
-			stm.setString(2, account.getName());
-			stm.setString(3, account.getSurname());
-			stm.setString(4, account.getStatus());
-			stm.setInt(5, account.getPhoto().getId());
-			stm.setString(6, account.getLogin());
-			stm.setString(7, account.getPassword());
+			stm.setString(1, account.getName());
+			stm.setString(2, account.getSurname());
+			stm.setString(3, account.getStatus());
+			stm.setString(4, account.getLogin());
+			stm.setString(5, account.getPassword());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -52,11 +50,11 @@ public class PostgresqlAccountDAO implements AccountDAO {
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				account = new Account();
-				account.setId(rs.getInt(1));
-				account.setName(rs.getString(2));
-				account.setSurname(rs.getString(3));
-				account.setStatus(rs.getString(4));
-				account.setPhoto(new Image(rs.getInt(5)));
+				account.setId(accountID);
+				account.setName(rs.getString(1));
+				account.setSurname(rs.getString(2));
+				account.setStatus(rs.getString(3));
+				account.setPhoto(new Image(rs.getInt(4)));
 			}
 			return account;
 		} catch (SQLException e) {
@@ -94,6 +92,8 @@ public class PostgresqlAccountDAO implements AccountDAO {
 				account.setSurname(rs.getString(3));
 				account.setStatus(rs.getString(4));
 				account.setPhoto(new Image(rs.getInt(5)));
+				account.setLogin(login);
+				account.setPassword(password);
 			}
 			return account;
 		} catch (SQLException e) {

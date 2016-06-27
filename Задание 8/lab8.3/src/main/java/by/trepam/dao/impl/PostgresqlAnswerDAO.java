@@ -20,11 +20,10 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 		String sql = QueryConstants.INSERT_ANSWER;
 		try (Connection connection = PostgresqlDAOFactory.createConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, answer.getId());
-			stm.setInt(2, messageID);
-			stm.setString(3, answer.getText());
-			stm.setTimestamp(4, new Timestamp(answer.getDateOfPosting().getTime()));
-			stm.setInt(5, answer.getAuthor().getId());
+			stm.setInt(1, messageID);
+			stm.setString(2, answer.getText());
+			stm.setTimestamp(3, new Timestamp(answer.getDateOfPosting().getTime()));
+			stm.setInt(4, answer.getAuthor().getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -52,10 +51,10 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				answer = new Answer();
-				answer.setId(rs.getInt(1));
-				answer.setText(rs.getString(2));
-				answer.setDateOfPosting(rs.getTimestamp(3));
-				answer.setAuthor(new Account(rs.getInt(4)));
+				answer.setText(rs.getString(1));
+				answer.setDateOfPosting(rs.getTimestamp(2));
+				answer.setAuthor(new Account(rs.getInt(3)));
+				answer.setId(answerID);
 			}
 			return answer;
 		} catch (SQLException e) {
@@ -79,9 +78,6 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 				answer.setAuthor(new Account(rs.getInt(4)));
 				answers.add(answer);
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return answers;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -105,7 +101,7 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 
 	public double rating(int answerID) throws DAOException {
 		String sql = QueryConstants.ANSWER_RATING_BY_ID;
-		double rating = 0;
+		double rating = -1;
 		try (Connection connection = PostgresqlDAOFactory.createConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
@@ -113,9 +109,6 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 			if (rs.next()) {
 				rating=rs.getDouble(1);
 			}
-			rs.close();
-			stm.close();
-			connection.close();
 			return rating;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);

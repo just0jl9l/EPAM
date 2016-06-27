@@ -39,7 +39,7 @@ public class ConnectionPool {
 	private String password;
 	private int numberOfConnections;
 	
-	private final static Logger logger = LogManager.getLogger("by.trepam.dbcp.ConnectionPool");
+	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
 	public ConnectionPool() {
 		DBConnectionProperty property = DBConnectionProperty.getInstance();

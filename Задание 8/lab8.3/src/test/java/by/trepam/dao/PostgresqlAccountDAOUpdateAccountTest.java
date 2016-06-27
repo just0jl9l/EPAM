@@ -16,16 +16,16 @@ public class PostgresqlAccountDAOUpdateAccountTest {
 
 		DAOFactory df = PostgresqlDAOFactory.getInstance();
 		AccountDAO acdao = df.getAccountDAO();
-		Account before = acdao.getAccount(1000);
+		Account before = acdao.getAccount(18);
 		Account account = new Account();
-		account.setId(1000);
-		account.setName("new_name");
-		account.setSurname("new_surname");
+		account.setId(18);
+		account.setName("Фёдор");
+		account.setSurname("Фёдоров");
 		account.setStatus(before.getStatus());
 		account.setPhoto(new Image(2));
 		acdao.update(account);
 
-		Account actual = acdao.getAccount(1000);
+		Account actual = acdao.getAccount(18);
 		assertTrue(account.isEquals(actual));
 
 	}
