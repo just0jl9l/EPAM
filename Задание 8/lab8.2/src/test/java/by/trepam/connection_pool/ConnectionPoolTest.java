@@ -1,4 +1,4 @@
-package by.trepam.dbcp;
+package by.trepam.connection_pool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
