@@ -32,11 +32,11 @@ public class Matrix {
 			return null;
 		}
 	}
-	
+
 	public int getLength() {
 		return matrix.length;
 	}
-	
+
 	public int getWidth() {
 		return matrix[0].length;
 	}

@@ -1,18 +1,22 @@
 package by.trepam.multithreading.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.multithreading.domain.Matrix;
 
 public class ThreadCalculatorController {
-	
+
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
 	Matrix x1 = new Matrix();
 	Matrix x2 = new Matrix();
 	Matrix result = new Matrix();
 	int numberOfThreads = -1;
+	private List<ThreadCalculator> threads = new ArrayList<ThreadCalculator>();
 
 	public void setMatrixes(int[][] x1, int[][] x2) {
 		this.x1.setMatrix(x1);
@@ -24,8 +28,8 @@ public class ThreadCalculatorController {
 	}
 
 	public Matrix count() throws InterruptedException {
-		if(numberOfThreads<0){
-			numberOfThreads=x1.getLength();
+		if (numberOfThreads < 0 || numberOfThreads > x1.getLength()) {
+			numberOfThreads = x1.getLength();
 		}
 		int len1 = x1.getLength();
 		int len2 = x2.getLength();
@@ -36,9 +40,12 @@ public class ThreadCalculatorController {
 			ThreadCalculator thread = null;
 			for (int i = 0; i < numberOfThreads; i++) {
 				thread = new ThreadCalculator(x1, x2, i);
+				threads.add(thread);
 				thread.start();
 			}
-			thread.join();
+			for (Thread t: threads) {
+			    t.join();
+			}
 			return result;
 		} else {
 			logger.error("Wrong matrixes' dimensions");
@@ -56,8 +63,8 @@ public class ThreadCalculatorController {
 			this.x1 = x1;
 			this.x2 = x2;
 			this.number = number;
-			generalNumber=numberOfThreads;
-		}		
+			generalNumber = numberOfThreads;
+		}
 
 		public void run() {
 			int len1 = x1.getLength();
