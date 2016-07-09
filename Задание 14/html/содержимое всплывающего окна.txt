@@ -1,0 +1,12 @@
+
+					<form class="mark_line">					
+						<label for="mark_name">Оценить: </label>
+						<span class="mark_button">-1</span>
+						<span class="mark_button">1</span>
+						<span class="mark_button">2</span>
+						<span class="mark_button">3</span>
+						<span class="mark_button">4</span>
+						<span class="mark_button">5</span>
+					</form>
+					
+					#E8DFED
