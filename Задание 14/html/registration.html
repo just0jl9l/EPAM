@@ -1,51 +1,53 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>		
-		<link rel="stylesheet" href="file:///E:/!ЕПАМ!/EPAM/Задание%2014/css/main.css">
+		<link rel="stylesheet" href="E:/!ЕПАМ!/EPAM/Задание%2014/css/main.css">
 	</head>
 	<body>
 		<header>    
-			<img class="logo_image" src="file:///E:/!ЕПАМ!/EPAM/Задание%2014/html/content/like_it.png"></img>
+			<img class="logo_image" src="http://127.0.0.1:80/task14/html/content/like_it.png"></img>
 			<span class="language_button">ru</span>
 			<span class="language_button">en</span>
 		</header>
-		<figure class="col-4 col-m-12 account_photo">
-			<p><img src="file:///E:/!ЕПАМ!/EPAM/Задание%2014/html/content/anonim.jpg" alt="фотография пользователя" class="big_photo"></img></p>
-			<a href="#" id="load_image_button" class="small_button general_button">Добавить</a>
-		</figure>				
-		<section class="col-6 col-m-12">
-			<form class="line">
-				<label class="input_label">Логин: </label>
-				<input id="login" name="login" type="text">
-				<label class="note" id="login_error"></label>
-			</form>
-			<form class="line">
-				<label class="input_label">Имя: </label>
-				<input id="name" name="name" type="text">
-			</form>
-			<form class="line">
-				<label class="input_label">Фамилия: </label>
-				<input id="surname" name="surname" type="text">
-			</form>
-			<form class="line">
-				<label class="input_label">Статус: </label>
-				<select id="status" name="status" type="text">
-					<option class="status">Клиент</option>
-					<option class="status">Администратор</option>
-				</select>
-			</form>
-			<form class="line">
-				<label class="input_label">Пароль: </label>
-				<input id="password" name="password" type="password">
-			</form>
-			<form class="line">
-				<label class="input_label">Повторите пароль: </label>
-				<input id="password2" name="password2" type="password">
-				<label class="note" id="password2_error"></label>
-			</form>	
-		</section>
-		<footer class="col-12 col-m-12 menu">	
-			<a href="#"  class="button menu_item inline_button" id="registration_button">Зарегистрироваться</a>			
-		</footer>
+		<form enctype="form-data">
+			<figure class="col-4 col-m-12 account_photo">
+				<p><img src="http://127.0.0.1:80/task14/html/content/anonim.jpg" alt="фотография пользователя" class="big_photo"></img></p>
+				<input name="load_image_button"  type="file" value="Добавить">
+			</figure>				
+			<section class="col-6 col-m-12">
+				<div class="line">
+					<label class="input_label">Логин: </label>
+					<input id="login" name="login" type="text">
+					<label class="note" id="login_error"></label>
+				</div>
+				<div class="line">
+					<label class="input_label">Имя: </label>
+					<input id="name" name="name" type="text">
+				</div>
+				<div class="line">
+					<label class="input_label">Фамилия: </label>
+					<input id="surname" name="surname" type="text">
+				</div>
+				<div class="line">
+					<label class="input_label">Статус: </label>
+					<select id="status" name="status" type="text">
+						<option class="status">Клиент</option>
+						<option class="status">Администратор</option>
+					</select>
+				</div>
+				<div class="line">
+					<label class="input_label">Пароль: </label>
+					<input id="password" name="password" type="password">
+				</div>
+				<div class="line">
+					<label class="input_label">Повторите пароль: </label>
+					<input id="password2" name="password2" type="password">
+					<label class="note" id="password2_error"></label>
+				</div>	
+			</section>
+			<footer class="col-12 col-m-12 menu">	
+				<input class="menu_item inline_button" name="change" type="submit" value="Зарегистрироваться"></input>			
+			</footer>
+		</form>
 	</body>
 </html>

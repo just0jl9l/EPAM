@@ -7,16 +7,16 @@
 }
 html {
     font-family: "Helvetica";
-	background: #E8DFED url(file:///E:/!ЕПАМ!/EPAM/Задание%2014/html/content/background.png) repeat;
+	background: #E8DFED url(http://127.0.0.1:80/task14/html/content/background.png) repeat;
+	color:#253267;
 }
 a{
 	text-decoration: none;
 }
-.main_text{
+.main_text,.sitemap{
 	background-color: #ffffff;	
     box-shadow: rgba(0,0,0,.5) 3px 10px 10px -10px;	
-	margin-top: 30px;
-	
+	margin-top: 30px;	
 	border-radius: 6px;
 }
 header {
@@ -39,7 +39,10 @@ header {
 	text-align: center;	
 	border-radius: 6px;
 }
-
+h1,h2,h3,h4{
+	margin-top:5px;
+	margin-bottom:5px;
+}
 .menu_item:active {
 	top: 2px;  
     color: #A3C9BA;
@@ -47,11 +50,12 @@ header {
 aside,footer{	
   text-align: center;
 }
-.button {	
+.menu_item {	
   position: relative;
   display: block;
+  font-size: 17px;  
   font-weight: 900;
-  padding: 1em;
+  padding: 16px 80px;
   background-image:
    linear-gradient(45deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.8), rgba(255,255,255,.0) 70%),
    linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0) 20%, rgba(255,255,255,0) 90%, rgba(255,255,255,.3)),
@@ -64,12 +68,9 @@ aside,footer{
   background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
   box-shadow: rgba(0,0,0,.5) 3px 10px 10px -10px;
 }
-.button:hover {
+.menu_item:hover {
   transition: .5s linear;
   background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
-}
-.button:active {
-  top: 2px;
 }
 .mark_button {
   position: relative;
@@ -128,7 +129,7 @@ section{
 .link:hover{
 	color:#A3C9BA;
 }
-.category_name{
+.category_name, .error_label{
 	color:#ffffff;
 	font: bold 2em Arial, sans-serif;	 
     text-shadow: #A5308B 1px 1px 0, #A5308B -1px -1px 0, 
@@ -175,7 +176,7 @@ section{
 	background-color: #D5DCEA;	
 	position: relative;
 }
-.account_data{
+.account_data,.sitemap_item{
 	color:#A5308B;
 	font-weight:700	;
 	text-shadow: none;
@@ -196,34 +197,6 @@ section{
 	height: 140px; 
 	margin-right: 5px;
 }
-.general_button{
-  display: inline-block;  
-  font-size: 90%;
-  font-weight: 700;
-  color: rgb(209,209,217);
-  text-decoration: none;
-  text-shadow: 0 -1px 2px rgba(0,0,0,.2);
-  padding: .5em 1em;
-  outline: none;
-  border-radius: 3px;
-  background: linear-gradient(rgb(110,112,120), rgb(81,81,86)) rgb(110,112,120);
-  box-shadow:
-   0 1px rgba(255,255,255,.2) inset,
-   0 3px 5px rgba(0,1,6,.5),
-   0 0 1px 1px rgba(0,1,6,.2);
-  transition: .2s ease-in-out;
-}
-.general_button:hover:not(:active) {
-  background: linear-gradient(rgb(126,126,134), rgb(70,71,76)) rgb(126,126,134);
-}
-.general_button:active {
-  top: 1px;
-  background: linear-gradient(rgb(76,77,82), rgb(56,57,62)) rgb(76,77,82);
-  box-shadow:
-   0 0 1px rgba(0,0,0,.5) inset,
-   0 2px 3px rgba(0,0,0,.5) inset,
-   0 1px 1px rgba(255,255,255,.1);
-}
 .date{
 	float: right;
 	margin: 10px;	
@@ -243,7 +216,12 @@ section{
 	margin: 5px 20px;
 	text-align:center;
 	clear:both;
+	display: none;
 }
+.answer:hover > .mark_line {
+    display: block;
+}
+
 .user_name,.user_rating{
 	display: block;
 	text-align:center;
@@ -253,10 +231,10 @@ section{
 .text{
 	display:block;
 	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .inline_button{
-	display:inline-block;
-	padding: 1em 5em;
+	display:inline;
 }
 .line{
   display: -moz-box;
@@ -274,7 +252,11 @@ section{
 	flex: 1;
 	align-self: center;
 }
-input, select,textarea{
+input{
+	outline: none;
+	border: 0;
+}
+input[type="text"], input[type="password"], select,textarea{
 	outline: none;
 	padding: 5px 9px;
 	height: 30px;
@@ -289,7 +271,7 @@ textarea{
 	height: 100px;	
 	border-radius: 10px;
 }
-.logination{	
+.logination,.error{	
 	text-align: center;
 	background-color: #D5DCEA;	
 	border: 1px solid #a4c3ca;
@@ -304,34 +286,37 @@ textarea{
     bottom: 0;
     left: 0;
     margin: auto;
-	 width: 450px;
+	width: 450px;
     height: 350px;
 }
-.login_imagge{
+.login_image{
 	margin-bottom: 30px;
 }
 .language_button{
 	float: right;
-  display: inline-block;
-  width: 2em;
-  height: 2em;
-  line-height: 2em;
-  vertical-align: middle;
-  text-align: center;
-  text-decoration: none;
-  color: #A5308B;
-  outline: none;
-  margin-left: 5px;
-  border-radius: 5px;
-  box-shadow: 0 0 0 1px #5A005B inset, 0 1px 1px #fff;
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+	line-height: 2em;
+	vertical-align: middle;
+	text-align: center;
+	text-decoration: none;
+	color: #A5308B;
+	outline: none;
+	margin-left: 5px;
+	border-radius: 5px;
+	box-shadow: 0 0 0 1px #5A005B inset, 0 1px 1px #fff;
 }
 .language_button:hover {
-  background: #dcdcdc linear-gradient(#BBB3CD, #dcdcdc);
-  box-shadow: 0 0 0 1px #aaa inset, 0 1px 1px #aaa;
+	background: #dcdcdc linear-gradient(#BBB3CD, #dcdcdc);
+	box-shadow: 0 0 0 1px #aaa inset, 0 1px 1px #aaa;
 }
 .language_button:active {
-  background: none;
+	background: none;
     box-shadow: 0 0 0 1px #bbb inset, 0 1px 3px rgba(0,0,0,.5) inset, 0 1px 2px #fff;
+}
+.sitemap{
+	padding: 15px 15px 5px 15px;
 }
 /* For mobile phones: */
 [class*="col-"] {
