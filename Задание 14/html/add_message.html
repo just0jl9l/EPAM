@@ -1,51 +1,58 @@
 ﻿ <!DOCTYPE html>
-<html>
-	<head>		
+<html lang="ru">
+	<head>	
+		<title>Add message</title>	
 		<link rel="stylesheet" href="E:/!ЕПАМ!/EPAM/Задание%2014/css/main.css">
 	</head>
 	<body>
 		<header>    
-			<img class="logo_image" src="http://127.0.0.1:80/task14/html/content/like_it.png"></img>
+			<img alt= "Логотип" class="logo_image" src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/like_it.png">
 			<span class="language_button">ru</span>
 			<span class="language_button">en</span>
 		</header>
 		<nav class="col-3 col-m-3">
 			<ul class="menu">
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/like_it.html" class="small_button menu_item">Главная страница</a>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/like_it.html" class="small_button menu_item">Главная страница</a>
 				</li>
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/categories.html" class="small_button menu_item">Категории</a>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/categories.html" class="small_button menu_item">Категории</a>
 				</li>
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/personal_account.html" class="small_button menu_item">Личный кабинет</a>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/personal_account.html" class="small_button menu_item">Личный кабинет</a>
 				</li>
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/sitemap.html" class="small_button menu_item">Карта сайта</a>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/sitemap.html" class="small_button menu_item">Карта сайта</a>
 				</li>
 			</ul>			
 		</nav>
 		<section class="col-6 col-m-9">
-			<div class="category">
-				<img src="http://127.0.0.1:80/task14/html/content/entertainment.png" alt="Категория Развлечения" class="category_image">
-				<h1 class="category_name">Развлечения</h1>
-				<p class="category_text">Хобби, отпуск, туризм, спорт - всё здесь!</p>
-			</div>
-			<form class="line">
-				<label class="input_label">Заголовок: </label>
-				<input id="title" name="title" type="text">
-				<label class="note" id="title_error"></label>
-			</form>
-			<form class="line">
-				<label class="input_label">Текст: </label>
-				<textarea id="text" name="text"></textarea>
+			<form>
+				<div class="category">
+					<img src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/entertainment.png" alt="Категория Развлечения" class="category_image">
+					<h1 class="category_name">Развлечения</h1>
+					<p class="category_text">Хобби, отпуск, туризм, спорт - всё здесь!</p>
+				</div>
+				<div class="line">
+					<label class="input_label">Заголовок: </label>
+					<input id="title" name="title" type="text">
+					<label class="note" id="title_error"></label>
+				</div>
+				<div class="line">
+					<label class="input_label">Текст: </label>
+					<textarea id="text" name="text"></textarea>
+				</div>	
+				<div class="center">
+					<input class="menu_item inline_button" type="submit" name="Добавить">	
+				</div>
 			</form>
 		</section>
 		<aside class="col-3 col-m-12">	
-			<a href="http://127.0.0.1:80/task14/html/login.html" class="menu_item" id="login">Войти</a>							
+			<ul class="menu">
+				<li>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/login.html" class="menu_item" id="login">Войти</a>	
+				</li>
+			</ul>
 		</aside>
-		<footer class="col-12 col-m-12 menu">	
-			<input class="menu_item inline_button" name="add" type="submit" value="Добавить"></input>
-		</footer>
 	</body>
 </html>

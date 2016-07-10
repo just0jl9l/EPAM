@@ -1,39 +1,42 @@
 ﻿<!DOCTYPE html>
-<html>
-	<head>		
+<html lang="ru">
+	<head>	
+		<title>Personal account</title>
 		<link rel="stylesheet" href="E:/!ЕПАМ!/EPAM/Задание%2014/css/main.css">
 	</head>
 	<body>
 		<header>    
-			<img class="logo_image" src="http://127.0.0.1:80/task14/html/content/like_it.png"></img>
+			<img alt= "Логотип" class="logo_image" src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/like_it.png">
 			<span class="language_button">ru</span>
 			<span class="language_button">en</span>
 		</header>
-		<figure class="col-4 col-m-12 account_photo">
-			<p><img src="http://127.0.0.1:80/task14/html/content/foto.png" alt="фотография пользователя" class="big_photo"></img></p>
-			<a href="#" id="load_image_button" class="small_button general_button">Добавить</a>
+		<figure class="col-4 col-m-12 center">
+			<p><img src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/foto.png" alt="фотография пользователя" class="big_photo"></p>
 		</figure>				
 		<section class="col-6 col-m-12">
-			<form class="line">
+			<div class="line">
+				<h1>Пользовательские данные</h1>
+			</div>
+			<div class="line">
 				<label>Логин: </label>
 				<label class="account_data" id="login">newclient</label>
-			</form>
-			<form class="line">
+			</div>
+			<div class="line">
 				<label>Статус: </label>
 				<label class="account_data" id="status">client</label>
-			</form>
-			<form class="line">
+			</div>
+			<div class="line">
 				<label>Имя: </label>
 				<label class="account_data" id="name">Павел</label>
-			</form>
-			<form class="line">
+			</div>
+			<div class="line">
 				<label>Фамилия: </label>
 				<label class="account_data" id="surname">Павлов</label>
-			</form>
-			<form class="line">
+			</div>
+			<div class="line">
 				<label>Язык: </label>
 				<label class="account_data" id="language">русский</label>
-			</form>
+			</div>
 		</section>
 		<footer class="col-12 col-m-12 menu">	
 			<a href="#"  class="menu_item inline_button" id="change">Редактировать</a>			

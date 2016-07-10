@@ -1,68 +1,62 @@
 ﻿<!DOCTYPE html>
-<html>
-	<head>		
+<html lang="ru">
+	<head>
+		<title>Add answer</title>	
 		<link rel="stylesheet" href="E:/!ЕПАМ!/EPAM/Задание%2014/css/main.css">
 	</head>
 	<body>
 		<header>    
-			<img class="logo_image" src="http://127.0.0.1:80/task14/html/content/like_it.png"></img>
+			<img alt= "Логотип" class="logo_image" src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/like_it.png">
 			<span class="language_button">ru</span>
 			<span class="language_button">en</span>
 		</header>
 		<nav class="col-3 col-m-3">
 			<ul class="menu">
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/like_it.html" class="small_button menu_item">Главная страница</a>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/like_it.html" class="small_button menu_item">Главная страница</a>
 				</li>
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/categories.html" class="small_button menu_item">Категории</a>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/categories.html" class="small_button menu_item">Категории</a>
 				</li>
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/personal_account.html" class="small_button menu_item">Личный кабинет</a>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/personal_account.html" class="small_button menu_item">Личный кабинет</a>
 				</li>
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/sitemap.html" class="small_button menu_item">Карта сайта</a>
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/sitemap.html" class="small_button menu_item">Карта сайта</a>
 				</li>
 			</ul>			
 		</nav>
 		<section class="col-6 col-m-9">
 			<div class="message">
 				<div class="account_information">
-					<img src="http://127.0.0.1:80/task14/html/content/foto1.png" alt="фото пользователя" class="photo">							
+					<img src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/foto1.png" alt="фото пользователя" class="photo">							
 					<label class="user_name">Егор Егоров</label>
 					<label class="user_rating">3/5</label>
 				</div>
 				<h1 class="big_message_name">Путешествие</h1>
-				<a href="http://127.0.0.1:80/task14/html/category.html">
+				<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/category.html">
 					<span class="small_category_name">Развлечения</span>		
 				</a>
 				<p class="text">Здравствуйте! Хочу посмотреть Беларусь, подскажите, с чего начать</p>
 				<div class="date">2016-06-12 14:20:45</div>							
 			</div>
-			<form class="line">
-				<label class="input_label">Текст: </label>
-				<textarea id="text" name="text"></textarea>
+			<form>
+				<div class="line">
+					<label class="input_label">Текст: </label>
+					<textarea id="text" name="text"></textarea>
+				</div>
+				<div class="center">
+					<input class="menu_item inline_button" name="add" type="submit" value="Добавить">	
+				</div>			
 			</form>
 		</section>
 		<aside class="col-3 col-m-12">	
 			<ul class="menu">
 				<li>
-					<a href="http://127.0.0.1:80/task14/html/login.html" class="menu_item" id="login">Войти</a>	
+					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/login.html" class="menu_item" id="login">Войти</a>	
 				</li>				
-				<li>
-					<a href="http://127.0.0.1:80/task14/html/add_message.html" class="menu_item" id="change">Изменить сообщение</a>
-				</li>			
-				<li>
-					<a href="http://127.0.0.1:80/task14/html/category.html" class="menu_item" id="delete">Удалить сообщение</a>
-				</li>			
-				<li>
-					<a href="http://127.0.0.1:80/task14/html/add_answer.html" class="menu_item" id="add">Добавить ответ</a>
-				</li>
 			</ul>						
 		</aside>
-		<footer class="col-12 col-m-12 menu">	
-			<input class="menu_item inline_button" name="add" type="submit" value="Добавить"></input>
-		</footer>
 	</body>
 </html>
 

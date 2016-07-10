@@ -1,27 +1,25 @@
-﻿ <!DOCTYPE html>
-<html>
-	<head>		
+﻿<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<title>Log in</title>
 		<link rel="stylesheet" href="E:/!ЕПАМ!/EPAM/Задание%2014/css/main.css">
 	</head>
 	<body>
 		<section class="logination">
-			<img class="logo_image login_image" src="http://127.0.0.1:80/task14/html/content/like_it.png"></img>
-			<form class="line">
-				<label class="input_label">Логин: </label>
-				<input id="login" name="login" type="text">
+			<h1><img alt= "Логотип" class="logo_image login_image" src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/like_it.png"></h1>
+			<form>			
+				<label class="input_error" id="log_in_error"></label>
+				<div class="line">
+					<label class="input_label">Логин: </label>
+					<input id="login" name="login" type="text">
+				</div>
+				<div class="line">
+					<label class="input_label">Пароль: </label>
+					<input id="password" name="password" type="password">
+				</div>
+				<input class="menu_item inline_button" name="login" type="submit" value="Войти">
 			</form>
-			<form class="line">
-				<label class="input_label">Пароль: </label>
-				<input id="password" name="password" type="password">
-			</form>
-			<ul class="menu">
-				<li>
-					<input class="menu_item inline_button" name="login" type="submit" value="Войти"></input>
-				</li>	
-				<li>
-					<a href="http://127.0.0.1:80/task14/html/registration.html" class="link">Регистрация</a>
-				</li>	
-			</ul>	
+			<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/registration.html" class="link">Регистрация</a>		
 		</section>
 	</body>
 </html>

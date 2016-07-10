@@ -1,31 +1,34 @@
 ﻿<!DOCTYPE html>
-<html>
-	<head>		
+<html lang="ru">
+	<head>	
+		<title>Add category</title>
 		<link rel="stylesheet" href="E:/!ЕПАМ!/EPAM/Задание%2014/css/main.css">
 	</head>
 	<body>
 		<header>    
-			<img class="logo_image" src="http://127.0.0.1:80/task14/html/content/like_it.png"></img>
+			<img alt= "Логотип" class="logo_image" src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/like_it.png">
 			<span class="language_button">ru</span>
 			<span class="language_button">en</span>
 		</header>
-		<figure class="col-4 col-m-12 account_photo">
-			<p><img src="http://127.0.0.1:80/task14/html/content/empty.png" alt="изображение категории" class="big_photo"></img></p>
-			<input name="load_image_button"  type="file" value="Добавить">
-		</figure>				
-		<section class="col-6 col-m-12">
-			<form class="line">
-				<label class="input_label">Заголовок: </label>
-				<input id="title" name="title" type="text">
-				<label class="note" id="title_error"></label>
-			</form>
-			<form class="line">
-				<label class="input_label">Описание: </label>
-				<input id="description" name="description" type="text">
-			</form>
-		</section>
-		<footer class="col-12 col-m-12 menu">	
-			<input class="menu_item inline_button" name="add" type="submit" value="Добавить"></input>	
-		</footer>
+		<form class="center">
+			<figure class="col-4 col-m-12 category_photo">
+				<p><img src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/empty.png" alt="изображение категории" class="big_photo"></p>
+				<input name="Добавить" type="file">
+			</figure>				
+			<div class="col-6 col-m-12">
+				<div class="line">
+					<label class="input_label">Заголовок: </label>
+					<input id="title" name="title" type="text">
+					<label class="note" id="title_error"></label>
+				</div>
+				<div class="line">
+					<label class="input_label">Описание: </label>
+					<input id="description" name="description" type="text">
+				</div>
+			</div>
+			<div class="col-12 col-m-12 menu">	
+				<input class="menu_item inline_button" name="add" type="submit" value="Добавить">	
+			</div>
+		</form>
 	</body>
 </html>

@@ -7,7 +7,7 @@
 }
 html {
     font-family: "Helvetica";
-	background: #E8DFED url(http://127.0.0.1:80/task14/html/content/background.png) repeat;
+	background: #E8DFED url(E:/!ЕПАМ!/EPAM/Задание%2014/html/content/background.png) repeat;
 	color:#253267;
 }
 a{
@@ -27,6 +27,15 @@ header {
 .menu  {
     list-style-type: none;
     padding: 0;
+}
+.h1{
+	padding-left:1%;
+}
+.h2{
+	padding-left:5%;
+}
+.h3{
+	padding-left:10%;
 }
 .menu_item {	
 	position: relative;
@@ -93,6 +102,9 @@ aside,footer{
    inset 0 2px 1px rgba(255,255,255,.9),
    0 4px 4px rgba(0,0,0,.9);
 }
+.center{	
+  text-align: center;
+}
 .mark_button:after {
   content: "";
   position: absolute;
@@ -129,7 +141,7 @@ section{
 .link:hover{
 	color:#A3C9BA;
 }
-.category_name, .error_label{
+.category_name{
 	color:#ffffff;
 	font: bold 2em Arial, sans-serif;	 
     text-shadow: #A5308B 1px 1px 0, #A5308B -1px -1px 0, 
@@ -168,9 +180,6 @@ section{
 }
 .message{	
 	background-color: #F7F7F7;	
-}
-.account_photo{
-	text-align: center;
 }
 .answer{	
 	background-color: #D5DCEA;	
@@ -231,7 +240,13 @@ section{
 .text{
 	display:block;
 	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 20px;	
+	color:#49004A;
+	font: normal;	 
+    text-shadow: none;
+}
+.input_error{
+	color:#CD004A;
 }
 .inline_button{
 	display:inline;
@@ -271,7 +286,7 @@ textarea{
 	height: 100px;	
 	border-radius: 10px;
 }
-.logination,.error{	
+.logination,.error_panel{	
 	text-align: center;
 	background-color: #D5DCEA;	
 	border: 1px solid #a4c3ca;
@@ -290,7 +305,7 @@ textarea{
     height: 350px;
 }
 .login_image{
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 .language_button{
 	float: right;
