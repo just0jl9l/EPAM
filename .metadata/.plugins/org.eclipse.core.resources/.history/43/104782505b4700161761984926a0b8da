@@ -1,0 +1,78 @@
+package port;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+
+import warehouse.Container;
+import warehouse.Warehouse;
+
+public class Berth {
+
+	private int id;
+	private Warehouse portWarehouse;
+
+	public Berth(int id, Warehouse warehouse) {
+		this.id = id;
+		portWarehouse = warehouse;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public boolean add(Warehouse shipWarehouse, int numberOfConteiners){
+		boolean result = false;
+			
+		boolean portLock = false;
+		
+//		synchronized (portWarehouse) {
+//			synchronized (shipWarehouse) {
+//				
+//			}
+//		}
+		//added from here
+		Lock portWarehouseLock = portWarehouse.getLock();
+		Lock shipWarehouseLock = shipWarehouse.getLock();
+		try{
+			if (portWarehouseLock.tryLock(1000, TimeUnit.SECONDS)){
+				if (shipWarehouseLock.tryLock(1000, TimeUnit.SECONDS)){
+					List<Container> list = shipWarehouse.getContainer(numberOfConteiners);
+					if(list!=null){
+						result = portWarehouse.addContainer(list);
+					}
+				}
+			}
+		}finally{
+			if (portWarehouseLock.isLocked()){
+				portWarehouseLock.unlock();
+			}
+		}
+		shipWarehouseLock.unlock();		
+		portWarehouseLock.unlock();		
+		//to here
+		return result;
+		
+	}
+	
+	
+
+	public boolean get(Warehouse shipWarehouse, int numberOfConteiners){
+		boolean result = false;
+		//added from here
+		Lock portWarehouseLock = portWarehouse.getLock();
+		Lock shipWarehouseLock = shipWarehouse.getLock();
+		portWarehouseLock.lock(); 
+		shipWarehouseLock.lock();
+		List<Container> list = portWarehouse.getContainer(numberOfConteiners);
+		if(list!=null){
+			result = shipWarehouse.addContainer(list);
+		}
+		shipWarehouseLock.unlock();		
+		portWarehouseLock.unlock();
+		//to here
+		return result;
+	}
+	
+	
+}
