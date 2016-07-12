@@ -2,10 +2,10 @@ package by.tr.epam.philosophers;
 
 public class Main {
 
-    public static int N = 5;
+    public static int PHILOSOPHERS_NUMBER = 5;		//число обедающих философов
 
     public static void main(String[] args) throws InterruptedException {
-        new SemaphoreEngine(N, 1, 1).newRun();
+        new Controller(PHILOSOPHERS_NUMBER).newRun();		
     }
 
 }

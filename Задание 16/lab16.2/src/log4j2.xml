@@ -11,8 +11,5 @@
     <Root level="INFO">
       <AppenderRef ref="STDOUT"/>
     </Root>
-    <Logger name="by.tr.epam.philosophers" level="DEBUG" additivity="false">
-        <AppenderRef ref="STDOUT" level="DEBUG"/>
-    </Logger>
   </Loggers>
 </Configuration> 
