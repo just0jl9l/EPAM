@@ -1,4 +1,4 @@
-package by.tr.epam.philosophers;
+package by.tr.epam.dining_philosophers.fork;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

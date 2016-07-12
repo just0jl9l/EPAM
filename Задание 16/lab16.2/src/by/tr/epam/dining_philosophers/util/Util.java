@@ -1,4 +1,4 @@
-package by.tr.epam.philosophers;
+package by.tr.epam.dining_philosophers.util;
 
 public class Util {
 

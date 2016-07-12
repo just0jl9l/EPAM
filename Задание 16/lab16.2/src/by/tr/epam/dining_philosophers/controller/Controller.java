@@ -1,10 +1,12 @@
-package by.tr.epam.philosophers;
-
-
+package by.tr.epam.dining_philosophers.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+
+import by.tr.epam.dining_philosophers.fork.Fork;
+import by.tr.epam.dining_philosophers.philosopher.Philosopher;
+import by.tr.epam.dining_philosophers.util.Util;
 
 public class Controller {
 	private final static int WORK_TIME = 100; //врем€, поко главный поток спит, а дочерние (философы) выполн€ютс€

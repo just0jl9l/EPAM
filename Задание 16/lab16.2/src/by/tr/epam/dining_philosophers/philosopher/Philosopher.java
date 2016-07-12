@@ -1,9 +1,12 @@
-package by.tr.epam.philosophers;
+package by.tr.epam.dining_philosophers.philosopher;
 
 import java.util.concurrent.Semaphore;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import by.tr.epam.dining_philosophers.fork.Fork;
+import by.tr.epam.dining_philosophers.util.Util;
 
 public class Philosopher extends Thread {
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());

@@ -1,4 +1,6 @@
-package by.tr.epam.philosophers;
+package by.tr.epam.dining_philosophers.main;
+
+import by.tr.epam.dining_philosophers.controller.Controller;
 
 public class Main {
 

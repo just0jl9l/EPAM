@@ -68,14 +68,14 @@ public class ConnectionPool {
 	}
 
 	public Connection getConnection() throws ConnectionPoolException {
-		Connection newConn = null;
+		Connection connection = null;
 		try {
-			newConn = freeConnections.take();
-			givenConnections.add(newConn);
+			connection = freeConnections.take();
+			givenConnections.add(connection);
 		} catch (InterruptedException e) {
 			throw new ConnectionPoolException("InterruptedException", e);
 		}
-		return newConn;
+		return connection;
 	}
 
 	public void close() throws ConnectionPoolException {
@@ -106,6 +106,7 @@ public class ConnectionPool {
 
 		public DBConnection(Connection connection) throws SQLException {
 			this.connection = connection;
+			connection.setAutoCommit(true);
 		}
 
 		public void closeConnection() throws SQLException {
@@ -118,10 +119,13 @@ public class ConnectionPool {
 
 		public void close() {
 			try {
+				connection.setAutoCommit(true);
 				givenConnections.remove(this);
 				freeConnections.put(this);
 			} catch (InterruptedException e) {
 				throw new RuntimeException("InterruptedException occurred during connection closing",e);
+			} catch (SQLException e) {
+				throw new RuntimeException("SQLException occurred during connection closing",e);
 			}
 
 		}
