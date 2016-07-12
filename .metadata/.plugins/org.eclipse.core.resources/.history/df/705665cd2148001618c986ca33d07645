@@ -1,0 +1,5 @@
+package by.tr.epam.philosophers;
+
+public class Util {
+
+}

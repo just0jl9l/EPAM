@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout>
+        <Pattern>%d{ABSOLUTE} [%-5p] (%F:%L) - %m%n</Pattern>
+      </PatternLayout>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="INFO">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+    <Logger name="by.trepam.multithreading.controller" level="DEBUG" additivity="false">
+        <AppenderRef ref="STDOUT" level="DEBUG"/>
+    </Logger>
+  </Loggers>
+</Configuration> 

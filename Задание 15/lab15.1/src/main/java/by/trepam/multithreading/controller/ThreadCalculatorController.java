@@ -12,10 +12,10 @@ public class ThreadCalculatorController {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
-	Matrix x1 = new Matrix();
-	Matrix x2 = new Matrix();
-	Matrix result = new Matrix();
-	int numberOfThreads = -1;
+	private Matrix x1 = new Matrix();
+	private Matrix x2 = new Matrix();
+	private Matrix result = new Matrix();
+	private int numberOfThreads = -1;
 	private List<ThreadCalculator> threads = new ArrayList<ThreadCalculator>();
 
 	public void setMatrixes(int[][] x1, int[][] x2) {

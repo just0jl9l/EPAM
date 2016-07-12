@@ -2,7 +2,7 @@ package by.trepam.multithreading.domain;
 
 public class Matrix {
 
-	int[][] matrix;
+	private int[][] matrix;
 
 	public void setMatrix(int[][] m) {
 		matrix = m;

@@ -1,0 +1,19 @@
+package by.tr.epam.philosophers;
+
+public class Semaphore_Launcher {
+
+    public static int N = 5;
+
+    public static void main(String[] args) throws InterruptedException {
+        run(0, 0);
+        run(0, 1);
+        run(1, 0);
+        run(1, 1);
+    }
+
+    private static void run(long eatTime, long thinkTime) {
+        System.out.println("eat= " + eatTime + "ms, think = " + thinkTime + "ms");
+        new SemaphoreEngine(N, eatTime, thinkTime).newRun();
+    }
+
+}
