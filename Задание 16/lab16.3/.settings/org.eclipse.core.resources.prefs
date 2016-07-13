@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//src/by/tr/epam/concurrent/condition=UTF-8
+encoding//src/by/tr/epam/concurrent/count_down_latch=UTF-8
+encoding//src/by/tr/epam/concurrent/cyclic_barrier=UTF-8
+encoding//src/by/tr/epam/concurrent/exchanger=UTF-8
+encoding//src/by/tr/epam/concurrent/phaser=UTF-8
+encoding//src/by/tr/epam/concurrent/read_write_lock=UTF-8
+encoding//src/by/tr/epam/concurrent/read_write_lock/ThreadsafeTree.java=UTF-8
+encoding//src/by/tr/epam/concurrent/semaphore=UTF-8
+encoding/<project>=UTF-8

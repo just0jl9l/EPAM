@@ -120,6 +120,7 @@ public class ConnectionPool {
 		public void close() {
 			try {
 				connection.setAutoCommit(true);
+				connection.setReadOnly(false);
 				givenConnections.remove(this);
 				freeConnections.put(this);
 			} catch (InterruptedException e) {
