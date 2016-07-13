@@ -4,10 +4,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Counter {
-	private int current = 0;
-	private Lock lock = new ReentrantLock();
+	private int current = 0;		//текущее значение счётчика
+	private Lock lock = new ReentrantLock();	//блокировка счётчика
 
-	public void add(int i) {
+	public void add(int i) {		//изменение значения счётчика
 		current+=i;
 	}
 
@@ -15,11 +15,11 @@ public class Counter {
 		return current;
 	}
 	
-	public void lock(){
+	public void lock(){		//блокировка счётчика
 		lock.lock();
 	}
 
-	public void unlock(){
+	public void unlock(){	//разблокировка счётчика
 		lock.unlock();
 	}
 }
