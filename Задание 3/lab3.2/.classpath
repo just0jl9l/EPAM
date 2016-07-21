@@ -32,6 +32,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/!ЕПАМ!/EPAM/Задание 3/lab3.2/src/main/resources/dom_parser.jar"/>
+	<classpathentry kind="lib" path="E:/1EPAM/EPAM/Задание 3/lab3.2/src/main/resources/dom_parser.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

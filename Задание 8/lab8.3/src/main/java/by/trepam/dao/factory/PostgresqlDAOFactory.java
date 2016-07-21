@@ -2,6 +2,8 @@ package by.trepam.dao.factory;
 
 import java.sql.Connection;
 
+import by.trepam.connection_pool.ConnectionPool;
+import by.trepam.connection_pool.exception.ConnectionPoolException;
 import by.trepam.dao.AccountDAO;
 import by.trepam.dao.AnswerDAO;
 import by.trepam.dao.CategoryDAO;
@@ -15,8 +17,6 @@ import by.trepam.dao.impl.PostgresqlCategoryDAO;
 import by.trepam.dao.impl.PostgresqlImageDAO;
 import by.trepam.dao.impl.PostgresqlMarkDAO;
 import by.trepam.dao.impl.PostgresqlMessageDAO;
-import by.trepam.connection_pool.ConnectionPool;
-import by.trepam.connection_pool.exception.ConnectionPoolException;
 
 public class PostgresqlDAOFactory implements DAOFactory{
 
@@ -29,13 +29,20 @@ public class PostgresqlDAOFactory implements DAOFactory{
 	private MarkDAO markDAO = new PostgresqlMarkDAO();
 	private MessageDAO messageDAO = new PostgresqlMessageDAO();
 	
-	public static PostgresqlDAOFactory getInstance() throws DAOException{
+	static{
 		try {
 			connectionPool.init();
-			return factory;
 		} catch (ConnectionPoolException e) {
-			throw new DAOException("ConnectionPoolException",e);
+			try {
+				connectionPool.init();
+			} catch (ConnectionPoolException e1) {
+				throw new Error("ConnectionPool was't initialized");
+			}			
 		}
+	}
+	
+	public static PostgresqlDAOFactory getInstance(){
+		return factory;
 	}
 		
 	public static Connection createConnection() throws DAOException{ 

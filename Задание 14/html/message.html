@@ -1,40 +1,47 @@
 ﻿<!DOCTYPE html>
 <html lang="ru">
 	<head>
+		<meta charset="utf-8">
 		<title>Message</title>	
-		<link rel="stylesheet" href="E:/!ЕПАМ!/EPAM/Задание%2014/css/main.css">
+		<link rel="stylesheet" href="E:/1EPAM/EPAM/Задание%2014/css/main.css">
 	</head>
 	<body>
 		<header>    
-			<img alt= "Логотип" class="logo_image" src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/like_it.png">
-			<span class="language_button">ru</span>
-			<span class="language_button">en</span>
+			<img alt= "Логотип" class="logo_image" src="E:/1EPAM/EPAM/Задание%2014/html/content/like_it.png">
+			<form class="language-form">
+				<input type="hidden" name="local" value="ru" /> 
+				<input type="submit" class="language_button" value="ru" />
+			</form>
+			<form class="language-form">
+				<input type="hidden" name="local" value="en" /> 
+				<input type="submit" class="language_button" value="en" />
+			</form>
 		</header>
 		<nav class="col-3 col-m-3">
 			<ul class="menu">
 				<li>
-					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/like_it.html" class="small_button menu_item">Главная страница</a>
+					<a href="E:/1EPAM/EPAM/Задание%2014/html/like_it.html" class="small_button menu_item">Главная страница</a>
 				</li>
 				<li>
-					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/categories.html" class="small_button menu_item">Категории</a>
+					<a href="E:/1EPAM/EPAM/Задание%2014/html/categories.html" class="small_button menu_item">Категории</a>
 				</li>
 				<li>
-					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/personal_account.html" class="small_button menu_item">Личный кабинет</a>
+					<a href="E:/1EPAM/EPAM/Задание%2014/html/personal_account.html" class="small_button menu_item">Личный кабинет</a>
 				</li>
 				<li>
-					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/sitemap.html" class="small_button menu_item">Карта сайта</a>
+					<a href="E:/1EPAM/EPAM/Задание%2014/html/sitemap.html" class="small_button menu_item">Карта сайта</a>
 				</li>
 			</ul>			
 		</nav>
 		<section class="col-6 col-m-9">
 			<div class="message">
 				<div class="account_information">
-					<img src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/foto1.png" alt="фото пользователя" class="photo">							
-					<label class="user_name">Егор Егоров</label>
-					<label class="user_rating">3/5</label>
+					<img src="E:/1EPAM/EPAM/Задание%2014/html/content/foto1.png" alt="фото пользователя" class="photo">							
+					<span class="user_name">Егор Егоров</span>
+					<span class="user_rating">3/5</span>
 				</div>
 				<h1 class="big_message_name">Путешествие</h1>
-				<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/category.html">
+				<a href="E:/1EPAM/EPAM/Задание%2014/html/category.html">
 					<span class="small_category_name">Развлечения</span>		
 				</a>
 				<p class="text">Здравствуйте! Хочу посмотреть Беларусь, подскажите, с чего начать</p>
@@ -43,39 +50,87 @@
 			<div class="answer_list">
 				<div class="answer">
 					<div class="account_information">
-						<img src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/anonim.jpg" alt="фото пользователя" class="photo">							
-						<label class="user_name">Иван Иванов</label>
-						<label class="user_rating">1/5</label>
+						<img src="E:/1EPAM/EPAM/Задание%2014/html/content/anonim.jpg" alt="фото пользователя" class="photo">							
+						<span class="user_name">Иван Иванов</span>
+						<span class="user_rating">1/5</span>
 					</div>
 					<p class="text">Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ.</p>	
-					<form class="mark_line">					
-						<label>Оценить: </label>
-						<span class="mark_button">-1</span>
-						<span class="mark_button">1</span>
-						<span class="mark_button">2</span>
-						<span class="mark_button">3</span>
-						<span class="mark_button">4</span>
-						<span class="mark_button">5</span>
-					</form>															
+					<div class="mark_line"> 					
+						<span>Оценить: </span>
+						<form class="language-form">
+						<input type="hidden" name="person" value="login" />
+							<input type="hidden" name="mark" value="-1" /> 
+							<input type="submit" class="mark_button" value="-1" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="login" />
+							<input type="hidden" name="mark" value="1" /> 
+							<input type="submit" class="mark_button" value="1" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="login" />
+							<input type="hidden" name="mark" value="2" /> 
+							<input type="submit" class="mark_button" value="2" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="login" />
+							<input type="hidden" name="mark" value="3" /> 
+							<input type="submit" class="mark_button" value="3" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="login" />
+							<input type="hidden" name="mark" value="4" /> 
+							<input type="submit" class="mark_button" value="4" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="login" />
+							<input type="hidden" name="mark" value="5" /> 
+							<input type="submit" class="mark_button" value="5" />
+						</form>
+					</div>															
 					<div class="answer_rating">0/5</div>
 					<div class="date">2016-06-19 19:32:00</div>
 				</div>
 				<div class="answer">
 					<div class="account_information">
-						<img src="E:/!ЕПАМ!/EPAM/Задание%2014/html/content/anonim.jpg" alt="фото пользователя" class="photo">					
-						<label class="user_name">Пётр Петров</label>
-						<label class="user_rating">4/5</label>
+						<img src="E:/1EPAM/EPAM/Задание%2014/html/content/anonim.jpg" alt="фото пользователя" class="photo">					
+						<span class="user_name">Пётр Петров</span>
+						<span class="user_rating">4/5</span>
 					</div>
 					<p class="text">Хороший ответ. Хороший ответ. Хороший ответ. Хороший ответ. Хороший ответ. Хороший ответ. Хороший ответ.</p>			
-					<form class="mark_line">					
-						<label>Оценить: </label>
-						<span class="mark_button">-1</span>
-						<span class="mark_button">1</span>
-						<span class="mark_button">2</span>
-						<span class="mark_button">3</span>
-						<span class="mark_button">4</span>
-						<span class="mark_button">5</span>
-					</form>												
+					<div class="mark_line"> 					
+						<span>Оценить: </span>
+						<form class="language-form">
+						<input type="hidden" name="person" value="log1" />
+							<input type="hidden" name="mark" value="-1" /> 
+							<input type="submit" class="mark_button" value="-1" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="log1" />
+							<input type="hidden" name="mark" value="1" /> 
+							<input type="submit" class="mark_button" value="1" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="log1" />
+							<input type="hidden" name="mark" value="2" /> 
+							<input type="submit" class="mark_button" value="2" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="log1" />
+							<input type="hidden" name="mark" value="3" /> 
+							<input type="submit" class="mark_button" value="3" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="log1" />
+							<input type="hidden" name="mark" value="4" /> 
+							<input type="submit" class="mark_button" value="4" />
+						</form>
+						<form class="language-form">
+						<input type="hidden" name="person" value="log1" />
+							<input type="hidden" name="mark" value="5" /> 
+							<input type="submit" class="mark_button" value="5" />
+						</form>
+					</div>											
 					<div class="answer_rating">3/5</div>
 					<div class="date">2016-06-24 07:55:23</div>
 				</div>
@@ -84,16 +139,16 @@
 		<aside class="col-3 col-m-12">	
 			<ul class="menu">
 				<li>
-					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/login.html" class="menu_item" id="login">Войти</a>	
+					<a href="E:/1EPAM/EPAM/Задание%2014/html/login.html" class="menu_item">Войти</a>	
 				</li>				
 				<li>
-					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/add_message.html" class="small_button menu_item" id="change">Изменить сообщение</a>
+					<a href="E:/1EPAM/EPAM/Задание%2014/html/add_message.html" class="small_button menu_item">Изменить сообщение</a>
 				</li>			
 				<li>
-					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/category.html" class="small_button menu_item" id="delete">Удалить сообщение</a>
+					<a href="E:/1EPAM/EPAM/Задание%2014/html/category.html" class="small_button menu_item">Удалить сообщение</a>
 				</li>			
 				<li>
-					<a href="E:/!ЕПАМ!/EPAM/Задание%2014/html/add_answer.html" class="small_button menu_item" id="add">Добавить ответ</a>
+					<a href="E:/1EPAM/EPAM/Задание%2014/html/add_answer.html" class="small_button menu_item">Добавить ответ</a>
 				</li>
 			</ul>						
 		</aside>
