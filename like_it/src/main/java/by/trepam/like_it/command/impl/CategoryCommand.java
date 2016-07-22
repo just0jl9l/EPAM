@@ -19,11 +19,10 @@ public class CategoryCommand implements Command{
 		ServiceFactory factory = ServiceFactory.getInstance();
 		Service service = factory.getService();
 		try {
-			System.out.println(request.getAttribute("category_id"));
 			Category category = service.getCategory(new Integer(request.getParameter("category_id")));
 			if(category!=null){
-				request.setAttribute("category", category);
-				request.setAttribute("messages", category.getMessages());
+				request.getSession(true).setAttribute("category", category);
+				request.getSession(true).setAttribute("messages", category.getMessages());
 			}
 			request.setAttribute("next_page", "jsp/category.jsp");
 		} catch (ServiceException e) {

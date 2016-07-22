@@ -25,12 +25,9 @@ public class Controller extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CommandHandler handler = CommandHandler.getInstance();
 		String commandName=request.getParameter("command").toUpperCase();
-		System.out.println(commandName);
 		Command command = handler.getCommand(commandName);
 		if(command!=null){
 			request = command.execute(request);
-		}else{
-			System.out.println("null");
 		}
 		String url = request.getAttribute("next_page").toString();
 		if(url!=null){

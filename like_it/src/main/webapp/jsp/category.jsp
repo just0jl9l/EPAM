@@ -55,16 +55,16 @@
 		</nav>
 		<section class="col-6 col-m-9">
 			<div class="category">
-				<img src="jsp/content/entertainment.png" alt="Изображение категории" class="category_image">
-				<h1 class="category_name"><c:out value="${requestScope.category.name}" /></h1>
-				<p class="category_text"><c:out value="${requestScope.category.description}" /></p>
+				<img src="${sessionScope.category.image.path}" alt="Изображение категории" class="category_image">
+				<h1 class="category_name"><c:out value="${sessionScope.category.name}" /></h1>
+				<p class="category_text"><c:out value="${sessionScope.category.description}" /></p>
 			</div>
 			<div class="messages_list">
-				<c:forEach var="item" items="${requestScope.category.messages}">
+				<c:forEach var="item" items="${sessionScope.category.messages}">
 					<a href="../like_it/message" class="message">						
-						<div class="account_information">
-							<img src="jsp/content/foto1.png" alt="фото пользователя" class="photo">							
-							<span class="user_name"><c:out value="${item.author.name}" /> || <c:out value="${item.author.surname}" /></span>
+						<div class="account_information">${item.author.photo}
+							<img src="${item.author.photo}" alt="фото пользователя" class="photo">							
+							<span class="user_name"><c:out value="${item.author.name}" /> <c:out value="${item.author.surname}" /></span>
 							<span class="user_rating">3/5</span>
 						</div>
 						<h3 class="message_name"><c:out value="${item.name}" /></h3>

@@ -53,9 +53,9 @@
 		</nav>
 		<section class="col-6 col-m-9">
 			<div class="categories_menu">
-				<c:forEach var="item" items="${requestScope.categories}">
+				<c:forEach var="item" items="${sessionScope.categories}">
 					<a href="../like_it/Controller?category_id=${item.id}&command=category" class="category">		
-						<img src="jsp/content/entertainment.png" alt="Категория Развлечения" class="category_image">
+						<img src="${item.image.path}" alt="Изображение категории" class="category_image">
 						<h2 class="category_name"><c:out value="${item.name}" /></h2>
 						<p class="category_text"><c:out value="${item.description}"/></p>
 					</a>

@@ -23,7 +23,7 @@ public class CategoriesCommand implements Command{
 		try {
 			List<Category> categories = service.getCategories();
 			if(categories!=null){
-				request.setAttribute("categories", categories);
+				request.getSession(true).setAttribute("categories", categories);
 			}
 			request.setAttribute("next_page", "jsp/categories.jsp");
 		} catch (ServiceException e) {

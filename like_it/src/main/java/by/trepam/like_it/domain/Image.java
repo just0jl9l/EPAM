@@ -1,22 +1,15 @@
 package by.trepam.like_it.domain;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 public class Image {
 
 	private int id;
 	private String path;
 	private String format;
-	private BufferedImage image;
 
 	public Image() {
 		id = 0;
-		path = "E:/!����!/��������";
-		format = "jpg";
+		path = "jsp/content/";
+		format = "png";
 	}
 
 	public Image(int int1) {
@@ -34,7 +27,7 @@ public class Image {
 	}
 
 	public String getPath() {
-		return path;
+		return path + id + '.' + format;
 	}
 
 	public void setPath(String path) {
@@ -47,11 +40,6 @@ public class Image {
 
 	public void setFormat(String format) {
 		this.format = format;
-	}
-
-	public BufferedImage getImage() throws IOException {
-		image = ImageIO.read(new File(path + '/' + id + '.' + format));
-		return image;
 	}
 
 	public boolean isEquals(Object obj) {
