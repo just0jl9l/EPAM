@@ -25,15 +25,16 @@ public class ChangePersonalAccountCommand implements Command{
 		try {
 			Object photo = request.getParameter("photo");
 			Object name = request.getParameter("name");
-			Object surname = request.getSession(true).getAttribute("surname");
+			Object surname = request.getParameter("surname");
 			Object accountId = request.getSession(true).getAttribute("account_id");
 			if(accountId!=null){
-				if(name!= null && surname!=null){
-					Account account = new Account((int) accountId);
+				if(name!= null && surname!=null && name!= "" && surname!=""){
+					Account account = new Account();
+					account.setId((int)accountId);
 					account.setName(name.toString());
 					account.setSurname(surname.toString());
 					service.updateAccount(account);
-					account = service.getAccount((Integer)accountId);
+					account = service.getAccount((int)accountId);
 					request.getSession(true).setAttribute("account", account);
 					request.getRequestDispatcher("jsp/personal_account.jsp").forward(request, response);
 				}else{

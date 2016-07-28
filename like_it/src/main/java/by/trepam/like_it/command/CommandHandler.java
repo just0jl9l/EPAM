@@ -47,7 +47,7 @@ public class CommandHandler {
 		commands.put(CommandName.GOTO_CHANGE_MESSAGE, new GotoChangeMessageCommand());
 		commands.put(CommandName.CHANGE_MESSAGE, new ChangeMessageCommand());
 		commands.put(CommandName.DELETE_MESSAGE, new DeleteMessageCommand());
-		commands.put(CommandName.GOTO_CHANGE_PERSONAL_ACCOUNT_COMMAND, new GotoChangePersonalAccountCommand());
+		commands.put(CommandName.GOTO_CHANGE_PERSONAL_ACCOUNT, new GotoChangePersonalAccountCommand());
 		commands.put(CommandName.CHANGE_PERSONAL_ACCOUNT, new ChangePersonalAccountCommand());
 	}
 	

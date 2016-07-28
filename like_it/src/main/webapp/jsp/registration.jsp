@@ -85,7 +85,7 @@
 						<input id="name" name="name" type="text">
 					</c:if>			
 					<c:if test ="${requestScope.change == 'yes'}">
-						<input id="name" name="name" type="text" value="requestScope.account.name">
+						<input id="name" name="name" type="text" value="${sessionScope.account.name}">
 					</c:if>						
 				</div>
 				<div class="line">
@@ -94,7 +94,7 @@
 						<input id="surname" name="surname" type="text">
 					</c:if>			
 					<c:if test ="${requestScope.change == 'yes'}">
-						<input id="surname" name="surname" type="text" value="requestScope.account.surname">
+						<input id="surname" name="surname" type="text" value="${sessionScope.account.surname}">
 					</c:if>	
 				</div>
 				<c:if test ="${requestScope.change != 'yes'}">

@@ -64,7 +64,7 @@
 			</div>
 		</section>
 		<footer class="col-12 col-m-12 menu">	
-			<a href="../like_it/Controller?command=goto_change_personal_account_command&account_id=${sessionScope.account.id}"  class="menu_item inline_button"><c:out value="${edit}" /></a>			
+			<a href="../like_it/Controller?command=goto_change_personal_account&account_id=${sessionScope.account.id}"  class="menu_item inline_button"><c:out value="${edit}" /></a>			
 		</footer>
 	</body>
 </html>
