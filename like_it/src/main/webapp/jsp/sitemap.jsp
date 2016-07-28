@@ -37,30 +37,21 @@
 					<h1 class="h1"><a href="../like_it" class="sitemap_item line"><c:out value="${main_page}" /></a></h1>					
 					<ul class="menu">
 						<li>
-							<h2 class="h2"><a href="../like_it/categories" class="sitemap_item line"><c:out value="${categories}" /></a></h2>	
+							<h2 class="h2"><a href="../like_it/Controller?command=categories" class="sitemap_item line"><c:out value="${categories}" /></a></h2>	
 							<ul class="menu">
-								<li>
-									<h3 class="h3"><a href="../like_it/category" class="sitemap_item line">Развлечения</a></h3>
-								</li>
-								<li>
-									<h3 class="h3"><a href="../like_it/category" class="sitemap_item line">Культура</a></h3>
-								</li>
-								<li>
-									<h3 class="h3"><a href="../like_it/category" class="sitemap_item line">Маркет</a></h3>
-								</li>
-								<li>
-									<h3 class="h3"><a href="../like_it/category" class="sitemap_item line">Образование</a></h3>
-								</li>
-								<li>
-									<h3 class="h3"><a href="../like_it/category" class="sitemap_item line">Здоровье</a></h3>
-								</li>
-								<li>
-									<h3 class="h3"><a href="../like_it/category" class="sitemap_item line">Другое</a></h3>
-								</li>	
+								<c:forEach var="item" items="${sessionScope.categories}">
+									<li>
+										<h3 class="h3">
+											<a href="../like_it/Controller?category_id=${item.id}&command=category" class="category">
+												<c:out value="${item.name}" />
+											</a>
+										</h3>
+									</li>
+								</c:forEach>	
 							</ul>				
 						</li>
 						<li>
-							<h2 class="h2"><a href="../like_it/personal_account" class="sitemap_item line"><c:out value="${personal_account}" /></a></h2>
+							<h2 class="h2"><a href="../like_it/Controller?command=personal_account" class="sitemap_item line"><c:out value="${personal_account}" /></a></h2>
 						</li>	
 					</ul>	
 				</li>

@@ -2,14 +2,14 @@ package by.trepam.like_it.dao.factory;
 
 import java.sql.Connection;
 
-import by.trepam.like_it.connection_pool.ConnectionPool;
-import by.trepam.like_it.connection_pool.exception.ConnectionPoolException;
 import by.trepam.like_it.dao.AccountDAO;
 import by.trepam.like_it.dao.AnswerDAO;
 import by.trepam.like_it.dao.CategoryDAO;
 import by.trepam.like_it.dao.ImageDAO;
 import by.trepam.like_it.dao.MarkDAO;
 import by.trepam.like_it.dao.MessageDAO;
+import by.trepam.like_it.dao.connection_pool.ConnectionPool;
+import by.trepam.like_it.dao.connection_pool.exception.ConnectionPoolException;
 import by.trepam.like_it.dao.exception.DAOException;
 import by.trepam.like_it.dao.impl.PostgresqlAccountDAO;
 import by.trepam.like_it.dao.impl.PostgresqlAnswerDAO;
@@ -29,7 +29,9 @@ public class PostgresqlDAOFactory implements DAOFactory{
 	private MarkDAO markDAO = new PostgresqlMarkDAO();
 	private MessageDAO messageDAO = new PostgresqlMessageDAO();
 	
-	static{
+	private PostgresqlDAOFactory(){}
+	
+	public static void init(){
 		try {
 			connectionPool.init();
 		} catch (ConnectionPoolException e) {
@@ -41,11 +43,23 @@ public class PostgresqlDAOFactory implements DAOFactory{
 		}
 	}
 	
+	public static void destroy(){
+		try {
+			connectionPool.close();
+		} catch (ConnectionPoolException e) {
+			try {
+				connectionPool.close();
+			} catch (ConnectionPoolException e1) {
+				throw new Error("ConnectionPool was't initialized");
+			}			
+		}
+	}
+	
 	public static PostgresqlDAOFactory getInstance(){
 		return factory;
 	}
 		
-	public static Connection createConnection() throws DAOException{ 
+	public static Connection getConnection() throws DAOException{ 
 		Connection connection;
 		try {
 			connection = connectionPool.getConnection();

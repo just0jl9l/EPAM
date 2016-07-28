@@ -18,7 +18,7 @@ public class PostgresqlMarkDAO implements MarkDAO{
 
 	public void insert(Mark mark,int answerID)  throws DAOException {
 		String sql = QueryConstants.INSERT_MARK;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
 			stm.setInt(2, mark.getAuthor().getId());
@@ -32,10 +32,10 @@ public class PostgresqlMarkDAO implements MarkDAO{
 
 	public void delete(int authorID,int answerID)  throws DAOException {
 		String sql = QueryConstants.DELETE_MARK;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, authorID);
-			stm.setInt(2, answerID);
+			stm.setInt(1, answerID);
+			stm.setInt(2, authorID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -47,7 +47,7 @@ public class PostgresqlMarkDAO implements MarkDAO{
 		String sql = QueryConstants.GET_ALL_MARKS_OF_ANSWER;
 		List<Mark> marks = new ArrayList<Mark>();
 		Mark mark = null;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
 			ResultSet rs = stm.executeQuery();
@@ -66,7 +66,7 @@ public class PostgresqlMarkDAO implements MarkDAO{
 
 	public void update(Mark mark,int answerID) throws DAOException {
 		String sql = QueryConstants.UPDATE_MARK;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, mark.getValue());
 			stm.setTimestamp(2, new Timestamp(mark.getDateOfVoting().getTime()));

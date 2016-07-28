@@ -17,6 +17,7 @@
 		<fmt:message bundle="${loc}" key="local.label.sign_up" var="sign_up" />
 		<fmt:message bundle="${loc}" key="local.label.login" var="login" />
 		<fmt:message bundle="${loc}" key="local.label.password" var="password" />
+		<fmt:message bundle="${loc}" key="local.error.login_and_password_error" var="error" />
 	</head>
 	<body>
 		<section class="logination">			
@@ -32,8 +33,10 @@
 			</form>
 			<h1 class="right"><img alt= "Логотип" class="logo_image" src="jsp/content/like_it.png"></h1>
 			<form action="Controller" method="post">
-				<input type="hidden" name="command" value="login" /> 			
-				<span class="input_error" id="log_in_error"></span>
+				<input type="hidden" name="command" value="login" /> 
+				<c:if test ="${requestScope.error_message == 'yes'}">
+					<span class="input_error" id="log_in_error"><c:out value="${error}" /></span>
+				</c:if>
 				<div class="line">
 					<label class="input_label" for="login"><c:out value="${login}" /></label>
 					<input id="login" name="login" type="text">
@@ -44,7 +47,7 @@
 				</div>
 				<input class="menu_item inline_button" type="submit" value="${log_in}">
 			</form>
-			<a href="registration" class="link"><c:out value="${sign_up}" /></a>		
+			<a href="../like_it/registration" class="link"><c:out value="${sign_up}" /></a>		
 		</section>
 	</body>
 </html>

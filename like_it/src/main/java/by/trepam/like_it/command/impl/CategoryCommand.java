@@ -1,6 +1,10 @@
 package by.trepam.like_it.command.impl;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,21 +19,20 @@ public class CategoryCommand implements Command{
 	
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
-	public HttpServletRequest execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();
 		Service service = factory.getService();
 		try {
-			Category category = service.getCategory(new Integer(request.getParameter("category_id")));
+			Category category = service.getCategory(new Integer(request.getParameter("category_id")),request.getSession(true).getAttribute("local"));
 			if(category!=null){
 				request.getSession(true).setAttribute("category", category);
 				request.getSession(true).setAttribute("messages", category.getMessages());
 			}
-			request.setAttribute("next_page", "jsp/category.jsp");
+			request.getRequestDispatcher("jsp/category.jsp").forward(request, response);
 		} catch (ServiceException e) {
-			request.setAttribute("next_page", "jsp/like_it.jsp");
-			logger.error("ServiceException occurred during getting categories");
+			logger.error("ServiceException occurred during getting category",e);
+			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
-		return request;
 	}
 
 }

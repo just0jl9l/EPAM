@@ -1,7 +1,12 @@
 package by.trepam.like_it.domain;
 
-public class Account {
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
+public class Account implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String login;
 	private String password;
@@ -76,7 +81,7 @@ public class Account {
 	}
 
 	public void setRating(double rating) {
-		this.rating = rating;
+		this.rating = BigDecimal.valueOf(rating).setScale(3, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public String getPassword() {
@@ -93,51 +98,6 @@ public class Account {
 
 	public void setLogin(String login) {
 		this.login = login;
-	}
-
-	public boolean isEquals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (null == obj) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Account acc = (Account) obj;
-		if (this.id != acc.getId()) {
-			return false;
-		}
-		if (null == this.name) {
-			return this.name == acc.getName();
-		} else {
-			if (!this.name.equals(acc.getName())) {
-				return false;
-			}
-		}
-		if (null == this.surname) {
-			return this.surname == acc.getSurname();
-		} else {
-			if (!this.surname.equals(acc.getSurname())) {
-				return false;
-			}
-		}
-		if (null == this.status) {
-			return this.status == acc.getStatus();
-		} else {
-			if (!this.status.equals(acc.getStatus())) {
-				return false;
-			}
-		}
-		if (null == this.photo) {
-			return this.photo == acc.getPhoto();
-		} else {
-			if (!this.photo.isEquals(acc.getPhoto())) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 }

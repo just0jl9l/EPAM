@@ -1,7 +1,10 @@
 package by.trepam.like_it.domain;
 
-public class Image {
+import java.io.Serializable;
 
+public class Image implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String path;
 	private String format;
@@ -41,22 +44,4 @@ public class Image {
 	public void setFormat(String format) {
 		this.format = format;
 	}
-
-	public boolean isEquals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (null == obj) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Image image = (Image) obj;
-		if (this.id != image.getId()) {
-			return false;
-		}
-		return true;
-	}
-
 }

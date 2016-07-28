@@ -16,6 +16,7 @@
 		<fmt:message bundle="${loc}" key="local.label.account_data" var="account_data" />
 		<fmt:message bundle="${loc}" key="local.label.login" var="login" />
 		<fmt:message bundle="${loc}" key="local.label.status" var="status" />
+		<fmt:message bundle="${loc}" key="local.label.rating" var="rating" />
 		<fmt:message bundle="${loc}" key="local.label.name" var="name" />
 		<fmt:message bundle="${loc}" key="local.label.surname" var="surname" />
 		<fmt:message bundle="${loc}" key="local.label.edit" var="edit" />
@@ -35,7 +36,7 @@
 			</form>
 		</header>
 		<figure class="col-4 col-m-12 center">
-			<p><img src="jsp/content/foto.png" alt="фотография пользователя" class="big_photo"></p>
+			<p><img src="${sessionScope.account.photo.path}" alt="фотография пользователя" class="big_photo"></p>
 		</figure>				
 		<section class="col-6 col-m-12">
 			<div class="line">
@@ -43,23 +44,27 @@
 			</div>
 			<div class="line">
 				<c:out value="${login}" />
-				<span class="account_data">newclient</span>
+				<span class="account_data"><c:out value="${sessionScope.account.login}" /></span>
 			</div>
 			<div class="line">
 				<span><c:out value="${status}" /></span>
-				<span class="account_data">client</span>
+				<span class="account_data"><c:out value="${sessionScope.account.status}" /></span>
 			</div>
 			<div class="line">
 				<c:out value="${name}" />
-				<span class="account_data">Павел</span>
+				<span class="account_data"><c:out value="${sessionScope.account.name}" /></span>
 			</div>
 			<div class="line">
 				<c:out value="${surname}" />
-				<span class="account_data">Павлов</span>
+				<span class="account_data"><c:out value="${sessionScope.account.surname}" /></span>
+			</div>
+			<div class="line">
+				<c:out value="${rating}" />
+				<span class="account_data"><c:out value="${sessionScope.account.rating}" /></span>
 			</div>
 		</section>
 		<footer class="col-12 col-m-12 menu">	
-			<a href="../like_it/registration"  class="menu_item inline_button"><c:out value="${edit}" /></a>			
+			<a href="../like_it/Controller?command=goto_change_personal_account_command&account_id=${sessionScope.account.id}"  class="menu_item inline_button"><c:out value="${edit}" /></a>			
 		</footer>
 	</body>
 </html>

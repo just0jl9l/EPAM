@@ -1,11 +1,16 @@
 package by.trepam.like_it.domain;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Message {
+import by.trepam.like_it.domain.util.AnswersDateOfPostingComparator;
 
+public class Message implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private String text;
@@ -70,7 +75,12 @@ public class Message {
 		this.dateOfPosting = dateOfPosting;
 	}
 
+	public String getFormatedDateOfPosting() {
+		return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(dateOfPosting);
+	}
+
 	public List<Answer> getAnswers() {
+		answers.sort(new AnswersDateOfPostingComparator());
 		return answers;
 	}
 
@@ -80,50 +90,5 @@ public class Message {
 
 	public void addAnswer(Answer answer) {
 		this.answers.add(answer);
-	}
-
-	public boolean isEquals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (null == obj) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Message message = (Message) obj;
-		if (this.id != message.getId()) {
-			return false;
-		}
-		if (null == this.author) {
-			return this.author == message.getAuthor();
-		} else {
-			if (!this.author.isEquals(message.getAuthor())) {
-				return false;
-			}
-		}
-		if (null == this.name) {
-			return this.name == message.getName();
-		} else {
-			if (!this.name.equals(message.getName())) {
-				return false;
-			}
-		}
-		if (null == this.text) {
-			return this.text == message.getText();
-		} else {
-			if (!this.text.equals(message.getText())) {
-				return false;
-			}
-		}
-		if (null == this.dateOfPosting) {
-			return this.dateOfPosting == message.getDateOfPosting();
-		} else {
-			if (!this.dateOfPosting.equals(message.getDateOfPosting())) {
-				return false;
-			}
-		}
-		return true;
 	}
 }

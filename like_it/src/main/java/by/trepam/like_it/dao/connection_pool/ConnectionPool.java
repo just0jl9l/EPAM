@@ -1,4 +1,4 @@
-package by.trepam.like_it.connection_pool;
+package by.trepam.like_it.dao.connection_pool;
 
 import java.sql.Array;
 import java.sql.Blob;
@@ -24,9 +24,9 @@ import java.util.concurrent.Executor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.trepam.like_it.connection_pool.exception.ConnectionPoolException;
-import by.trepam.like_it.connection_pool.util.DBConnectionProperty;
-import by.trepam.like_it.connection_pool.util.PropertiesConstant;
+import by.trepam.like_it.dao.connection_pool.exception.ConnectionPoolException;
+import by.trepam.like_it.dao.connection_pool.util.DBConnectionProperty;
+import by.trepam.like_it.dao.connection_pool.util.PropertiesConstant;
 
 public class ConnectionPool {
 

@@ -1,11 +1,16 @@
 package by.trepam.like_it.domain;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Answer {
+public class Answer implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String text;
 	private Date dateOfPosting;
@@ -48,6 +53,10 @@ public class Answer {
 		return dateOfPosting;
 	}
 
+	public String getFormatedDateOfPosting() {
+		return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(dateOfPosting);
+	}
+
 	public void setDateOfPosting(Date dateOfPosting) {
 		this.dateOfPosting = dateOfPosting;
 	}
@@ -77,44 +86,6 @@ public class Answer {
 	}
 
 	public void setRating(double rating) {
-		this.rating = rating;
-	}
-
-	public boolean isEquals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (null == obj) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Answer ans = (Answer) obj;
-		if (this.id != ans.getId()) {
-			return false;
-		}
-		if (null == this.author) {
-			return this.author == ans.getAuthor();
-		} else {
-			if (!this.author.isEquals(ans.getAuthor())) {
-				return false;
-			}
-		}
-		if (null == this.text) {
-			return this.text == ans.getText();
-		} else {
-			if (!this.text.equals(ans.getText())) {
-				return false;
-			}
-		}
-		if (null == this.dateOfPosting) {
-			return this.dateOfPosting == ans.getDateOfPosting();
-		} else {
-			if (!this.dateOfPosting.equals(ans.getDateOfPosting())) {
-				return false;
-			}
-		}
-		return true;
+		this.rating = BigDecimal.valueOf(rating).setScale(3, RoundingMode.HALF_UP).doubleValue();
 	}
 }

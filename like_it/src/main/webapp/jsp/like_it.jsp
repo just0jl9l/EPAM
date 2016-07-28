@@ -48,16 +48,13 @@
 					<a href="../like_it" class="small_button menu_item"><c:out value="${main_page}" /></a>
 				</li>
 				<li>
-					<form action="Controller" method="post">
-						<input type="hidden" name="command" value="categories" />
-						<input type="submit" class="small_button menu_item block" value="${categories}" />
-					</form>
+					<a href="../like_it/Controller?command=categories" class="small_button menu_item"><c:out value="${categories}" /></a>
 				</li>
 				<li>
-					<a href="../like_it/personal_account" class="small_button menu_item"><c:out value="${personal_account}" /></a>
+					<a href="../like_it/Controller?command=personal_account" class="small_button menu_item"><c:out value="${personal_account}" /></a>
 				</li>
 				<li>
-					<a href="../like_it/sitemap" class="small_button menu_item"><c:out value="${sitemap}" /></a>
+					<a href="../like_it/Controller?command=sitemap" class="small_button menu_item"><c:out value="${sitemap}" /></a>
 				</li>
 			</ul>			
 		</nav>

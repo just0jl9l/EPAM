@@ -1,4 +1,4 @@
-package by.trepam.like_it.connection_pool.exception;
+package by.trepam.like_it.dao.connection_pool.exception;
 
 public class ConnectionPoolException extends Exception{
 	private static final long serialVersionUID = 1L;

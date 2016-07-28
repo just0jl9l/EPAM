@@ -18,7 +18,7 @@ public class PostgresqlMessageDAO implements MessageDAO{
 
 	public void insert(Message message,int categoryID)  throws DAOException {
 		String sql = QueryConstants.INSERT_MESSAGE;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, message.getName());
 			stm.setString(2, message.getText());
@@ -33,7 +33,7 @@ public class PostgresqlMessageDAO implements MessageDAO{
 
 	public void delete(int messageID) throws DAOException {
 		String sql = QueryConstants.DELETE_MESSAGE_BY_ID;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			stm.executeUpdate();
@@ -46,7 +46,7 @@ public class PostgresqlMessageDAO implements MessageDAO{
 	public Message getMessage(int messageID)  throws DAOException {
 		String sql = QueryConstants.GET_MESSAGE_BY_ID;
 		Message message = null;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			ResultSet rs = stm.executeQuery();
@@ -68,7 +68,7 @@ public class PostgresqlMessageDAO implements MessageDAO{
 		String sql = QueryConstants.GET_ALL_MESSAGES_OF_CATEGORY;
 		List<Message> messages = new ArrayList<Message>();
 		Message message = null;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, categoryID);
 			ResultSet rs = stm.executeQuery();
@@ -87,16 +87,13 @@ public class PostgresqlMessageDAO implements MessageDAO{
 		}
 	}
 
-	public void update(Message message,int categoryID) throws DAOException {
+	public void update(Message message) throws DAOException {
 		String sql = QueryConstants.UPDATE_MESSAGE;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, message.getName());
 			stm.setString(2, message.getText());
-			stm.setInt(3, message.getAuthor().getId());
-			stm.setTimestamp(4, new Timestamp(message.getDateOfPosting().getTime()));
-			stm.setInt(5, categoryID);
-			stm.setInt(6, message.getId());
+			stm.setInt(3, message.getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);

@@ -11,5 +11,5 @@ public interface MessageDAO {
 	void delete(int messageID) throws DAOException;
 	Message getMessage(int messageID) throws DAOException;
 	List<Message> getAllMessagesOfCategory(int categoryID) throws DAOException;
-	void update(Message message,int categoryID) throws DAOException;
+	void update(Message message) throws DAOException;
 }

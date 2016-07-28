@@ -14,7 +14,7 @@ public class PostgresqlImageDAO implements ImageDAO{
 
 	public void insert(Image image)  throws DAOException {
 		String sql = QueryConstants.INSERT_IMAGE;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, image.getFormat());
 			stm.setString(2, image.getPath());
@@ -26,7 +26,7 @@ public class PostgresqlImageDAO implements ImageDAO{
 
 	public void delete(int imageID)  throws DAOException {
 		String sql = QueryConstants.DELETE_IMAGE_BY_ID;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, imageID);
 			stm.executeUpdate();
@@ -39,7 +39,7 @@ public class PostgresqlImageDAO implements ImageDAO{
 	public Image getImage(int imageID) throws DAOException {
 		String sql = QueryConstants.GET_IMAGE_BY_ID;
 		Image image = null;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, imageID);
 			ResultSet rs = stm.executeQuery();
@@ -57,7 +57,7 @@ public class PostgresqlImageDAO implements ImageDAO{
 
 	public void update(Image image) throws DAOException {
 		String sql = QueryConstants.UPDATE_IMAGE;
-		try (Connection connection = PostgresqlDAOFactory.createConnection();
+		try (Connection connection = PostgresqlDAOFactory.getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, image.getPath());
 			stm.setString(2, image.getFormat());

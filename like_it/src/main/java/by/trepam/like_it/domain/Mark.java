@@ -1,9 +1,11 @@
 package by.trepam.like_it.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Mark {
+public class Mark implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int value;
 	private Account author;
 	private Date dateOfVoting;
@@ -42,36 +44,5 @@ public class Mark {
 
 	public void setValue(int value) {
 		this.value = value;
-	}
-
-	public boolean isEquals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (null == obj) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Mark mark = (Mark) obj;
-		if (this.value != mark.getValue()) {
-			return false;
-		}
-		if (null == this.author) {
-			return this.author == mark.getAuthor();
-		} else {
-			if (!this.author.isEquals(mark.getAuthor())) {
-				return false;
-			}
-		}
-		if (null == this.dateOfVoting) {
-			return this.dateOfVoting == mark.getDateOfVoting();
-		} else {
-			if (!this.dateOfVoting.equals(mark.getDateOfVoting())) {
-				return false;
-			}
-		}
-		return true;
 	}
 }

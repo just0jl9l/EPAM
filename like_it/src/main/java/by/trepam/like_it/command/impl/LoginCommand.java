@@ -1,6 +1,10 @@
 package by.trepam.like_it.command.impl;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,21 +19,24 @@ public class LoginCommand implements Command{
 	
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
-	public HttpServletRequest execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();
 		Service service = factory.getService();
 		try {
 			Account account = service.logIn(request.getParameter("login"),request.getParameter("password"));
 			if(account!=null){
+				request.getSession(true).setAttribute("error_message", null);
 				request.getSession(true).setAttribute("account_id", account.getId());
 				request.getSession(true).setAttribute("status", account.getStatus());
-				request.setAttribute("next_page", "jsp/like_it.jsp");
+				request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			}else{
+				request.setAttribute("error_message", "yes");
+				request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
 			}
 		} catch (ServiceException e) {
-			request.setAttribute("next_page", "jsp/login.jsp");
 			logger.error("ServiceException occurred during logination",e);
+			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
-		return request;
 	}
 
 }

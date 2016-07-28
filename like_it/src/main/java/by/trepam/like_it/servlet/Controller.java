@@ -10,29 +10,27 @@ import javax.servlet.http.HttpServletResponse;
 import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.CommandHandler;
 
-
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public Controller() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request,response);
+	public Controller() {
+		super();
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		CommandHandler handler = CommandHandler.getInstance();
-		String commandName=request.getParameter("command").toUpperCase();
+		String commandName = request.getParameter("command").toUpperCase();
 		Command command = handler.getCommand(commandName);
-		if(command!=null){
-			request = command.execute(request);
-		}
-		String url = request.getAttribute("next_page").toString();
-		if(url!=null){
-			request.getRequestDispatcher(url).forward(request, response);
-		}else{
+		if (command != null) {
+			command.execute(request, response);
+		} else {
 			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
 	}

@@ -1,4 +1,4 @@
-package by.trepam.like_it.connection_pool.util;
+package by.trepam.like_it.dao.connection_pool.util;
 
 public class PropertiesConstant {
 

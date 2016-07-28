@@ -41,120 +41,86 @@
 		<nav class="col-3 col-m-3">
 			<ul class="menu">
 				<li>
-					<a href="../like_it" class="small_button menu_item">${main_page}</a>
+					<a href="../like_it" class="small_button menu_item"><c:out value="${main_page}" /></a>
 				</li>
 				<li>
-					<a href="../like_it/categories" class="small_button menu_item">${categories}</a>
+					<a href="../like_it/Controller?command=categories" class="small_button menu_item"><c:out value="${categories}" /></a>
 				</li>
 				<li>
-					<a href="../like_it/personal_account" class="small_button menu_item">${personal_account}</a>
+					<a href="../like_it/Controller?command=personal_account" class="small_button menu_item"><c:out value="${personal_account}" /></a>
 				</li>
 				<li>
-					<a href="../like_it/sitemap" class="small_button menu_item">${sitemap}</a>
+					<a href="../like_it/Controller?command=sitemap" class="small_button menu_item"><c:out value="${sitemap}" /></a>
 				</li>
 			</ul>			
 		</nav>
 		<section class="col-6 col-m-9">
 			<div class="message">
 				<div class="account_information">
-					<img src="jsp/content/foto1.png" alt="фото пользователя" class="photo">							
-					<span class="user_name">Егор Егоров</span>
-					<span class="user_rating">3/5</span>
+					<img src="${sessionScope.message.author.photo.path}" alt="фото пользователя" class="photo">							
+					<span class="user_name"><c:out value="${sessionScope.message.author.name}" /> <c:out value="${sessionScope.message.author.surname}" /></span>
+					<span class="user_rating"><c:out value="${sessionScope.message.author.rating}" />/5</span>
 				</div>
-				<h1 class="big_message_name">Путешествие</h1>
+				<h1 class="big_message_name"><c:out value="${sessionScope.message.name}" /></h1>
 				<a href="../like_it/category">
-					<span class="small_category_name">Развлечения</span>		
+					<span class="small_category_name"><c:out value="${sessionScope.category.name}" /></span>		
 				</a>
-				<p class="text">Здравствуйте! Хочу посмотреть Беларусь, подскажите, с чего начать</p>
-				<div class="date">2016-06-12 14:20:45</div>							
+				<p class="text"><c:out value="${sessionScope.message.text}" /></p>
+				<div class="date"><c:out value="${sessionScope.message.formatedDateOfPosting}" /></div>							
 			</div>
 			<div class="answer_list">
-				<div class="answer">
-					<div class="account_information">
-						<img src="jsp/content/anonim.jpg" alt="фото пользователя" class="photo">							
-						<span class="user_name">Иван Иванов</span>
-						<span class="user_rating">1/5</span>
+				<c:forEach var="item" items="${sessionScope.message.answers}">
+					<div class="answer">						
+						<div class="account_information">
+							<img src="${item.author.photo.path}" alt="фото пользователя" class="photo">							
+							<span class="user_name"><c:out value="${item.author.name}" /> <c:out value="${item.author.surname}" /></span>
+							<span class="user_rating"><c:out value="${item.author.rating}" />/5</span>
+						</div>
+						<p class="text"><c:out value="${item.text}" /></p>
+						<div class="mark_line"> 	
+							<span class="input_error" id="log_in_error"><c:out value="${requestScope.error_message}" /></span>				
+							<span><c:out value="${rate}" /></span>
+							<form class="language-form" action="Controller" method="post">
+								<input type="hidden" name="command" value="rate" /> 
+								<input type="hidden" name="answer" value="${item.id}" />
+								<input type="hidden" name="mark" value="-1" /> 
+								<input type="submit" class="mark_button" value="-1" />
+							</form>
+							<form class="language-form" action="Controller" method="post">
+								<input type="hidden" name="command" value="rate" /> 
+								<input type="hidden" name="answer" value="${item.id}" />
+								<input type="hidden" name="mark" value="1" /> 
+								<input type="submit" class="mark_button" value="1" />
+							</form>
+							<form class="language-form" action="Controller" method="post">
+								<input type="hidden" name="command" value="rate" /> 
+								<input type="hidden" name="answer" value="${item.id}" />
+								<input type="hidden" name="mark" value="2" /> 
+								<input type="submit" class="mark_button" value="2" />
+							</form>
+							<form class="language-form" action="Controller" method="post">
+								<input type="hidden" name="command" value="rate" /> 
+								<input type="hidden" name="answer" value="${item.id}" />
+								<input type="hidden" name="mark" value="3" /> 
+								<input type="submit" class="mark_button" value="3" />
+							</form>
+							<form class="language-form" action="Controller" method="post">
+								<input type="hidden" name="command" value="rate" /> 
+								<input type="hidden" name="answer" value="${item.id}" />
+								<input type="hidden" name="mark" value="4" /> 
+								<input type="submit" class="mark_button" value="4" />
+							</form>
+							<form class="language-form" action="Controller" method="post">
+								<input type="hidden" name="command" value="rate" /> 
+								<input type="hidden" name="answer" value="${item.id}" />
+								<input type="hidden" name="mark" value="5" /> 
+								<input type="submit" class="mark_button" value="5" />
+							</form>
+						</div>								
+						<div class="answer_rating"><c:out value="${item.rating}" />/5</div>		
+						<div class="date"><c:out value="${item.formatedDateOfPosting}" /></div>	
 					</div>
-					<p class="text">Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ. Плохой ответ.</p>	
-					<div class="mark_line"> 					
-						<span><c:out value="${rate}" /></span>
-						<form class="language-form">
-						<input type="hidden" name="person" value="login" />
-							<input type="hidden" name="mark" value="-1" /> 
-							<input type="submit" class="mark_button" value="-1" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="login" />
-							<input type="hidden" name="mark" value="1" /> 
-							<input type="submit" class="mark_button" value="1" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="login" />
-							<input type="hidden" name="mark" value="2" /> 
-							<input type="submit" class="mark_button" value="2" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="login" />
-							<input type="hidden" name="mark" value="3" /> 
-							<input type="submit" class="mark_button" value="3" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="login" />
-							<input type="hidden" name="mark" value="4" /> 
-							<input type="submit" class="mark_button" value="4" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="login" />
-							<input type="hidden" name="mark" value="5" /> 
-							<input type="submit" class="mark_button" value="5" />
-						</form>
-					</div>															
-					<div class="answer_rating">0/5</div>
-					<div class="date">2016-06-19 19:32:00</div>
-				</div>
-				<div class="answer">
-					<div class="account_information">
-						<img src="jsp/content/anonim.jpg" alt="фото пользователя" class="photo">					
-						<span class="user_name">Пётр Петров</span>
-						<span class="user_rating">4/5</span>
-					</div>
-					<p class="text">Хороший ответ. Хороший ответ. Хороший ответ. Хороший ответ. Хороший ответ. Хороший ответ. Хороший ответ.</p>			
-					<div class="mark_line"> 					
-						<span><c:out value="${rate}" /></span>
-						<form class="language-form">
-						<input type="hidden" name="person" value="log1" />
-							<input type="hidden" name="mark" value="-1" /> 
-							<input type="submit" class="mark_button" value="-1" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="log1" />
-							<input type="hidden" name="mark" value="1" /> 
-							<input type="submit" class="mark_button" value="1" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="log1" />
-							<input type="hidden" name="mark" value="2" /> 
-							<input type="submit" class="mark_button" value="2" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="log1" />
-							<input type="hidden" name="mark" value="3" /> 
-							<input type="submit" class="mark_button" value="3" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="log1" />
-							<input type="hidden" name="mark" value="4" /> 
-							<input type="submit" class="mark_button" value="4" />
-						</form>
-						<form class="language-form">
-						<input type="hidden" name="person" value="log1" />
-							<input type="hidden" name="mark" value="5" /> 
-							<input type="submit" class="mark_button" value="5" />
-						</form>
-					</div>											
-					<div class="answer_rating">3/5</div>
-					<div class="date">2016-06-24 07:55:23</div>
-				</div>
+				</c:forEach>
 			</div>
 		</section>
 		<aside class="col-3 col-m-12">	
@@ -184,12 +150,22 @@
 				</li>				
 				<li>
 					<c:if test ="${sessionScope.status == 'admin'}">
-						<a href="../like_it/add_message" class="small_button menu_item"><c:out value="${change_message}" /></a>
+						<a href="../like_it/Controller?command=goto_change_message" class="small_button menu_item"><c:out value="${change_message}" /></a>
+					</c:if>
+				</li>				
+				<li>
+					<c:if test ="${sessionScope.account_id == sessionScope.message.author.id}">
+						<a href="../like_it/Controller?command=goto_change_message" class="small_button menu_item"><c:out value="${change_message}" /></a>
 					</c:if>
 				</li>			
 				<li>
 					<c:if test ="${sessionScope.status == 'admin'}">	
-						<a href="../like_it/category" class="small_button menu_item"><c:out value="${delete_message}" /></a>
+						<a href="../like_it/Controller?command=delete_message&message_id=${sessionScope.message.id}" class="small_button menu_item"><c:out value="${delete_message}" /></a>
+					</c:if>	
+				</li>			
+				<li>
+					<c:if test ="${sessionScope.account_id == sessionScope.message.author.id}">	
+						<a href="../like_it/Controller?command=delete_message&message_id=${sessionScope.message.id}" class="small_button menu_item"><c:out value="${delete_message}" /></a>
 					</c:if>	
 				</li>	
 				<li>

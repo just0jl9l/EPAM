@@ -43,13 +43,13 @@
 					<a href="../like_it" class="small_button menu_item"><c:out value="${main_page}" /></a>
 				</li>
 				<li>
-					<a href="../like_it/categories" class="small_button menu_item"><c:out value="${categories}" /></a>
+					<a href="../like_it/Controller?command=categories" class="small_button menu_item"><c:out value="${categories}" /></a>
 				</li>
 				<li>
-					<a href="../like_it/personal_account" class="small_button menu_item"><c:out value="${personal_account}" /></a>
+					<a href="../like_it/Controller?command=personal_account" class="small_button menu_item"><c:out value="${personal_account}" /></a>
 				</li>
 				<li>
-					<a href="../like_it/sitemap" class="small_button menu_item"><c:out value="${sitemap}" /></a>
+					<a href="../like_it/Controller?command=sitemap" class="small_button menu_item"><c:out value="${sitemap}" /></a>
 				</li>
 			</ul>			
 		</nav>
@@ -61,15 +61,15 @@
 			</div>
 			<div class="messages_list">
 				<c:forEach var="item" items="${sessionScope.category.messages}">
-					<a href="../like_it/message" class="message">						
-						<div class="account_information">${item.author.photo}
-							<img src="${item.author.photo}" alt="фото пользователя" class="photo">							
+					<a href="../like_it/Controller?message_id=${item.id}&command=message" class="message">						
+						<div class="account_information">
+							<img src="${item.author.photo.path}" alt="фото пользователя" class="photo">							
 							<span class="user_name"><c:out value="${item.author.name}" /> <c:out value="${item.author.surname}" /></span>
-							<span class="user_rating">3/5</span>
+							<span class="user_rating"><c:out value="${item.author.rating}" />/5</span>
 						</div>
 						<h3 class="message_name"><c:out value="${item.name}" /></h3>
 						<p class="text"><c:out value="${item.text}" /></p>
-						<div class="date"><c:out value="${item.dateOfPosting}" /></div>	
+						<div class="date"><c:out value="${item.formatedDateOfPosting}" /></div>	
 					</a>
 				</c:forEach>
 			</div>
@@ -101,12 +101,12 @@
 				</li>					
 				<li>
 					<c:if test ="${sessionScope.status == 'admin'}">
-						<a href="../like_it/add_category" class="small_button menu_item"><c:out value="${change_category}" /></a>
+						<a href="../like_it/Controller?command=goto_change_category" class="small_button menu_item"><c:out value="${change_category}" /></a>
 					</c:if>
 				</li>			
 				<li>
 					<c:if test ="${sessionScope.status == 'admin'}">
-						<a href="../like_it/categories" class="small_button menu_item"><c:out value="${delete_category}" /></a>
+						<a href="../like_it/Controller?command=delete_category&category_id=${sessionScope.category.id}" class="small_button menu_item"><c:out value="${delete_category}" /></a>
 					</c:if>
 				</li>
 				<li>

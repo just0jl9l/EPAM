@@ -1,8 +1,11 @@
 package by.trepam.like_it.command.impl;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,20 +20,19 @@ public class CategoriesCommand implements Command{
 	
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
-	public HttpServletRequest execute(HttpServletRequest request) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();
 		Service service = factory.getService();
 		try {
-			List<Category> categories = service.getCategories();
+			List<Category> categories = service.getCategories(request.getSession(true).getAttribute("local"));
 			if(categories!=null){
 				request.getSession(true).setAttribute("categories", categories);
 			}
-			request.setAttribute("next_page", "jsp/categories.jsp");
+			request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
 		} catch (ServiceException e) {
-			request.setAttribute("next_page", "jsp/like_it.jsp");
-			logger.error("ServiceException occurred during getting categories");
+			logger.error("ServiceException occurred during getting categories",e);
+			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
-		return request;
 	}
 
 }

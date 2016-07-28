@@ -1,10 +1,14 @@
 package by.trepam.like_it.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+import by.trepam.like_it.domain.util.MessagesDateOfPostingComparator;
 
+public class Category implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private String description;
@@ -51,6 +55,7 @@ public class Category {
 	}
 
 	public List<Message> getMessages() {
+		messages.sort(new MessagesDateOfPostingComparator());
 		return messages;
 	}
 
@@ -68,43 +73,5 @@ public class Category {
 
 	public void setImage(Image image) {
 		this.image = image;
-	}
-
-	public boolean isEquals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (null == obj) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Category category = (Category) obj;
-		if (this.id != category.getId()) {
-			return false;
-		}
-		if (null == this.name) {
-			return this.name == category.getName();
-		} else {
-			if (!this.name.equals(category.getName())) {
-				return false;
-			}
-		}
-		if (null == this.description) {
-			return this.description == category.getDescription();
-		} else {
-			if (!this.description.equals(category.getDescription())) {
-				return false;
-			}
-		}
-		if (null == this.image) {
-			return this.image == category.getImage();
-		} else {
-			if (!this.image.isEquals(category.getImage())) {
-				return false;
-			}
-		}
-		return true;
 	}
 }
