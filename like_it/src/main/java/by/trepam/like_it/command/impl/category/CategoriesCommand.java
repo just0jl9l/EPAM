@@ -1,4 +1,4 @@
-package by.trepam.like_it.command.impl;
+package by.trepam.like_it.command.impl.category;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,25 +12,25 @@ import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
 import by.trepam.like_it.domain.Category;
-import by.trepam.like_it.service.Service;
+import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
 import by.trepam.like_it.service.factory.ServiceFactory;
 
-public class CategoriesCommand implements Command{
-	
+public class CategoriesCommand implements Command {
+
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();
-		Service service = factory.getService();
+		CategoryService service = factory.getCategoryService();
 		try {
 			List<Category> categories = service.getCategories(request.getSession(true).getAttribute("local"));
-			if(categories!=null){
+			if (categories != null) {
 				request.getSession(true).setAttribute("categories", categories);
 			}
 			request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
 		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during getting categories",e);
+			logger.error("ServiceException occurred during getting categories", e);
 			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
 	}

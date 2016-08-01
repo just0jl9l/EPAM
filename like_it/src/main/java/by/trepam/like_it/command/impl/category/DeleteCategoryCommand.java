@@ -1,6 +1,7 @@
-package by.trepam.like_it.command.impl;
+package by.trepam.like_it.command.impl.category;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,27 +11,30 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
-import by.trepam.like_it.domain.Message;
-import by.trepam.like_it.service.Service;
+import by.trepam.like_it.domain.Category;
+import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
 import by.trepam.like_it.service.factory.ServiceFactory;
 
-public class MessageCommand implements Command{
-	
+public class DeleteCategoryCommand implements Command {
+
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();
-		Service service = factory.getService();
+		CategoryService service = factory.getCategoryService();
 		try {
-			Message message = service.getMessage(new Integer(request.getParameter("message_id")));
-			if(message!=null){
-				request.getSession(true).setAttribute("message", message);
-				request.getSession(true).setAttribute("answers", message.getAnswers());
+			Object category_id = request.getParameter("category_id");
+			if (category_id != null) {
+				service.deleteCategory(new Integer(category_id.toString()));
+				List<Category> categories = service.getCategories(request.getSession(true).getAttribute("local"));
+				if (categories != null) {
+					request.getSession(true).setAttribute("categories", categories);
+				}
 			}
-			request.getRequestDispatcher("jsp/message.jsp").forward(request, response);
+			request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
 		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during getting message",e);
+			logger.error("ServiceException occurred during adding category", e);
 			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
 	}

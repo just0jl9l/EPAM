@@ -1,4 +1,4 @@
-package by.trepam.like_it.command.impl;
+package by.trepam.like_it.command.impl.account;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.trepam.like_it.command.Command;
 
-public class LogoutCommand implements Command{
+public class LogoutCommand implements Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession(true).setAttribute("account_id", null);

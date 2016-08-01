@@ -1,4 +1,4 @@
-package by.trepam.like_it.command.impl;
+package by.trepam.like_it.command.impl.category;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,18 +11,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
-import by.trepam.like_it.service.Service;
+import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
 import by.trepam.like_it.service.factory.ServiceFactory;
 
-public class AddCategoryCommand implements Command{
-	
+public class AddCategoryCommand implements Command {
+
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();
-		Service service = factory.getService();
+		CategoryService service = factory.getCategoryService();
 		try {
 			Object title_ru = request.getParameter("title_ru");
 			Object title_en = request.getParameter("title_en");
@@ -35,28 +36,30 @@ public class AddCategoryCommand implements Command{
 			Category category_en = new Category();
 			category_en.setName(title_en.toString());
 			category_en.setDescription(description_en.toString());
-			if(title_ru!=null && description_ru!=null){
+			if (title_ru != null && description_ru != null) {
 				service.addCategory(category_ru);
 				int id = service.getCategoryId(title_ru.toString());
 				category_ru.setId(id);
-				service.addCategoryText(category_ru,"ru");
-				if((title_en!=null && description_en!=null)){
-					service.addCategoryText(category_en,"en");
+				service.addCategoryText(category_ru, CommandConstant.RU);
+				if ((title_en != null && description_en != null)) {
+					category_en.setId(id);
+					service.addCategoryText(category_en, CommandConstant.EN);
 				}
-			}else{
-				if(title_en!=null && description_en!=null){
+			} else {
+				if (title_en != null && description_en != null) {
 					service.addCategory(category_en);
 					int id = service.getCategoryId(title_en.toString());
-					service.addCategoryText(category_en,"en");
+					category_en.setId(id);
+					service.addCategoryText(category_en, CommandConstant.EN);
 				}
 			}
 			List<Category> categories = service.getCategories(request.getSession(true).getAttribute("local"));
-			if(categories!=null){
+			if (categories != null) {
 				request.getSession(true).setAttribute("categories", categories);
 			}
 			request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
 		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding category",e);
+			logger.error("ServiceException occurred during adding category", e);
 			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
 	}

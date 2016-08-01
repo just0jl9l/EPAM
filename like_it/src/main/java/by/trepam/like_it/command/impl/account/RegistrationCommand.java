@@ -1,4 +1,4 @@
-package by.trepam.like_it.command.impl;
+package by.trepam.like_it.command.impl.account;
 
 import java.io.IOException;
 
@@ -10,8 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
-import by.trepam.like_it.service.Service;
+import by.trepam.like_it.service.AccountService;
 import by.trepam.like_it.service.exception.ServiceException;
 import by.trepam.like_it.service.factory.ServiceFactory;
 
@@ -21,7 +22,7 @@ public class RegistrationCommand implements Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();
-		Service service = factory.getService();
+		AccountService service = factory.getAccountService();
 		try {
 			Object photo = request.getParameter("photo");
 			Object login = request.getParameter("login");
@@ -31,7 +32,8 @@ public class RegistrationCommand implements Command {
 			Object password = request.getParameter("password");
 			Object password2 = request.getParameter("password2");
 			if (service.isLoginFree(login.toString())) {
-				boolean isOk = !"".equals(password) && !"".equals(password2) && !"".equals(name) && !"".equals(surname)
+				boolean isOk = !CommandConstant.EMPTY.equals(password) && !CommandConstant.EMPTY.equals(password2)
+						&& !CommandConstant.EMPTY.equals(name) && !CommandConstant.EMPTY.equals(surname)
 						&& password != null && password2 != null && name != null && surname != null;
 				if (isOk) {
 					if (password.equals(password2)) {
@@ -40,10 +42,11 @@ public class RegistrationCommand implements Command {
 						account.setName(name.toString());
 						account.setSurname(surname.toString());
 						account.setPassword(password.toString());
-						if ("Administrator".equals(status) || "Администратор".equals(status)) {
-							account.setStatus("admin");
+						if (CommandConstant.ADMIN_NAME_EN.equals(status)
+								|| CommandConstant.ADMIN_NAME_RU.equals(status)) {
+							account.setStatus(CommandConstant.STATUS_ADMIN);
 						} else {
-							account.setStatus("client");
+							account.setStatus(CommandConstant.STATUS_CLIENT);
 						}
 						service.addAccount(account);
 						account = service.logIn(login.toString(), password.toString());
@@ -51,15 +54,15 @@ public class RegistrationCommand implements Command {
 						request.getSession(true).setAttribute("status", status);
 						request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 					} else {
-						request.setAttribute("password_error", "yes");
+						request.setAttribute("password_error", CommandConstant.TRUE);
 						request.getRequestDispatcher("jsp/registration.jsp").forward(request, response);
 					}
 				} else {
-					request.setAttribute("not_all_error", "yes");
+					request.setAttribute("not_all_error", CommandConstant.TRUE);
 					request.getRequestDispatcher("jsp/registration.jsp").forward(request, response);
 				}
 			} else {
-				request.setAttribute("login_error", "yes");
+				request.setAttribute("login_error", CommandConstant.TRUE);
 				request.getRequestDispatcher("jsp/registration.jsp").forward(request, response);
 			}
 

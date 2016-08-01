@@ -1,4 +1,4 @@
-package by.trepam.like_it.command.impl;
+package by.trepam.like_it.command.impl.category;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,22 +11,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
-import by.trepam.like_it.service.Service;
+import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
 import by.trepam.like_it.service.factory.ServiceFactory;
 
-public class ChangeCategoryCommand implements Command{
-	
+public class ChangeCategoryCommand implements Command {
+
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceFactory factory = ServiceFactory.getInstance();
-		Service service = factory.getService();
+		CategoryService service = factory.getCategoryService();
 		try {
 			Category category = (Category) request.getSession(true).getAttribute("category");
-			if(category!=null){
-				int categoryId=category.getId();
+			if (category != null) {
+				int categoryId = category.getId();
 				Object title_ru = request.getParameter("title_ru");
 				Object title_en = request.getParameter("title_en");
 				Object description_ru = request.getParameter("description_ru");
@@ -40,31 +41,31 @@ public class ChangeCategoryCommand implements Command{
 				category_en.setName(title_en.toString());
 				category_en.setDescription(description_en.toString());
 				category_en.setId(categoryId);
-				if(title_ru!=null && description_ru!=null){
+				if (title_ru != null && description_ru != null) {
 					service.updateCategory(category_ru);
-					service.updateCategoryText(category_ru,"ru");
-					if((title_en!=null && description_en!=null)){
-						service.updateCategoryText(category_en,"en");
-					}else{
-						service.deleteCategoryText(categoryId,"en");
+					service.updateCategoryText(category_ru, CommandConstant.RU);
+					if ((title_en != null && description_en != null)) {
+						service.updateCategoryText(category_en, CommandConstant.EN);
+					} else {
+						service.deleteCategoryText(categoryId, CommandConstant.EN);
 					}
-				}else{
-					service.deleteCategoryText(categoryId,"ru");
-					if(title_en!=null && description_en!=null){
+				} else {
+					service.deleteCategoryText(categoryId, CommandConstant.RU);
+					if (title_en != null && description_en != null) {
 						service.updateCategory(category_en);
-						service.updateCategoryText(category_en,"en");
+						service.updateCategoryText(category_en, "en");
 					}
 				}
 				List<Category> categories = service.getCategories(request.getSession(true).getAttribute("local"));
-				if(categories!=null){
+				if (categories != null) {
 					request.getSession(true).setAttribute("categories", categories);
 				}
 				request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
-			}else{
+			} else {
 				request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 			}
 		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding category",e);
+			logger.error("ServiceException occurred during adding category", e);
 			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
 	}

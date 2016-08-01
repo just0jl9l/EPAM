@@ -1,4 +1,4 @@
-package by.trepam.like_it.command.impl;
+package by.trepam.like_it.command.impl.message;
 
 import java.io.IOException;
 
@@ -7,16 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Message;
 
-public class GotoChangeMessageCommand implements Command{
+public class GotoChangeMessageCommand implements Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Message message = (Message) request.getSession(true).getAttribute("message");
-		if(message!=null){
-			request.setAttribute("change", "yes");
+		if (message != null) {
+			request.setAttribute("change", CommandConstant.TRUE);
 			request.getRequestDispatcher("jsp/add_message.jsp").forward(request, response);
-		}else{
+		} else {
 			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
 		}
 	}
