@@ -19,8 +19,6 @@ public class Controller extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
 		CommandHandler handler = CommandHandler.getInstance();
 		String commandName = request.getParameter("command").toUpperCase().replaceAll("-", "_");
 		Command command = handler.getCommand(commandName);

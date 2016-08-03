@@ -15,6 +15,15 @@
 	<listener>
 		<listener-class>by.trepam.like_it.listener.LikeItContextListener</listener-class>
 	</listener>
+	<filter>
+		<display-name>CharsetFilter</display-name>
+		<filter-name>CharsetFilter</filter-name>
+		<filter-class>by.trepam.like_it.filter.CharsetFilter</filter-class>
+		<init-param>
+			<param-name>characterEncoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
 	<servlet>
 		<description></description>
 		<display-name>Controller</display-name>
