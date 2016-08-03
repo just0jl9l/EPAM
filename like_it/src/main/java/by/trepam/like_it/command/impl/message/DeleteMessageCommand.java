@@ -10,26 +10,43 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.service.MessageService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.MessageServiceImpl;
 
 public class DeleteMessageCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static DeleteMessageCommand command = new DeleteMessageCommand();
+
+	private DeleteMessageCommand() {
+	}
+
+	public static DeleteMessageCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		MessageService messageService = factory.getMessageService();
+		MessageService messageService = MessageServiceImpl.getInstance();
 		try {
-			Object message_id = request.getParameter("message_id");
-			if (message_id != null) {
-				messageService.deleteMessage(new Integer(message_id.toString()));
+			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
+			Integer messageId = new Integer(request.getParameter(CommandConstant.PARAM_MESSAGE_ID));
+			if (accountId != null) {
+				messageService.deleteMessage(messageId);
+				response.sendRedirect("../like-it/categories.jsp");
+			}else{
+				response.sendRedirect("../like-it/login");
 			}
-			request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
+		} catch(NumberFormatException e){
+			logger.error("Wrong id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong id");
+			response.sendRedirect("../like-it/error");
+			
 		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding category", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			logger.error("ServiceException occurred during deleting message", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during deleting message");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

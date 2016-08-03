@@ -6,6 +6,6 @@ import by.trepam.like_it.service.exception.ServiceException;
 
 public interface AnswerService {
 	
-	void rating(Mark mark, int answer_id) throws ServiceException;
-	void addAnswer(Answer answer,int messageID) throws ServiceException;
+	void rating(Mark mark, Integer answer_id) throws ServiceException;
+	void addAnswer(Answer answer,Integer messageID) throws ServiceException;
 }

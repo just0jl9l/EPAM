@@ -1,16 +1,35 @@
 package by.trepam.like_it.dao.connection_pool.util;
 
-import java.util.ResourceBundle;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
-public class DBConnectionProperty{
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.properties.EncryptableProperties;
+
+public class DBConnectionProperty {
 	private final static DBConnectionProperty property = new DBConnectionProperty();
-	private ResourceBundle bundle = ResourceBundle.getBundle("db");
-	
-	public static DBConnectionProperty getInstance(){		
+	private static StandardPBEStringEncryptor encryptor;
+	private static Properties props;
+
+	private DBConnectionProperty() {
+		encryptor = new StandardPBEStringEncryptor();
+		encryptor.setPassword("trololo");
+		props = new EncryptableProperties(encryptor);
+		try {
+			InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("db.properties");
+			props.load(stream);
+		} catch (IOException e) {
+			throw new RuntimeException("Can't load connection pool properties file", e);
+		}
+
+	}
+
+	public static DBConnectionProperty getInstance() {
 		return property;
 	}
 
 	public String getValue(String key) {
-		return bundle.getString(key);
+		return props.getProperty(key);
 	}
 }

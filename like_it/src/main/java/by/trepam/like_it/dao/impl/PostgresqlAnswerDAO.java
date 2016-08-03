@@ -9,16 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.trepam.like_it.dao.AnswerDAO;
+import by.trepam.like_it.dao.connection_pool.exception.ConnectionPoolException;
+import by.trepam.like_it.dao.connection_pool.impl.PostgresqlConnectionPool;
 import by.trepam.like_it.dao.exception.DAOException;
-import by.trepam.like_it.dao.factory.PostgresqlDAOFactory;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.domain.Answer;
 
 public class PostgresqlAnswerDAO implements AnswerDAO{
 
-	public void insert(Answer answer,int messageID)  throws DAOException {
-		String sql = QueryConstants.INSERT_ANSWER;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+	public void insert(Answer answer,Integer messageID)  throws DAOException {
+		String sql = QueryConstant.SQL_INSERT_ANSWER;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			stm.setString(2, answer.getText());
@@ -27,25 +28,29 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
-	public void delete(int answerID)  throws DAOException {
-		String sql = QueryConstants.DELETE_ANSWER_BY_ID;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+	public void delete(Integer answerID)  throws DAOException {
+		String sql = QueryConstant.SQL_DELETE_ANSWER_BY_ID;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 		
 	}
 
-	public Answer getAnswer(int answerID) throws DAOException {
-		String sql = QueryConstants.GET_ANSWER_BY_ID;
+	public Answer getAnswer(Integer answerID) throws DAOException {
+		String sql = QueryConstant.SQL_GET_ANSWER_BY_ID;
 		Answer answer = null;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
 			ResultSet rs = stm.executeQuery();
@@ -59,14 +64,16 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 			return answer;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
-	public List<Answer> getAllAnswersOfMessage(int messageID)  throws DAOException {
-		String sql = QueryConstants.GET_ALL_ANSWER_OF_MESSAGE;
+	public List<Answer> getAllAnswersOfMessage(Integer messageID)  throws DAOException {
+		String sql = QueryConstant.SQL_GET_ALL_ANSWER_OF_MESSAGE;
 		List<Answer> answers = new ArrayList<Answer>();
 		Answer answer = null;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			ResultSet rs = stm.executeQuery();
@@ -81,12 +88,14 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 			return answers;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
-	public void update(Answer answer,int messageID) throws DAOException {
-		String sql = QueryConstants.UPDATE_ANSWER;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+	public void update(Answer answer,Integer messageID) throws DAOException {
+		String sql = QueryConstant.SQL_UPDATE_ANSWER;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageID);
 			stm.setString(2, answer.getText());
@@ -96,13 +105,15 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
-	public double rating(int answerID) throws DAOException {
-		String sql = QueryConstants.ANSWER_RATING_BY_ID;
+	public double rating(Integer answerID) throws DAOException {
+		String sql = QueryConstant.SQL_ANSWER_RATING_BY_ID;
 		double rating = -1;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerID);
 			ResultSet rs = stm.executeQuery();
@@ -112,6 +123,8 @@ public class PostgresqlAnswerDAO implements AnswerDAO{
 			return rating;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 

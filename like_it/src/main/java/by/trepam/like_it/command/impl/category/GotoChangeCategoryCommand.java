@@ -14,34 +14,47 @@ import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
 public class GotoChangeCategoryCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static GotoChangeCategoryCommand command = new GotoChangeCategoryCommand();
+
+	private GotoChangeCategoryCommand() {
+	}
+
+	public static GotoChangeCategoryCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		CategoryService service = factory.getCategoryService();
+		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
-			Category category = (Category) request.getSession(true).getAttribute("category");
+			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
 			if (category != null) {
-				Category category1 = service.getCategory(category.getId(), CommandConstant.EN);
-				if (category1 != null) {
-					request.getSession(true).setAttribute("category_en", category1);
+				Category currentCategory = service.getCategory(category.getId(), CommandConstant.EN);
+				if (currentCategory != null) {
+					request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_EN, currentCategory);
 				}
-				Category category2 = service.getCategory(category.getId(), CommandConstant.RU);
-				if (category2 != null) {
-					request.getSession(true).setAttribute("category_ru", category2);
+				currentCategory = service.getCategory(category.getId(), CommandConstant.RU);
+				if (currentCategory != null) {
+					request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_RU, currentCategory);
 				}
-				request.setAttribute("change", CommandConstant.TRUE);
-				request.getRequestDispatcher("jsp/add_category.jsp").forward(request, response);
+				request.setAttribute(CommandConstant.PARAM_CHANGE, CommandConstant.TRUE);
+				request.getRequestDispatcher("WEB-INF/jsp/add-category.jsp").forward(request, response);
 			} else {
-				request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
+				request.getRequestDispatcher("error.jsp").forward(request, response);
 			}
+		} catch (ClassCastException e) {
+			logger.error("ClassCastException occurred", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during getting category", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			logger.error("ServiceException occurred", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}
 

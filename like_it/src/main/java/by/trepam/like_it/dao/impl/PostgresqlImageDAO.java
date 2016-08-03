@@ -6,40 +6,45 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import by.trepam.like_it.dao.ImageDAO;
+import by.trepam.like_it.dao.connection_pool.exception.ConnectionPoolException;
+import by.trepam.like_it.dao.connection_pool.impl.PostgresqlConnectionPool;
 import by.trepam.like_it.dao.exception.DAOException;
-import by.trepam.like_it.dao.factory.PostgresqlDAOFactory;
 import by.trepam.like_it.domain.Image;
 
 public class PostgresqlImageDAO implements ImageDAO{
 
 	public void insert(Image image)  throws DAOException {
-		String sql = QueryConstants.INSERT_IMAGE;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		String sql = QueryConstant.SQL_INSERT_IMAGE;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, image.getFormat());
 			stm.setString(2, image.getPath());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
-	public void delete(int imageID)  throws DAOException {
-		String sql = QueryConstants.DELETE_IMAGE_BY_ID;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+	public void delete(Integer imageID)  throws DAOException {
+		String sql = QueryConstant.SQL_DELETE_IMAGE_BY_ID;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, imageID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 		
 	}
 
-	public Image getImage(int imageID) throws DAOException {
-		String sql = QueryConstants.GET_IMAGE_BY_ID;
+	public Image getImage(Integer imageID) throws DAOException {
+		String sql = QueryConstant.SQL_GET_IMAGE_BY_ID;
 		Image image = null;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, imageID);
 			ResultSet rs = stm.executeQuery();
@@ -52,12 +57,14 @@ public class PostgresqlImageDAO implements ImageDAO{
 			return image;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
 	public void update(Image image) throws DAOException {
-		String sql = QueryConstants.UPDATE_IMAGE;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		String sql = QueryConstant.SQL_UPDATE_IMAGE;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, image.getPath());
 			stm.setString(2, image.getFormat());
@@ -65,6 +72,8 @@ public class PostgresqlImageDAO implements ImageDAO{
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 

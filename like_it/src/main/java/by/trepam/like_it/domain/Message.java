@@ -1,45 +1,43 @@
 package by.trepam.like_it.domain;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import by.trepam.like_it.domain.util.AnswersDateOfPostingComparator;
-
 public class Message implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String name;
 	private String text;
 	private Account author;
-	private Date dateOfPosting;
+	private Timestamp dateOfPosting;
 	private List<Answer> answers;
 
 	public Message() {
-		name = "";
-		text = "";
+		name = DomainConstant.EMPTY;
+		text = DomainConstant.EMPTY;
 		author = new Account();
-		dateOfPosting = new Date();
+		dateOfPosting = new Timestamp(new Date().getTime());
 		answers = new ArrayList<Answer>();
 	}
 
-	public Message(int id) {
+	public Message(Integer id) {
 		this.id = id;
-		name = "";
-		text = "";
+		name = DomainConstant.EMPTY;
+		text = DomainConstant.EMPTY;
 		author = new Account();
-		dateOfPosting = new Date();
+		dateOfPosting = new Timestamp(new Date().getTime());
 		answers = new ArrayList<Answer>();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -71,16 +69,11 @@ public class Message implements Serializable {
 		return dateOfPosting;
 	}
 
-	public void setDateOfPosting(Date dateOfPosting) {
+	public void setDateOfPosting(Timestamp dateOfPosting) {
 		this.dateOfPosting = dateOfPosting;
 	}
 
-	public String getFormatedDateOfPosting() {
-		return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(dateOfPosting);
-	}
-
 	public List<Answer> getAnswers() {
-		answers.sort(new AnswersDateOfPostingComparator());
 		return answers;
 	}
 
@@ -90,5 +83,46 @@ public class Message implements Serializable {
 
 	public void addAnswer(Answer answer) {
 		this.answers.add(answer);
+	}
+
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (null == object) {
+			return false;
+		}
+		if (getClass() != object.getClass()) {
+			return false;
+		}
+		Message message = (Message) object;
+		if (null == id) {
+			return (id == message.id);
+		} else {
+			if (!id.equals(message.id)) {
+				return false;
+			}
+		}
+		if (null == name) {
+			return (name == message.name);
+		} else {
+			if (!name.equals(message.name)) {
+				return false;
+			}
+		}
+		if (null == text) {
+			return (text == message.text);
+		} else {
+			if (!text.equals(message.text)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public int hashCode() {
+		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == text) ? 0 : text.hashCode())
+				+ ((null == author) ? 0 : author.hashCode()) + ((null == dateOfPosting) ? 0 : dateOfPosting.hashCode())
+				+ ((null == name) ? 0 : name.hashCode()) + ((null == answers) ? 0 : answers.hashCode()));
 	}
 }

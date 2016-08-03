@@ -7,13 +7,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 
 public class LogoutCommand implements Command {
+	private final static LogoutCommand command = new LogoutCommand();
+
+	private LogoutCommand() {
+	}
+
+	public static LogoutCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession(true).setAttribute("account_id", null);
-		request.getSession(true).setAttribute("status", null);
-		request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+		request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT_ID, null);
+		request.getSession(true).setAttribute(CommandConstant.PARAM_STATUS, null);
+		request.getRequestDispatcher("like-it.jsp").forward(request, response);
 	}
 
 }

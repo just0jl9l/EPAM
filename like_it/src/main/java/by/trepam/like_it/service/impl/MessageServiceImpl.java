@@ -16,61 +16,70 @@ import by.trepam.like_it.service.MessageService;
 import by.trepam.like_it.service.exception.ServiceException;
 
 public class MessageServiceImpl implements MessageService {
+	private static final MessageServiceImpl service = new MessageServiceImpl();
+	private static final DAOFactory daoFactory = PostgresqlDAOFactory.getInstance();
+
+	private MessageServiceImpl() {
+	}
+
+	public static MessageServiceImpl getInstance() {
+		return service;
+	}
 
 	public Message getMessage(Integer id) throws ServiceException {
 		Message message = null;
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			MessageDAO mesdao = df.getMessageDAO();
+			MessageDAO mesdao = daoFactory.getMessageDAO();
 			message = mesdao.getMessage(id);
-			AnswerDAO ansdao = df.getAnswerDAO();
-			AccountDAO acdao = df.getAccountDAO();
-			ImageDAO imgdao = df.getImageDAO();
+			AnswerDAO ansdao = daoFactory.getAnswerDAO();
+			AccountDAO acdao = daoFactory.getAccountDAO();
+			ImageDAO imgdao = daoFactory.getImageDAO();
 			List<Answer> answers = ansdao.getAllAnswersOfMessage(id);
-			Account ac;
-			for(Answer a:answers){
-				ac=acdao.getAccount(a.getAuthor().getId());				
-				ac.setPhoto(imgdao.getImage(ac.getPhoto().getId()));
-				ac.setRating(acdao.rating(ac.getId()));
-				a.setAuthor(ac);
-				a.setRating(ansdao.rating(a.getId()));
+			Account account;
+			for (Answer answer : answers) {
+				account = acdao.getAccount(answer.getAuthor().getId());
+				account.setPhoto(imgdao.getImage(account.getPhoto().getId()));
+				account.setRating(acdao.rating(account.getId()));
+				answer.setAuthor(account);
+				answer.setRating(ansdao.rating(answer.getId()));
 			}
 			message.setAnswers(answers);
+			account = acdao.getAccount(message.getAuthor().getId());
+			account.setPhoto(imgdao.getImage(account.getPhoto().getId()));
+			account.setRating(acdao.rating(account.getId()));
+			message.setAuthor(account);
 		} catch (DAOException e) {
-			throw new ServiceException("DAOException occurred during getting message",e);
+			throw new ServiceException("DAOException occurred during getting message", e);
 		}
 		return message;
 	}
 
-	public void addMessage(Message message, int id_category) throws ServiceException {
+	public void addMessage(Message message, Integer id_category) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			MessageDAO mesdao = df.getMessageDAO();
-			mesdao.insert(message,id_category);
+			MessageDAO mesdao = daoFactory.getMessageDAO();
+			mesdao.insert(message, id_category);
 		} catch (DAOException e) {
-			throw new ServiceException("DAOException occurred during adding message",e);
-		}		
+			throw new ServiceException("DAOException occurred during adding message", e);
+		}
 	}
 
-	public void deleteMessage(int id_message) throws ServiceException {
+	public void deleteMessage(Integer id_message) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			MessageDAO mesdao = df.getMessageDAO();
+			MessageDAO mesdao = daoFactory.getMessageDAO();
 			mesdao.delete(id_message);
 		} catch (DAOException e) {
-			throw new ServiceException("DAOException occurred during adding message",e);
+			throw new ServiceException("DAOException occurred during adding message", e);
 		}
 	}
 
 	public void updateMessage(Message message) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			MessageDAO mesdao = df.getMessageDAO();
+			MessageDAO mesdao = daoFactory.getMessageDAO();
 			mesdao.update(message);
 		} catch (DAOException e) {
-			throw new ServiceException("DAOException occurred during adding message",e);
-		}	
-		
+			throw new ServiceException("DAOException occurred during adding message", e);
+		}
+
 	}
 
 }

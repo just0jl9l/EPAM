@@ -15,58 +15,80 @@ import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
 public class ChangeCategoryCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static ChangeCategoryCommand command = new ChangeCategoryCommand();
+
+	private ChangeCategoryCommand() {
+	}
+
+	public static ChangeCategoryCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		CategoryService service = factory.getCategoryService();
+		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
-			Category category = (Category) request.getSession(true).getAttribute("category");
+			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
 			if (category != null) {
-				int categoryId = category.getId();
-				Object title_ru = request.getParameter("title_ru");
-				Object title_en = request.getParameter("title_en");
-				Object description_ru = request.getParameter("description_ru");
-				Object description_en = request.getParameter("description_en");
-				Object image = request.getParameter("file");
-				Category category_ru = new Category();
-				category_ru.setName(title_ru.toString());
-				category_ru.setDescription(description_ru.toString());
-				category_ru.setId(categoryId);
-				Category category_en = new Category();
-				category_en.setName(title_en.toString());
-				category_en.setDescription(description_en.toString());
-				category_en.setId(categoryId);
-				if (title_ru != null && description_ru != null) {
-					service.updateCategory(category_ru);
-					service.updateCategoryText(category_ru, CommandConstant.RU);
-					if ((title_en != null && description_en != null)) {
-						service.updateCategoryText(category_en, CommandConstant.EN);
+				Integer categoryId = category.getId();
+				String titleRu = request.getParameter(CommandConstant.PARAM_TITLE_RU);
+				String titleEn = request.getParameter(CommandConstant.PARAM_TITLE_EN);
+				String descriptionRu = request.getParameter(CommandConstant.PARAM_DESCRIPTION_RU);
+				String descriptionEn = request.getParameter(CommandConstant.PARAM_DESCRIPTION_EN);
+				Object image = request.getParameter(CommandConstant.PARAM_IMAGE);
+				Category categoryRu = new Category();
+				categoryRu.setName(titleRu);
+				categoryRu.setDescription(descriptionRu);
+				categoryRu.setId(categoryId);
+				Category categoryEn = new Category();
+				categoryEn.setName(titleEn);
+				categoryEn.setDescription(descriptionEn);
+				categoryEn.setId(categoryId);
+				if (titleRu != null && descriptionRu != null && !CommandConstant.EMPTY.equals(titleRu)
+						&& !CommandConstant.EMPTY.equals(descriptionRu)) {
+					service.updateCategory(categoryRu);
+					service.updateCategoryText(categoryRu, CommandConstant.RU);
+					if (titleEn != null && descriptionEn != null && !CommandConstant.EMPTY.equals(titleEn)
+							&& !CommandConstant.EMPTY.equals(descriptionEn)) {
+						service.updateCategoryText(categoryEn, CommandConstant.EN);
 					} else {
 						service.deleteCategoryText(categoryId, CommandConstant.EN);
 					}
 				} else {
 					service.deleteCategoryText(categoryId, CommandConstant.RU);
-					if (title_en != null && description_en != null) {
-						service.updateCategory(category_en);
-						service.updateCategoryText(category_en, "en");
+					if (titleEn != null && descriptionEn != null && !CommandConstant.EMPTY.equals(titleEn)
+							&& !CommandConstant.EMPTY.equals(descriptionEn)) {
+						service.updateCategory(categoryEn);
+						service.updateCategoryText(categoryEn, CommandConstant.EN);
 					}
 				}
-				List<Category> categories = service.getCategories(request.getSession(true).getAttribute("local"));
+				List<Category> categories = service
+						.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
 				if (categories != null) {
-					request.getSession(true).setAttribute("categories", categories);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORIES, categories);
+					response.sendRedirect("../like-it/categories");
+				} else {
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Categories wasn't found");
+					response.sendRedirect("../like-it/error");
 				}
-				request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
 			} else {
-				request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
+				response.sendRedirect("../like-it/error");
 			}
+		} catch (NumberFormatException e) {
+			logger.error("Wrong category id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong category id");
+			response.sendRedirect("../like-it/error");
+
 		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding category", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			logger.error("ServiceException occurred during changing category", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during changing category");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

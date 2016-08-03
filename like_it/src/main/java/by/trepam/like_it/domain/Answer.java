@@ -3,41 +3,42 @@ package by.trepam.like_it.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Answer implements Serializable{
+public class Answer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String text;
-	private Date dateOfPosting;
+	private Timestamp dateOfPosting;
 	private Account author;
 	private List<Mark> marks;
-	private double rating;
+	private Double rating;
 
 	public Answer() {
-		text = "";
-		dateOfPosting = new Date();
+		text = DomainConstant.EMPTY;
+		dateOfPosting = new Timestamp(new Date().getTime());
 		author = new Account();
 		marks = new ArrayList<Mark>();
 	}
 
-	public Answer(int id) {
+	public Answer(Integer id) {
 		this.id = id;
-		text = "";
-		dateOfPosting = new Date();
+		text = DomainConstant.EMPTY;
+		dateOfPosting = new Timestamp(new Date().getTime());
 		author = new Account();
 		marks = new ArrayList<Mark>();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -57,7 +58,7 @@ public class Answer implements Serializable{
 		return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(dateOfPosting);
 	}
 
-	public void setDateOfPosting(Date dateOfPosting) {
+	public void setDateOfPosting(Timestamp dateOfPosting) {
 		this.dateOfPosting = dateOfPosting;
 	}
 
@@ -81,11 +82,45 @@ public class Answer implements Serializable{
 		this.marks.add(mark);
 	}
 
-	public double getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(double rating) {
+	public void setRating(Double rating) {
 		this.rating = BigDecimal.valueOf(rating).setScale(3, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (null == object) {
+			return false;
+		}
+		if (getClass() != object.getClass()) {
+			return false;
+		}
+		Answer answer = (Answer) object;
+		if (null == id) {
+			return (id == answer.id);
+		} else {
+			if (!answer.equals(answer.id)) {
+				return false;
+			}
+		}
+		if (null == text) {
+			return (text == answer.text);
+		} else {
+			if (!text.equals(answer.text)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public int hashCode() {
+		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == text) ? 0 : text.hashCode())
+				+ ((null == dateOfPosting) ? 0 : dateOfPosting.hashCode()) + ((null == author) ? 0 : author.hashCode())
+				+ ((null == marks) ? 0 : marks.hashCode()) + ((null == rating) ? 0 : rating.hashCode()));
 	}
 }

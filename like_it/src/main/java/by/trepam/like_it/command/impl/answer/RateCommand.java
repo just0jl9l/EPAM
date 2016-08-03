@@ -10,46 +10,65 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.domain.Mark;
 import by.trepam.like_it.domain.Message;
 import by.trepam.like_it.service.AnswerService;
 import by.trepam.like_it.service.MessageService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.AnswerServiceImpl;
+import by.trepam.like_it.service.impl.MessageServiceImpl;
 
 public class RateCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static RateCommand command = new RateCommand();
+
+	private RateCommand() {
+	}
+
+	public static RateCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		AnswerService answerService = factory.getAnswerService();
-		MessageService messagweService = factory.getMessageService();
+		AnswerService answerService = AnswerServiceImpl.getInstance();
+		MessageService messagweService = MessageServiceImpl.getInstance();
 		try {
-			Integer mark_value = new Integer(request.getParameter("mark"));
-			Object account_id = request.getSession(true).getAttribute("account_id");
-			Message message = (Message) request.getSession(true).getAttribute("message");
-			if (account_id != null) {
+			Integer mark_value = new Integer(request.getParameter(CommandConstant.PARAM_MARK));
+			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
+			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);
+			if (accountId != null) {
 				if (mark_value != null && message != null) {
-					int answer_id = new Integer(request.getParameter("answer"));
-					Mark mark = new Mark(mark_value, new Account((int) account_id));
+					int answer_id = new Integer(request.getParameter(CommandConstant.PARAM_ANSWER));
+					Mark mark = new Mark(mark_value, new Account(accountId));
 					if (message != null) {
 						answerService.rating(mark, answer_id);
 						message = messagweService.getMessage(message.getId());
-						request.getSession(true).setAttribute("message", message);
-						request.getSession(true).setAttribute("answers", message.getAnswers());
+						request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
+						request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
 					}
-					request.getRequestDispatcher("jsp/message.jsp").forward(request, response);
+					response.sendRedirect("../like-it/message");
 				} else {
-					request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
+					response.sendRedirect("../like-it/error");
 				}
 			} else {
-				request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
+				response.sendRedirect("../like-it/login");
 			}
+		} catch (NumberFormatException e) {
+			logger.error("Wrong account id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
+			response.sendRedirect("../like-it/error");
+		} catch (ClassCastException e) {
+			logger.error("ClassCastException occurred during rating", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during rating");
+			response.sendRedirect("../like-it/error");
 		} catch (ServiceException e) {
 			logger.error("ServiceException occurred during rating", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during rating");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

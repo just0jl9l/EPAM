@@ -14,34 +14,41 @@ import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.service.AccountService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.AccountServiceImpl;
 
 public class RegistrationCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static RegistrationCommand command = new RegistrationCommand();
+
+	private RegistrationCommand() {
+	}
+
+	public static RegistrationCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		AccountService service = factory.getAccountService();
+		AccountService service = AccountServiceImpl.getInstance();
 		try {
-			Object photo = request.getParameter("photo");
-			Object login = request.getParameter("login");
-			Object name = request.getParameter("name");
-			Object surname = request.getParameter("surname");
-			Object status = request.getParameter("status");
-			Object password = request.getParameter("password");
-			Object password2 = request.getParameter("password2");
-			if (service.isLoginFree(login.toString())) {
-				boolean isOk = !CommandConstant.EMPTY.equals(password) && !CommandConstant.EMPTY.equals(password2)
+			Object photo = request.getParameter(CommandConstant.PARAM_PHOTO);
+			String login = request.getParameter(CommandConstant.PARAM_LOGIN);
+			String name = request.getParameter(CommandConstant.PARAM_NAME);
+			String surname = request.getParameter(CommandConstant.PARAM_SURNAME);
+			String status = request.getParameter(CommandConstant.PARAM_STATUS);
+			String password = request.getParameter(CommandConstant.PARAM_PASSWORD);
+			String secondPassword = request.getParameter(CommandConstant.PARAM_SECOND_PASSWORD);
+			if (service.isLoginFree(login)) {
+				boolean isOk = !CommandConstant.EMPTY.equals(password) && !CommandConstant.EMPTY.equals(secondPassword)
 						&& !CommandConstant.EMPTY.equals(name) && !CommandConstant.EMPTY.equals(surname)
-						&& password != null && password2 != null && name != null && surname != null;
+						&& password != null && secondPassword != null && name != null && surname != null;
 				if (isOk) {
-					if (password.equals(password2)) {
+					if (password.equals(secondPassword)) {
 						Account account = new Account();
-						account.setLogin(login.toString());
-						account.setName(name.toString());
-						account.setSurname(surname.toString());
-						account.setPassword(password.toString());
+						account.setLogin(login);
+						account.setName(name);
+						account.setSurname(surname);
+						account.setPassword(password);
 						if (CommandConstant.ADMIN_NAME_EN.equals(status)
 								|| CommandConstant.ADMIN_NAME_RU.equals(status)) {
 							account.setStatus(CommandConstant.STATUS_ADMIN);
@@ -49,26 +56,30 @@ public class RegistrationCommand implements Command {
 							account.setStatus(CommandConstant.STATUS_CLIENT);
 						}
 						service.addAccount(account);
-						account = service.logIn(login.toString(), password.toString());
-						request.getSession(true).setAttribute("account_id", account.getId());
-						request.getSession(true).setAttribute("status", status);
-						request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+						account = service.logIn(login, password);
+						request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT_ID, account.getId());
+						request.getSession(true).setAttribute(CommandConstant.PARAM_STATUS, status);
+						response.sendRedirect("../like-it");
 					} else {
-						request.setAttribute("password_error", CommandConstant.TRUE);
-						request.getRequestDispatcher("jsp/registration.jsp").forward(request, response);
+						request.getSession(true).setAttribute(CommandConstant.PARAM_PASSWORD_ERROR,
+								CommandConstant.TRUE);
+						response.sendRedirect("../like-it/registration");
 					}
 				} else {
-					request.setAttribute("not_all_error", CommandConstant.TRUE);
-					request.getRequestDispatcher("jsp/registration.jsp").forward(request, response);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_NOT_ALL_DATA_ERROR,
+							CommandConstant.TRUE);
+					response.sendRedirect("../like-it/registration");
 				}
 			} else {
-				request.setAttribute("login_error", CommandConstant.TRUE);
-				request.getRequestDispatcher("jsp/registration.jsp").forward(request, response);
+				request.getSession(true).setAttribute(CommandConstant.PARAM_LOGIN_ERROR, CommandConstant.TRUE);
+				response.sendRedirect("../like-it/registration");
 			}
 
 		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding answer", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			logger.error("ServiceException occurred during registration", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during registration");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

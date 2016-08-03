@@ -9,10 +9,17 @@ import javax.servlet.http.HttpServletResponse;
 import by.trepam.like_it.command.Command;
 
 public class LocalizationCommand implements Command {
+	private final static LocalizationCommand command = new LocalizationCommand();
+	
+	private LocalizationCommand(){}
+	
+	public static LocalizationCommand getInstance(){
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession(true).setAttribute("local", request.getParameter("local"));
-		request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+		request.getSession(true).setAttribute(CommandConstant.PARAM_LOCAL, request.getParameter(CommandConstant.PARAM_LOCAL));
+		request.getRequestDispatcher("like-it.jsp").forward(request, response);
 	}
 
 }

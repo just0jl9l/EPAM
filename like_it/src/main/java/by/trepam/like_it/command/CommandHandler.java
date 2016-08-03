@@ -13,42 +13,42 @@ import by.trepam.like_it.command.impl.account.LogoutCommand;
 import by.trepam.like_it.command.impl.account.RegistrationCommand;
 import by.trepam.like_it.command.impl.answer.RateCommand;
 import by.trepam.like_it.command.impl.category.AddCategoryCommand;
-import by.trepam.like_it.command.impl.category.CategoriesCommand;
-import by.trepam.like_it.command.impl.category.CategoryCommand;
 import by.trepam.like_it.command.impl.category.ChangeCategoryCommand;
 import by.trepam.like_it.command.impl.category.DeleteCategoryCommand;
+import by.trepam.like_it.command.impl.category.GetCategoriesCommand;
+import by.trepam.like_it.command.impl.category.GetCategoryCommand;
 import by.trepam.like_it.command.impl.category.GotoChangeCategoryCommand;
 import by.trepam.like_it.command.impl.message.AddMessageCommand;
 import by.trepam.like_it.command.impl.message.ChangeMessageCommand;
 import by.trepam.like_it.command.impl.message.DeleteMessageCommand;
+import by.trepam.like_it.command.impl.message.GetMessageCommand;
 import by.trepam.like_it.command.impl.message.GotoChangeMessageCommand;
-import by.trepam.like_it.command.impl.message.MessageCommand;
 
 public class CommandHandler {
 	private static CommandHandler handler = new CommandHandler();
 	private Map<CommandName, Command> commands = new HashMap<CommandName, Command>();
 
 	private CommandHandler() {
-		commands.put(CommandName.LOGIN, new LoginCommand());
-		commands.put(CommandName.LOGOUT, new LogoutCommand());
-		commands.put(CommandName.LOCALIZATION, new LocalizationCommand());
-		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
-		commands.put(CommandName.CATEGORIES, new CategoriesCommand());
-		commands.put(CommandName.CATEGORY, new CategoryCommand());
-		commands.put(CommandName.MESSAGE, new MessageCommand());
-		commands.put(CommandName.RATE, new RateCommand());
-		commands.put(CommandName.SITEMAP, new SitemapCommand());
-		commands.put(CommandName.PERSONAL_ACCOUNT, new GetPersonalAccountCommand());
-		commands.put(CommandName.ADD_CATEGORY, new AddCategoryCommand());
-		commands.put(CommandName.GOTO_CHANGE_CATEGORY, new GotoChangeCategoryCommand());
-		commands.put(CommandName.CHANGE_CATEGORY, new ChangeCategoryCommand());
-		commands.put(CommandName.DELETE_CATEGORY, new DeleteCategoryCommand());
-		commands.put(CommandName.ADD_MESSAGE, new AddMessageCommand());
-		commands.put(CommandName.GOTO_CHANGE_MESSAGE, new GotoChangeMessageCommand());
-		commands.put(CommandName.CHANGE_MESSAGE, new ChangeMessageCommand());
-		commands.put(CommandName.DELETE_MESSAGE, new DeleteMessageCommand());
-		commands.put(CommandName.GOTO_CHANGE_PERSONAL_ACCOUNT, new GotoChangePersonalAccountCommand());
-		commands.put(CommandName.CHANGE_PERSONAL_ACCOUNT, new ChangePersonalAccountCommand());
+		commands.put(CommandName.LOGIN, LoginCommand.getInstance());
+		commands.put(CommandName.LOGOUT, LogoutCommand.getInstance());
+		commands.put(CommandName.LOCALIZATION, LocalizationCommand.getInstance());
+		commands.put(CommandName.REGISTRATION, RegistrationCommand.getInstance());
+		commands.put(CommandName.CATEGORIES, GetCategoriesCommand.getInstance());
+		commands.put(CommandName.CATEGORY, GetCategoryCommand.getInstance());
+		commands.put(CommandName.MESSAGE, GetMessageCommand.getInstance());
+		commands.put(CommandName.RATE, RateCommand.getInstance());
+		commands.put(CommandName.SITEMAP, SitemapCommand.getInstance());
+		commands.put(CommandName.PERSONAL_ACCOUNT, GetPersonalAccountCommand.getInstance());
+		commands.put(CommandName.ADD_CATEGORY, AddCategoryCommand.getInstance());
+		commands.put(CommandName.GOTO_CHANGE_CATEGORY, GotoChangeCategoryCommand.getInstance());
+		commands.put(CommandName.CHANGE_CATEGORY, ChangeCategoryCommand.getInstance());
+		commands.put(CommandName.DELETE_CATEGORY, DeleteCategoryCommand.getInstance());
+		commands.put(CommandName.ADD_MESSAGE, AddMessageCommand.getInstance());
+		commands.put(CommandName.GOTO_CHANGE_MESSAGE, GotoChangeMessageCommand.getInstance());
+		commands.put(CommandName.CHANGE_MESSAGE, ChangeMessageCommand.getInstance());
+		commands.put(CommandName.DELETE_MESSAGE, DeleteMessageCommand.getInstance());
+		commands.put(CommandName.GOTO_CHANGE_PERSONAL_ACCOUNT, GotoChangePersonalAccountCommand.getInstance());
+		commands.put(CommandName.CHANGE_PERSONAL_ACCOUNT, ChangePersonalAccountCommand.getInstance());
 	}
 	
 	public static CommandHandler getInstance(){

@@ -16,19 +16,27 @@ import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
 
 public class CategoryServiceImpl implements CategoryService{
+	private static final CategoryServiceImpl service = new CategoryServiceImpl();
+	private static final DAOFactory daoFactory = PostgresqlDAOFactory.getInstance();
+	
+	private CategoryServiceImpl(){}
+	
+	public static CategoryServiceImpl getInstance(){
+		return service;
+	}
 
 
 	public List<Category> getCategories(Object lang) throws ServiceException {
 		List<Category> categories = null;
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			if(lang!=null){
 				categories = catdao.getAllCategories(lang.toString());
 			}else{
 				categories = catdao.getAllCategories("en");
 			}	
-			ImageDAO imgdao = df.getImageDAO();
+			ImageDAO imgdao = daoFactory.getImageDAO();
 			for(Category c: categories){
 				c.setImage(imgdao.getImage(c.getImage().getId()));
 			}			
@@ -38,19 +46,19 @@ public class CategoryServiceImpl implements CategoryService{
 		return categories;
 	}
 
-	public Category getCategory(int id,Object lang) throws ServiceException {
+	public Category getCategory(Integer id,Object lang) throws ServiceException {
 		Category category = null;
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			if(lang!=null){
 				category = catdao.getCategory(id,lang.toString());
 			}else{
 				category = catdao.getCategory(id,"en");
 			}
-			MessageDAO messdao = df.getMessageDAO();
-			AccountDAO acdao = df.getAccountDAO();
-			ImageDAO imgdao = df.getImageDAO();
+			MessageDAO messdao = daoFactory.getMessageDAO();
+			AccountDAO acdao = daoFactory.getAccountDAO();
+			ImageDAO imgdao = daoFactory.getImageDAO();
 			List<Message> messages = messdao.getAllMessagesOfCategory(id);
 			Account ac;
 			for(Message m:messages){
@@ -69,8 +77,8 @@ public class CategoryServiceImpl implements CategoryService{
 
 	public void addCategory(Category category) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			catdao.insert(category);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding category",e);
@@ -78,11 +86,11 @@ public class CategoryServiceImpl implements CategoryService{
 		
 	}
 
-	public int getCategoryId(String name) throws ServiceException {
-		int id=-10;
+	public Integer getCategoryIdByTitle(String name) throws ServiceException {
+		Integer id=-10;
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			id=catdao.getCategoryId(name);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding category",e);
@@ -92,18 +100,18 @@ public class CategoryServiceImpl implements CategoryService{
 
 	public void addCategoryText(Category category, String lang) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			catdao.insertText(category,lang);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding category text",e);
 		}
 	}
 
-	public void deleteCategory(int id_category) throws ServiceException {
+	public void deleteCategory(Integer id_category) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			catdao.delete(id_category);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding message",e);
@@ -112,8 +120,8 @@ public class CategoryServiceImpl implements CategoryService{
 
 	public void updateCategory(Category category) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			catdao.update(category);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding message",e);
@@ -123,8 +131,8 @@ public class CategoryServiceImpl implements CategoryService{
 
 	public void updateCategoryText(Category category, String lang) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			catdao.updateText(category,lang);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding message",e);
@@ -132,10 +140,10 @@ public class CategoryServiceImpl implements CategoryService{
 		
 	}
 
-	public void deleteCategoryText(int category_id, String lang) throws ServiceException {
+	public void deleteCategoryText(Integer category_id, String lang) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			CategoryDAO catdao = df.getCategoryDAO();
+			
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			catdao.deleteText(category_id,lang);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding message",e);

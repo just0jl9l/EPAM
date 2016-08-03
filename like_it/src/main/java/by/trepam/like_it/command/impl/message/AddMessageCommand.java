@@ -10,52 +10,79 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.domain.Message;
 import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.MessageService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.CategoryServiceImpl;
+import by.trepam.like_it.service.impl.MessageServiceImpl;
 
 public class AddMessageCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static AddMessageCommand command = new AddMessageCommand();
+
+	private AddMessageCommand() {
+	}
+
+	public static AddMessageCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		MessageService messageService = factory.getMessageService();
-		CategoryService categoryService = factory.getCategoryService();
+		MessageService messageService = MessageServiceImpl.getInstance();
+		CategoryService categoryService = CategoryServiceImpl.getInstance();
 		try {
-			Object title = request.getParameter("title");
-			Object text = request.getParameter("text");
-			Object category = request.getSession(true).getAttribute("category");
-			Object account_id = request.getSession(true).getAttribute("account_id");
-			if (account_id != null) {
+			String title = request.getParameter(CommandConstant.PARAM_TITLE);
+			String text = request.getParameter(CommandConstant.PARAM_TEXT);
+			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
+			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
+			if (accountId != null) {
 				if (category != null) {
-					if (title != null && text != null) {
+					if (title != null && text != null && !CommandConstant.EMPTY.equals(title)
+							&& !CommandConstant.EMPTY.equals(text)) {
 						Message message = new Message();
-						message.setName(title.toString());
-						message.setText(text.toString());
-						message.setAuthor(new Account((int) account_id));
-						messageService.addMessage(message, ((Category) category).getId());
-						category = categoryService.getCategory(((Category) category).getId(),
-								request.getSession(true).getAttribute("local"));
+						message.setName(title);
+						message.setText(text);
+						message.setAuthor(new Account(accountId));
+						messageService.addMessage(message, category.getId());
+						category = categoryService.getCategory(category.getId(),
+								request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
 						if (category != null) {
-							request.getSession(true).setAttribute("category", category);
-							request.getSession(true).setAttribute("messages", ((Category) category).getMessages());
+							request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY, category);
+							request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, category.getMessages());
+							response.sendRedirect("../like-it/category");
+						}else{
+							request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
+							response.sendRedirect("../like-it/error");
 						}
-					}
-					request.getRequestDispatcher("jsp/category.jsp").forward(request, response);
+					}else{
+						request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
+						response.sendRedirect("../like-it/error");
+					}					
 				} else {
-					request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
+					response.sendRedirect("../like-it/error");
 				}
 			} else {
-				request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
+				response.sendRedirect("../like-it/login");
 			}
+		} catch (NumberFormatException e) {
+			logger.error("Wrong account id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
+			response.sendRedirect("../like-it/error");
+
+		} catch (ClassCastException e) {
+			logger.error("ClassCastException occurred during adding message", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding message");
+			response.sendRedirect("../like-it/error");
 		} catch (ServiceException e) {
 			logger.error("ServiceException occurred during adding message", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding message");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 }

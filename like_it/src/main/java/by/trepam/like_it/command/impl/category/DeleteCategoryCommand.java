@@ -11,31 +11,50 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
 public class DeleteCategoryCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static DeleteCategoryCommand command = new DeleteCategoryCommand();
+
+	private DeleteCategoryCommand() {
+	}
+
+	public static DeleteCategoryCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		CategoryService service = factory.getCategoryService();
+		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
-			Object category_id = request.getParameter("category_id");
-			if (category_id != null) {
-				service.deleteCategory(new Integer(category_id.toString()));
-				List<Category> categories = service.getCategories(request.getSession(true).getAttribute("local"));
-				if (categories != null) {
-					request.getSession(true).setAttribute("categories", categories);
+			Integer categoryId = new Integer(request.getParameter(CommandConstant.PARAM_CATEGORY_ID));
+			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
+			if (accountId != null) {
+				service.deleteCategory(categoryId);
+				List<Category> categories = service.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
+				if (categories != null && !categories.isEmpty()) {
+					response.sendRedirect("../like-it/categories");
+				} else {
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Categories wasn't found");
+					response.sendRedirect("../like-it/error");
 				}
+			} else {
+				response.sendRedirect("../like-it/login");
 			}
-			request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
+		} catch (NumberFormatException e) {
+			logger.error("Wrong id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding category");
+			response.sendRedirect("../like-it/error");
+
 		} catch (ServiceException e) {
 			logger.error("ServiceException occurred during adding category", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding category");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

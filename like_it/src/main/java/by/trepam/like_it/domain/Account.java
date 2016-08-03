@@ -4,43 +4,42 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Account implements Serializable{
+public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String login;
 	private String password;
 	private String status;
 	private String name;
 	private String surname;
 	private Image photo;
-	private double rating;
+	private Double rating;
 
 	public Account() {
-		login = "";
-		password = "";
-		status = "";
-		name = "";
-		surname = "";
+		login = DomainConstant.EMPTY;
+		password = DomainConstant.EMPTY;
+		status = DomainConstant.EMPTY;
+		name = DomainConstant.EMPTY;
+		surname = DomainConstant.EMPTY;
 		photo = new Image();
-
 	}
 
-	public Account(int n) {
+	public Account(Integer n) {
 		id = n;
-		login = "";
-		password = "";
-		status = "";
-		name = "";
-		surname = "";
+		login = DomainConstant.EMPTY;
+		password = DomainConstant.EMPTY;
+		status = DomainConstant.EMPTY;
+		name = DomainConstant.EMPTY;
+		surname = DomainConstant.EMPTY;
 		photo = new Image();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -76,11 +75,11 @@ public class Account implements Serializable{
 		this.photo = photo;
 	}
 
-	public double getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(double rating) {
+	public void setRating(Double rating) {
 		this.rating = BigDecimal.valueOf(rating).setScale(3, RoundingMode.HALF_UP).doubleValue();
 	}
 
@@ -98,6 +97,34 @@ public class Account implements Serializable{
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (null == object) {
+			return false;
+		}
+		if (getClass() != object.getClass()) {
+			return false;
+		}
+		Account account = (Account) object;
+		if (null == id) {
+			return (id == account.id);
+		} else {
+			if (!id.equals(account.id)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public int hashCode() {
+		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == login) ? 0 : login.hashCode())
+				+ ((null == password) ? 0 : password.hashCode()) + ((null == status) ? 0 : status.hashCode())
+				+ ((null == name) ? 0 : name.hashCode()) + ((null == surname) ? 0 : surname.hashCode())
+				+ ((null == photo) ? 0 : photo.hashCode()) + ((null == rating) ? 0 : rating.hashCode()));
 	}
 
 }

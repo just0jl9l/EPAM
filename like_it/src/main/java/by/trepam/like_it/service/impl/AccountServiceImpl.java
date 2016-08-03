@@ -10,13 +10,21 @@ import by.trepam.like_it.service.AccountService;
 import by.trepam.like_it.service.exception.ServiceException;
 
 public class AccountServiceImpl implements AccountService{
+	private static final AccountServiceImpl service = new AccountServiceImpl();
+	private static final DAOFactory daoFactory = PostgresqlDAOFactory.getInstance();
+	
+	private AccountServiceImpl(){}
+	
+	public static AccountServiceImpl getInstance(){
+		return service;
+	}	
 
 	public Account logIn(String login, String password) throws ServiceException {
 		Account account = null;
 		if(login!=null && login!="" && password!=null &&password!=""){
 			try {
-				DAOFactory df = PostgresqlDAOFactory.getInstance();
-				AccountDAO acdao = df.getAccountDAO();
+				
+				AccountDAO acdao = daoFactory.getAccountDAO();
 				account = acdao.logIN(login, password);
 			} catch (DAOException e) {
 				throw new ServiceException("DAOException occurred during logination",e);
@@ -25,12 +33,12 @@ public class AccountServiceImpl implements AccountService{
 		return account;
 	}
 
-	public Account getAccount(int account_id) throws ServiceException {
+	public Account getAccount(Integer account_id) throws ServiceException {
 		Account account = null;
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			AccountDAO acdao = df.getAccountDAO();
-			ImageDAO imgdao = df.getImageDAO();
+			
+			AccountDAO acdao = daoFactory.getAccountDAO();
+			ImageDAO imgdao = daoFactory.getImageDAO();
 			account = acdao.getAccount(account_id);
 			if(account!=null){				
 				account.setPhoto(imgdao.getImage(account.getPhoto().getId()));
@@ -45,8 +53,8 @@ public class AccountServiceImpl implements AccountService{
 	public boolean isLoginFree(String login) throws ServiceException {
 		try {
 			if(login!=null && !"".equals(login)){
-				DAOFactory df = PostgresqlDAOFactory.getInstance();
-				AccountDAO accdao = df.getAccountDAO();
+				
+				AccountDAO accdao = daoFactory.getAccountDAO();
 				return accdao.isLoginFree(login);
 			}else{
 				return false;
@@ -58,8 +66,8 @@ public class AccountServiceImpl implements AccountService{
 
 	public void addAccount(Account account) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			AccountDAO accdao = df.getAccountDAO();
+			
+			AccountDAO accdao = daoFactory.getAccountDAO();
 			accdao.insert(account);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding message",e);
@@ -69,8 +77,8 @@ public class AccountServiceImpl implements AccountService{
 
 	public void updateAccount(Account account) throws ServiceException {
 		try {
-			DAOFactory df = PostgresqlDAOFactory.getInstance();
-			AccountDAO accdao = df.getAccountDAO();
+			
+			AccountDAO accdao = daoFactory.getAccountDAO();
 			accdao.update(account);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding message",e);

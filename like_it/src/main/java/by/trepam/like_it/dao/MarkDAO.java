@@ -7,8 +7,8 @@ import by.trepam.like_it.domain.Mark;
 
 public interface MarkDAO {
 
-	void insert(Mark mark,int answerID) throws DAOException;
-	void delete(int authorID,int answerID) throws DAOException;
-	List<Mark> getAllMarksOfAnswer(int ancwerID) throws DAOException;
-	void update(Mark mark,int answerID) throws DAOException;
+	void insert(Mark mark,Integer answerID) throws DAOException;
+	void delete(Integer authorID,Integer answerID) throws DAOException;
+	List<Mark> getAllMarksOfAnswer(Integer ancwerID) throws DAOException;
+	void update(Mark mark,Integer answerID) throws DAOException;
 }

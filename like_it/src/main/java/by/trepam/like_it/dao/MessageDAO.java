@@ -7,9 +7,9 @@ import by.trepam.like_it.domain.Message;
 
 public interface MessageDAO {
 
-	void insert(Message message,int categoryID) throws DAOException;
-	void delete(int messageID) throws DAOException;
-	Message getMessage(int messageID) throws DAOException;
-	List<Message> getAllMessagesOfCategory(int categoryID) throws DAOException;
+	void insert(Message message,Integer categoryID) throws DAOException;
+	void delete(Integer messageID) throws DAOException;
+	Message getMessage(Integer messageID) throws DAOException;
+	List<Message> getAllMessagesOfCategory(Integer categoryID) throws DAOException;
 	void update(Message message) throws DAOException;
 }

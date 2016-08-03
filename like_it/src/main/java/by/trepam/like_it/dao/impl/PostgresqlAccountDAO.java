@@ -6,16 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import by.trepam.like_it.dao.AccountDAO;
+import by.trepam.like_it.dao.connection_pool.exception.ConnectionPoolException;
+import by.trepam.like_it.dao.connection_pool.impl.PostgresqlConnectionPool;
 import by.trepam.like_it.dao.exception.DAOException;
-import by.trepam.like_it.dao.factory.PostgresqlDAOFactory;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.domain.Image;
 
 public class PostgresqlAccountDAO implements AccountDAO {
 
 	public void insert(Account account) throws DAOException {
-		String sql = QueryConstants.INSERT_ACCOUNT;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		String sql = QueryConstant.SQL_INSERT_ACCOUNT;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, account.getName());
 			stm.setString(2, account.getSurname());
@@ -25,26 +26,30 @@ public class PostgresqlAccountDAO implements AccountDAO {
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 
 	}
 
-	public void delete(int accountID) throws DAOException {
-		String sql = QueryConstants.DELETE_ACCOUNT_BY_ID;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+	public void delete(Integer accountID) throws DAOException {
+		String sql = QueryConstant.SQL_DELETE_ACCOUNT_BY_ID;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, accountID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 
 	}
 
-	public Account getAccount(int accountID) throws DAOException {
-		String sql = QueryConstants.GET_ACCOUNT_BY_ID;
+	public Account getAccount(Integer accountID) throws DAOException {
+		String sql = QueryConstant.SQL_GET_ACCOUNT_BY_ID;
 		Account account = null;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, accountID);
 			ResultSet rs = stm.executeQuery();
@@ -60,13 +65,15 @@ public class PostgresqlAccountDAO implements AccountDAO {
 			return account;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 
 	}
 
 	public void update(Account account) throws DAOException {
-		String sql = QueryConstants.UPDATE_ACCOUNT;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		String sql = QueryConstant.SQL_UPDATE_ACCOUNT;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, account.getName());
 			stm.setString(2, account.getSurname());
@@ -75,13 +82,15 @@ public class PostgresqlAccountDAO implements AccountDAO {
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
 	public Account logIN(String login, String password) throws DAOException {
-		String sql = QueryConstants.ACCOUNT_LOG_IN;
+		String sql = QueryConstant.SQL_ACCOUNT_LOG_IN;
 		Account account = null;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, login);
 			stm.setString(2, password);
@@ -99,13 +108,15 @@ public class PostgresqlAccountDAO implements AccountDAO {
 			return account;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
-	public double rating(int accountID) throws DAOException {
-		String sql = QueryConstants.ACCOUNT_RATING_BY_ID;
+	public double rating(Integer accountID) throws DAOException {
+		String sql = QueryConstant.SQL_ACCOUNT_RATING_BY_ID;
 		double rating = 0;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, accountID);
 			ResultSet rs = stm.executeQuery();
@@ -115,12 +126,14 @@ public class PostgresqlAccountDAO implements AccountDAO {
 			return rating;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 	}
 
 	public boolean isLoginFree(String login) throws DAOException {
-		String sql = QueryConstants.FIND_LOGIN;
-		try (Connection connection = PostgresqlDAOFactory.getConnection();
+		String sql = QueryConstant.SQL_FIND_LOGIN;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, login);
 			ResultSet rs = stm.executeQuery();
@@ -131,6 +144,8 @@ public class PostgresqlAccountDAO implements AccountDAO {
 			}
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
 		}
 		
 	}

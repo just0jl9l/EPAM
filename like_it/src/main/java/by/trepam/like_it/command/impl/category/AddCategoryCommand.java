@@ -15,52 +15,75 @@ import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
 public class AddCategoryCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static AddCategoryCommand command = new AddCategoryCommand();
+
+	private AddCategoryCommand() {
+	}
+
+	public static AddCategoryCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		CategoryService service = factory.getCategoryService();
+		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
-			Object title_ru = request.getParameter("title_ru");
-			Object title_en = request.getParameter("title_en");
-			Object description_ru = request.getParameter("description_ru");
-			Object description_en = request.getParameter("description_en");
-			Object image = request.getParameter("image");
-			Category category_ru = new Category();
-			category_ru.setName(title_ru.toString());
-			category_ru.setDescription(description_ru.toString());
-			Category category_en = new Category();
-			category_en.setName(title_en.toString());
-			category_en.setDescription(description_en.toString());
-			if (title_ru != null && description_ru != null) {
-				service.addCategory(category_ru);
-				int id = service.getCategoryId(title_ru.toString());
-				category_ru.setId(id);
-				service.addCategoryText(category_ru, CommandConstant.RU);
-				if ((title_en != null && description_en != null)) {
-					category_en.setId(id);
-					service.addCategoryText(category_en, CommandConstant.EN);
+			String titleRu = request.getParameter(CommandConstant.PARAM_TITLE_RU);
+			String titleEn = request.getParameter(CommandConstant.PARAM_TITLE_EN);
+			String descriptionRu = request.getParameter(CommandConstant.PARAM_DESCRIPTION_RU);
+			String descriptionEn = request.getParameter(CommandConstant.PARAM_DESCRIPTION_EN);
+			Object image = request.getParameter(CommandConstant.PARAM_IMAGE);
+			Category categoryRu = new Category();
+			categoryRu.setName(titleRu);
+			categoryRu.setDescription(descriptionRu);
+			Category categoryEn = new Category();
+			categoryEn.setName(titleEn);
+			categoryEn.setDescription(descriptionEn);
+			if (titleRu != null && descriptionRu != null && !CommandConstant.EMPTY.equals(titleRu)
+					&& !CommandConstant.EMPTY.equals(descriptionRu)) {
+				service.addCategory(categoryRu);
+				Integer id = service.getCategoryIdByTitle(titleRu);
+				categoryRu.setId(id);
+				service.addCategoryText(categoryRu, CommandConstant.RU);
+				if (titleEn != null && descriptionEn != null && !CommandConstant.EMPTY.equals(titleEn)
+						&& !CommandConstant.EMPTY.equals(descriptionEn)) {
+					categoryEn.setId(id);
+					service.addCategoryText(categoryEn, CommandConstant.EN);
 				}
 			} else {
-				if (title_en != null && description_en != null) {
-					service.addCategory(category_en);
-					int id = service.getCategoryId(title_en.toString());
-					category_en.setId(id);
-					service.addCategoryText(category_en, CommandConstant.EN);
+				if (titleEn != null && descriptionEn != null && !CommandConstant.EMPTY.equals(titleEn)
+						&& !CommandConstant.EMPTY.equals(descriptionEn)) {
+					service.addCategory(categoryEn);
+					Integer id = service.getCategoryIdByTitle(titleEn);
+					categoryEn.setId(id);
+					service.addCategoryText(categoryEn, CommandConstant.EN);
 				}
 			}
-			List<Category> categories = service.getCategories(request.getSession(true).getAttribute("local"));
+			List<Category> categories = service
+					.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
 			if (categories != null) {
-				request.getSession(true).setAttribute("categories", categories);
+				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORIES, categories);
 			}
-			request.getRequestDispatcher("jsp/categories.jsp").forward(request, response);
+			response.sendRedirect("../like-it/categories");
+		} catch (NumberFormatException e) {
+			logger.error("Wrong account id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
+			response.sendRedirect("../like-it/error");
+
+		} catch (ClassCastException e) {
+			logger.error("ClassCastException occurred during adding category", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during adding category");
+			response.sendRedirect("../like-it/error");
 		} catch (ServiceException e) {
 			logger.error("ServiceException occurred during adding category", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during adding category");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

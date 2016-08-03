@@ -10,47 +10,67 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.domain.Answer;
 import by.trepam.like_it.domain.Message;
 import by.trepam.like_it.service.AnswerService;
 import by.trepam.like_it.service.MessageService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.AnswerServiceImpl;
+import by.trepam.like_it.service.impl.MessageServiceImpl;
 
 public class AddAnswerCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static AddAnswerCommand command = new AddAnswerCommand();
+
+	private AddAnswerCommand() {
+	}
+
+	public static AddAnswerCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		AnswerService answerService = factory.getAnswerService();
-		MessageService messagweService = factory.getMessageService();
+		AnswerService answerService = AnswerServiceImpl.getInstance();
+		MessageService messagweService = MessageServiceImpl.getInstance();
 		try {
-			Object account_id = request.getSession(true).getAttribute("account_id");
-			Object text = request.getParameter("text");
-			Object message = request.getSession(true).getAttribute("message");
+			Integer account_id = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
+			String text = request.getParameter(CommandConstant.PARAM_TEXT);
+			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);
 			if (account_id != null) {
-				if (text != null && message != null) {
+				if (text != null && message != null && !CommandConstant.EMPTY.equals(text)) {
 					Answer answer = new Answer();
-					answer.setAuthor(new Account((int) account_id));
-					answer.setText(text.toString());
-					answerService.addAnswer(answer, ((Message) message).getId());
-					message = messagweService.getMessage(((Message) message).getId());
+					answer.setAuthor(new Account(account_id));
+					answer.setText(text);
+					answerService.addAnswer(answer, message.getId());
+					message = messagweService.getMessage(message.getId());
 					if (message != null) {
-						request.getSession(true).setAttribute("message", message);
-						request.getSession(true).setAttribute("answers", ((Message) message).getAnswers());
+						request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
+						request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
 					}
-					request.getRequestDispatcher("jsp/message.jsp").forward(request, response);
+					response.sendRedirect("../like-it/message");
 				} else {
-					request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
+					response.sendRedirect("../like-it/error");
 				}
 			} else {
-				request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
+				response.sendRedirect("../like-it/login");
 			}
+		} catch (NumberFormatException e) {
+			logger.error("Wrong account id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
+			response.sendRedirect("../like-it/error");
+
+		} catch (ClassCastException e) {
+			logger.error("ClassCastException occurred during adding answer", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding answer");
+			response.sendRedirect("../like-it/error");
 		} catch (ServiceException e) {
 			logger.error("ServiceException occurred during adding answer", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding answer");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

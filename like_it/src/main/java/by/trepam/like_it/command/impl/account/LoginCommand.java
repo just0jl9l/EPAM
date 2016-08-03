@@ -14,29 +14,37 @@ import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.service.AccountService;
 import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.factory.ServiceFactory;
+import by.trepam.like_it.service.impl.AccountServiceImpl;
 
 public class LoginCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
+	private final static LoginCommand command = new LoginCommand();
+
+	private LoginCommand() {
+	}
+
+	public static LoginCommand getInstance() {
+		return command;
+	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		AccountService service = factory.getAccountService();
+		AccountService service = AccountServiceImpl.getInstance();
 		try {
-			Account account = service.logIn(request.getParameter("login"), request.getParameter("password"));
+			Account account = service.logIn(request.getParameter(CommandConstant.PARAM_LOGIN),
+					request.getParameter(CommandConstant.PARAM_PASSWORD));
 			if (account != null) {
-				request.getSession(true).setAttribute("error_message", null);
-				request.getSession(true).setAttribute("account_id", account.getId());
-				request.getSession(true).setAttribute("status", account.getStatus());
-				request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT_ID, account.getId());
+				request.getSession(true).setAttribute(CommandConstant.PARAM_STATUS, account.getStatus());
+				response.sendRedirect("../like-it");
 			} else {
-				request.setAttribute("error_message", CommandConstant.TRUE);
-				request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, CommandConstant.TRUE);
+				response.sendRedirect("../like-it/login");
 			}
 		} catch (ServiceException e) {
 			logger.error("ServiceException occurred during logination", e);
-			request.getRequestDispatcher("jsp/like_it.jsp").forward(request, response);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during logination");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

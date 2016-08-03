@@ -1,16 +1,11 @@
 package by.trepam.like_it.dao.factory;
 
-import java.sql.Connection;
-
 import by.trepam.like_it.dao.AccountDAO;
 import by.trepam.like_it.dao.AnswerDAO;
 import by.trepam.like_it.dao.CategoryDAO;
 import by.trepam.like_it.dao.ImageDAO;
 import by.trepam.like_it.dao.MarkDAO;
 import by.trepam.like_it.dao.MessageDAO;
-import by.trepam.like_it.dao.connection_pool.ConnectionPool;
-import by.trepam.like_it.dao.connection_pool.exception.ConnectionPoolException;
-import by.trepam.like_it.dao.exception.DAOException;
 import by.trepam.like_it.dao.impl.PostgresqlAccountDAO;
 import by.trepam.like_it.dao.impl.PostgresqlAnswerDAO;
 import by.trepam.like_it.dao.impl.PostgresqlCategoryDAO;
@@ -21,7 +16,6 @@ import by.trepam.like_it.dao.impl.PostgresqlMessageDAO;
 public class PostgresqlDAOFactory implements DAOFactory{
 
 	private static PostgresqlDAOFactory factory = new PostgresqlDAOFactory();
-	private static ConnectionPool connectionPool = new ConnectionPool();
 	private AccountDAO accountDAO = new PostgresqlAccountDAO();
 	private AnswerDAO answerDAO = new PostgresqlAnswerDAO();
 	private CategoryDAO categoryDAO = new PostgresqlCategoryDAO();
@@ -31,42 +25,8 @@ public class PostgresqlDAOFactory implements DAOFactory{
 	
 	private PostgresqlDAOFactory(){}
 	
-	public static void init(){
-		try {
-			connectionPool.init();
-		} catch (ConnectionPoolException e) {
-			try {
-				connectionPool.init();
-			} catch (ConnectionPoolException e1) {
-				throw new Error("ConnectionPool was't initialized");
-			}			
-		}
-	}
-	
-	public static void destroy(){
-		try {
-			connectionPool.close();
-		} catch (ConnectionPoolException e) {
-			try {
-				connectionPool.close();
-			} catch (ConnectionPoolException e1) {
-				throw new Error("ConnectionPool was't initialized");
-			}			
-		}
-	}
-	
 	public static PostgresqlDAOFactory getInstance(){
 		return factory;
-	}
-		
-	public static Connection getConnection() throws DAOException{ 
-		Connection connection;
-		try {
-			connection = connectionPool.getConnection();
-		} catch (ConnectionPoolException e) {
-			throw new DAOException("ConnectionPoolException",e);
-		}
-		return connection;
 	}
 	
 	public AccountDAO getAccountDAO() {
