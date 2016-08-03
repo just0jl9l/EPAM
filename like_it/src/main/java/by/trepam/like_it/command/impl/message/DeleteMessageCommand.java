@@ -30,14 +30,9 @@ public class DeleteMessageCommand implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MessageService messageService = MessageServiceImpl.getInstance();
 		try {
-			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
 			Integer messageId = new Integer(request.getParameter(CommandConstant.PARAM_MESSAGE_ID));
-			if (accountId != null) {
-				messageService.deleteMessage(messageId);
-				response.sendRedirect("../like-it/categories.jsp");
-			}else{
-				response.sendRedirect("../like-it/login");
-			}
+			messageService.deleteMessage(messageId);
+			response.sendRedirect("../like-it/categories.jsp");
 		} catch(NumberFormatException e){
 			logger.error("Wrong id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong id");

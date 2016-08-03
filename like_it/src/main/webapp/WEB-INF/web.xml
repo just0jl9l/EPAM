@@ -24,6 +24,23 @@
 			<param-value>utf-8</param-value>
 		</init-param>
 	</filter>
+	<filter-mapping>
+		<filter-name>CharsetFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<display-name>SessionFilter</display-name>
+		<filter-name>SessionFilter</filter-name>
+		<filter-class>by.trepam.like_it.filter.SessionFilter</filter-class>
+		<init-param>
+			<param-name>commands</param-name>
+			<param-value>personal-account,add-message,rate,add-answer,add-category,goto-change-category,change-category,delete-category,add-message,goto-change-message,change-message,delete-message,goto-change-personal-account,change-personal-account</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SessionFilter</filter-name>
+		<url-pattern>/Controller</url-pattern>
+	</filter-mapping>
 	<servlet>
 		<description></description>
 		<display-name>Controller</display-name>

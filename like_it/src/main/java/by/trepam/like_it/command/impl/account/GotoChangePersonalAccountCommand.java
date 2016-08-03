@@ -26,13 +26,8 @@ public class GotoChangePersonalAccountCommand implements Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try{
-			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
-			if (accountId != null) {
-				request.setAttribute(CommandConstant.PARAM_CHANGE, CommandConstant.TRUE);
-				request.getRequestDispatcher("WEB-INF/jsp/registration.jsp").forward(request, response);
-			} else {
-				request.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(request, response);
-			}
+			request.setAttribute(CommandConstant.PARAM_CHANGE, CommandConstant.TRUE);
+			request.getRequestDispatcher("WEB-INF/jsp/registration.jsp").forward(request, response);			
 		} catch (NumberFormatException e) {
 			logger.error("Wrong account id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");

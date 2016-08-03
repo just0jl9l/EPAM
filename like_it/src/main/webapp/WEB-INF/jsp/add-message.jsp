@@ -89,10 +89,9 @@
 		</div>
 		<div class="line">
 			<label class="input_label" for="text"><c:out value="${text}" /></label>
-			<textarea id="text" name="text"><c:if
-					test="${requestScope.change == 'yes'}">
-					<c:out value="${sessionScope.message.text}" />
-				</c:if></textarea>
+			<textarea id="text" name="text"><c:if 
+			test="${requestScope.change == 'yes'}"><c:out 
+			value="${sessionScope.message.text}" /></c:if></textarea>
 		</div>
 		<c:if test="${requestScope.change != 'yes'}">
 			<div class="center">

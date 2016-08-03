@@ -33,18 +33,13 @@ public class DeleteCategoryCommand implements Command {
 		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
 			Integer categoryId = new Integer(request.getParameter(CommandConstant.PARAM_CATEGORY_ID));
-			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
-			if (accountId != null) {
-				service.deleteCategory(categoryId);
-				List<Category> categories = service.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
-				if (categories != null && !categories.isEmpty()) {
-					response.sendRedirect("../like-it/categories");
-				} else {
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Categories wasn't found");
-					response.sendRedirect("../like-it/error");
-				}
+			service.deleteCategory(categoryId);
+			List<Category> categories = service.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
+			if (categories != null && !categories.isEmpty()) {
+				response.sendRedirect("../like-it/categories");
 			} else {
-				response.sendRedirect("../like-it/login");
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Categories wasn't found");
+				response.sendRedirect("../like-it/error");
 			}
 		} catch (NumberFormatException e) {
 			logger.error("Wrong id", e);

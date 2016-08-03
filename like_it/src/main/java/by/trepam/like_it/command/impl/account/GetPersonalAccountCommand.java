@@ -32,13 +32,9 @@ public class GetPersonalAccountCommand implements Command {
 		AccountService service = AccountServiceImpl.getInstance();
 		try {
 			Integer accountID = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
-			if (accountID != null) {
-				Account account = service.getAccount(accountID);
-				request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT, account);
-				request.getRequestDispatcher("WEB-INF/jsp/personal-account.jsp").forward(request, response);
-			} else {
-				request.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(request, response);
-			}
+			Account account = service.getAccount(accountID);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT, account);
+			request.getRequestDispatcher("WEB-INF/jsp/personal-account.jsp").forward(request, response);
 		} catch (NumberFormatException e) {
 			logger.error("Wrong account id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");

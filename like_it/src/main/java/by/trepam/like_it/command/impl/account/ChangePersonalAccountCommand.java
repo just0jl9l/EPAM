@@ -35,23 +35,19 @@ public class ChangePersonalAccountCommand implements Command {
 			String name = request.getParameter(CommandConstant.PARAM_NAME);
 			String surname = request.getParameter(CommandConstant.PARAM_SURNAME);
 			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
-			if (accountId != null) {
-				if (name != null && surname != null && !CommandConstant.EMPTY.equals(name)
-						&& !CommandConstant.EMPTY.equals(surname)) {
-					Account account = new Account();
-					account.setId(accountId);
-					account.setName(name);
-					account.setSurname(surname);
-					service.updateAccount(account);
-					account = service.getAccount(accountId);
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT, account);
-					response.sendRedirect("../like-it/personal-account");
-				} else {
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account data");
-					response.sendRedirect("../like-it/error");
-				}
+			if (name != null && surname != null && !CommandConstant.EMPTY.equals(name)
+					&& !CommandConstant.EMPTY.equals(surname)) {
+				Account account = new Account();
+				account.setId(accountId);
+				account.setName(name);
+				account.setSurname(surname);
+				service.updateAccount(account);
+				account = service.getAccount(accountId);
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT, account);
+				response.sendRedirect("../like-it/personal-account");
 			} else {
-				response.sendRedirect("../like-it/login");
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account data");
+				response.sendRedirect("../like-it/error");
 			}
 		} catch (NumberFormatException e) {
 			logger.error("Wrong account id", e);

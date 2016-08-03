@@ -65,9 +65,8 @@
 				<label class="input_label" for="description_ru"><c:out
 						value="${description}(ru)" /></label>
 				<textarea id="description_ru" name="description_ru"><c:if
-						test="${requestScope.change == 'yes'}">
-						<c:out value="${sessionScope.category_ru.description}" />
-					</c:if></textarea>
+						test="${requestScope.change == 'yes'}"><c:out 
+						value="${sessionScope.category_ru.description}" /></c:if></textarea>
 			</div>
 			<div class="line">
 				<label class="input_label" for="title2"><c:out

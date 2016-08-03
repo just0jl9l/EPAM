@@ -40,35 +40,31 @@ public class AddMessageCommand implements Command {
 			String text = request.getParameter(CommandConstant.PARAM_TEXT);
 			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
 			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
-			if (accountId != null) {
-				if (category != null) {
-					if (title != null && text != null && !CommandConstant.EMPTY.equals(title)
-							&& !CommandConstant.EMPTY.equals(text)) {
-						Message message = new Message();
-						message.setName(title);
-						message.setText(text);
-						message.setAuthor(new Account(accountId));
-						messageService.addMessage(message, category.getId());
-						category = categoryService.getCategory(category.getId(),
-								request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
-						if (category != null) {
-							request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY, category);
-							request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, category.getMessages());
-							response.sendRedirect("../like-it/category");
-						}else{
-							request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
-							response.sendRedirect("../like-it/error");
-						}
+			if (category != null) {
+				if (title != null && text != null && !CommandConstant.EMPTY.equals(title)
+						&& !CommandConstant.EMPTY.equals(text)) {
+					Message message = new Message();
+					message.setName(title);
+					message.setText(text);
+					message.setAuthor(new Account(accountId));
+					messageService.addMessage(message, category.getId());
+					category = categoryService.getCategory(category.getId(),
+							request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
+					if (category != null) {
+						request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY, category);
+						request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, category.getMessages());
+						response.sendRedirect("../like-it/category");
 					}else{
-						request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
+						request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
 						response.sendRedirect("../like-it/error");
-					}					
-				} else {
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
+					}
+				}else{
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
 					response.sendRedirect("../like-it/error");
-				}
+				}					
 			} else {
-				response.sendRedirect("../like-it/login");
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
+				response.sendRedirect("../like-it/error");
 			}
 		} catch (NumberFormatException e) {
 			logger.error("Wrong account id", e);

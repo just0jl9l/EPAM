@@ -39,24 +39,20 @@ public class RateCommand implements Command {
 			Integer mark_value = new Integer(request.getParameter(CommandConstant.PARAM_MARK));
 			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
 			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);
-			if (accountId != null) {
-				if (mark_value != null && message != null) {
-					int answer_id = new Integer(request.getParameter(CommandConstant.PARAM_ANSWER));
-					Mark mark = new Mark(mark_value, new Account(accountId));
-					if (message != null) {
-						answerService.rating(mark, answer_id);
-						message = messagweService.getMessage(message.getId());
-						request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
-						request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
-					}
-					response.sendRedirect("../like-it/message");
-				} else {
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
-					response.sendRedirect("../like-it/error");
+			if (mark_value != null && message != null) {
+				int answer_id = new Integer(request.getParameter(CommandConstant.PARAM_ANSWER));
+				Mark mark = new Mark(mark_value, new Account(accountId));
+				if (message != null) {
+					answerService.rating(mark, answer_id);
+					message = messagweService.getMessage(message.getId());
+					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
 				}
+				response.sendRedirect("../like-it/message");
 			} else {
-				response.sendRedirect("../like-it/login");
-			}
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
+				response.sendRedirect("../like-it/error");
+			}			
 		} catch (NumberFormatException e) {
 			logger.error("Wrong account id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");

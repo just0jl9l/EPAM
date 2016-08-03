@@ -39,24 +39,20 @@ public class AddAnswerCommand implements Command {
 			Integer account_id = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
 			String text = request.getParameter(CommandConstant.PARAM_TEXT);
 			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);
-			if (account_id != null) {
-				if (text != null && message != null && !CommandConstant.EMPTY.equals(text)) {
-					Answer answer = new Answer();
-					answer.setAuthor(new Account(account_id));
-					answer.setText(text);
-					answerService.addAnswer(answer, message.getId());
-					message = messagweService.getMessage(message.getId());
-					if (message != null) {
-						request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
-						request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
-					}
-					response.sendRedirect("../like-it/message");
-				} else {
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
-					response.sendRedirect("../like-it/error");
+			if (text != null && message != null && !CommandConstant.EMPTY.equals(text)) {
+				Answer answer = new Answer();
+				answer.setAuthor(new Account(account_id));
+				answer.setText(text);
+				answerService.addAnswer(answer, message.getId());
+				message = messagweService.getMessage(message.getId());
+				if (message != null) {
+					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
 				}
+			response.sendRedirect("../like-it/message");
 			} else {
-				response.sendRedirect("../like-it/login");
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
+				response.sendRedirect("../like-it/error");
 			}
 		} catch (NumberFormatException e) {
 			logger.error("Wrong account id", e);
