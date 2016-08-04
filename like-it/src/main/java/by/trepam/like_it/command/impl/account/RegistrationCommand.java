@@ -56,10 +56,15 @@ public class RegistrationCommand implements Command {
 							account.setStatus(CommandConstant.STATUS_CLIENT);
 						}
 						service.addAccount(account);
-						account = service.logIn(login, password);
-						request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT_ID, account.getId());
-						request.getSession(true).setAttribute(CommandConstant.PARAM_STATUS, status);
-						response.sendRedirect("../like-it");
+						account = service.logIn(login,password);
+						if (account != null) {
+							request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT_ID, account.getId());
+							request.getSession(true).setAttribute(CommandConstant.PARAM_STATUS, account.getStatus());
+							response.sendRedirect("../like-it");
+						} else {
+							request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, CommandConstant.TRUE);
+							response.sendRedirect("../like-it/login");
+						}
 					} else {
 						request.getSession(true).setAttribute(CommandConstant.PARAM_PASSWORD_ERROR,
 								CommandConstant.TRUE);
