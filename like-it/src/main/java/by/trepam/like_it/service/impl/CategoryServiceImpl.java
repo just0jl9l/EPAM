@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService{
 			if(lang!=null){
 				categories = catdao.getAllCategories(lang.toString());
 			}else{
-				categories = catdao.getAllCategories("en");
+				categories = catdao.getAllCategories(EN);
 			}	
 			ImageDAO imgdao = daoFactory.getImageDAO();
 			for(Category c: categories){
@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService{
 			if(lang!=null){
 				category = catdao.getCategory(id,lang.toString());
 			}else{
-				category = catdao.getCategory(id,"en");
+				category = catdao.getCategory(id,EN);
 			}
 			MessageDAO messdao = daoFactory.getMessageDAO();
 			AccountDAO acdao = daoFactory.getAccountDAO();
@@ -79,15 +79,21 @@ public class CategoryServiceImpl implements CategoryService{
 	public void addCategory(Category categoryRu,Category categoryEn) throws ServiceException {
 		try {			
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
+			Integer id;
 			if(categoryRu!=null){
 				catdao.insert(categoryRu);
+				id=getCategoryIdByTitle(categoryRu.getName());
+				categoryRu.setId(id);
 				addCategoryText(categoryRu,RU);
 				if(categoryEn!=null){
+					categoryEn.setId(id);
 					addCategoryText(categoryEn,EN);
 				}
 			}else{
 				if(categoryEn!=null){
 					catdao.insert(categoryEn);
+					id=getCategoryIdByTitle(categoryEn.getName());
+					categoryEn.setId(id);
 					addCategoryText(categoryEn,EN);
 				}
 			}
@@ -122,6 +128,8 @@ public class CategoryServiceImpl implements CategoryService{
 		try {
 			
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
+			deleteCategoryText(id_category,EN);
+			deleteCategoryText(id_category,RU);
 			catdao.delete(id_category);
 		} catch (DAOException e) {
 			throw new ServiceException("DAOException occurred during adding message",e);

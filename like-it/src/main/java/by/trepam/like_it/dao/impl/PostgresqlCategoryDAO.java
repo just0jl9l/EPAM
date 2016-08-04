@@ -36,7 +36,6 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, categoryID);
-			stm.setInt(2, categoryID);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);

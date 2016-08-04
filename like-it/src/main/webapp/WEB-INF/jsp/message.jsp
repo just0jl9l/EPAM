@@ -99,12 +99,18 @@
 				</p>
 				<div class="mark_line">
 					<span><c:out value="${rate}" /></span>
-					<myTag:answerRating  action="Controller" value="-1" answer="${item.id}"/>
-					<myTag:answerRating  action="Controller" value="1" answer="${item.id}"/>
-					<myTag:answerRating  action="Controller" value="2" answer="${item.id}"/>
-					<myTag:answerRating  action="Controller" value="3" answer="${item.id}"/>
-					<myTag:answerRating  action="Controller" value="4" answer="${item.id}"/>
-					<myTag:answerRating  action="Controller" value="5" answer="${item.id}"/>
+					<myTag:answerRating action="Controller" value="-1"
+						answer="${item.id}" />
+					<myTag:answerRating action="Controller" value="1"
+						answer="${item.id}" />
+					<myTag:answerRating action="Controller" value="2"
+						answer="${item.id}" />
+					<myTag:answerRating action="Controller" value="3"
+						answer="${item.id}" />
+					<myTag:answerRating action="Controller" value="4"
+						answer="${item.id}" />
+					<myTag:answerRating action="Controller" value="5"
+						answer="${item.id}" />
 				</div>
 				<div class="answer_rating">
 					<c:out value="${item.rating}" />
@@ -137,21 +143,27 @@
 				<a href="../like-it/Controller?command=goto-change-message"
 					class="small_button menu_item"><c:out value="${change_message}" /></a>
 			</c:if></li>
-		<li><c:if
-				test="${sessionScope.accountId == sessionScope.message.author.id}">
-				<a href="../like-it/Controller?command=goto-change-message"
-					class="small_button menu_item"><c:out value="${change_message}" /></a>
+		<li><c:if test="${sessionScope.status != 'admin'}">
+				<c:if
+					test="${sessionScope.accountId == sessionScope.message.author.id}">
+					<a href="../like-it/Controller?command=goto-change-message"
+						class="small_button menu_item"><c:out
+							value="${change_message}" /></a>
+				</c:if>
 			</c:if></li>
 		<li><c:if test="${sessionScope.status == 'admin'}">
 				<a
 					href="../like-it/Controller?command=delete-message&messageId=${sessionScope.message.id}"
 					class="small_button menu_item"><c:out value="${delete_message}" /></a>
 			</c:if></li>
-		<li><c:if
-				test="${sessionScope.accountId == sessionScope.message.author.id}">
-				<a
-					href="../like-it/Controller?command=delete-message&messageId=${sessionScope.message.id}"
-					class="small_button menu_item"><c:out value="${delete_message}" /></a>
+		<li><c:if test="${sessionScope.status != 'admin'}">
+				<c:if
+					test="${sessionScope.accountId == sessionScope.message.author.id}">
+					<a
+						href="../like-it/Controller?command=delete-message&messageId=${sessionScope.message.id}"
+						class="small_button menu_item"><c:out
+							value="${delete_message}" /></a>
+				</c:if>
 			</c:if></li>
 		<li><c:if test="${sessionScope.status == 'admin'}">
 				<a href="../like-it/add-answer" class="small_button menu_item"><c:out

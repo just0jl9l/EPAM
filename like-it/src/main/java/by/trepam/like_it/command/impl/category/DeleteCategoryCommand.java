@@ -36,6 +36,7 @@ public class DeleteCategoryCommand implements Command {
 			service.deleteCategory(categoryId);
 			List<Category> categories = service.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
 			if (categories != null && !categories.isEmpty()) {
+				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORIES, categories);
 				response.sendRedirect("../like-it/categories");
 			} else {
 				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Categories wasn't found");
@@ -43,12 +44,12 @@ public class DeleteCategoryCommand implements Command {
 			}
 		} catch (NumberFormatException e) {
 			logger.error("Wrong id", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding category");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during deleting category");
 			response.sendRedirect("../like-it/error");
 
 		} catch (ServiceException e) {
 			logger.error("ServiceException occurred during adding category", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding category");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during deleting category");
 			response.sendRedirect("../like-it/error");
 		}
 	}

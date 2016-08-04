@@ -11,14 +11,14 @@ public class QueryConstant {
 	public static final String SQL_FIND_LOGIN = "SELECT * FROM account WHERE login = ?;";
 
 	public static final String SQL_INSERT_CATEGORY = "INSERT INTO category(name, description, image) VALUES (?, ?, ?);";
-	public static final String SQL_DELETE_CATEGORY_BY_ID = "DELETE FROM category_text WHERE id_category = ?;DELETE FROM category WHERE id_category = ?;";
+	public static final String SQL_DELETE_CATEGORY_BY_ID = "DELETE FROM category WHERE id_category = ?;";
 	public static final String SQL_GET_CATEGORY_BY_ID = "SELECT g.image, coalesce(t.name, g.name) AS name, coalesce(t.description, g.description) AS description FROM category AS g LEFT JOIN (SELECT * FROM category_text WHERE lang = ?) AS t USING(id_category) WHERE g.id_category=?;";
 	public static final String SQL_UPDATE_CATEGORY = "UPDATE category SET name = ?, description = ?, image = ? WHERE id_category = ?;";
 	public static final String SQL_GET_ALL_CATEGORIES = "SELECT g.id_category, g.image, coalesce(t.name, g.name) AS fname, coalesce(t.description, g.description) AS description FROM category AS g LEFT JOIN (SELECT * FROM category_text WHERE lang = ?) AS t USING(id_category);";
 	public static final String SQL_INSERT_CATEGORY_TEXT = "INSERT INTO category_text(lang, name, description, id_category) VALUES(?, ?, ?, ?);";
 	public static final String SQL_GET_CATEGORY_ID_BY_NAME = "SELECT id_category FROM category WHERE name = ?;";
 	public static final String SQL_UPDATE_CATEGORY_TEXT = "UPDATE category_text SET name = ?, description = ? WHERE id_category = ? AND lang = ?;";
-	public static final String SQL_DELETE_CATEGORY_TEXT = "DELETE FROM category WHERE id_category = ? AND lang = ?;";
+	public static final String SQL_DELETE_CATEGORY_TEXT = "DELETE FROM category_text WHERE id_category = ? AND lang = ?;";
 
 	public static final String SQL_INSERT_MESSAGE = "INSERT INTO message(name, text, id_category, id_author, date_of_posting) VALUES (?, ?, ?, ?, ?);";
 	public static final String SQL_DELETE_MESSAGE_BY_ID = "DELETE FROM message WHERE id_message = ?;";

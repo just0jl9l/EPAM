@@ -32,7 +32,7 @@ public class DeleteMessageCommand implements Command {
 		try {
 			Integer messageId = new Integer(request.getParameter(CommandConstant.PARAM_MESSAGE_ID));
 			messageService.deleteMessage(messageId);
-			response.sendRedirect("../like-it/categories.jsp");
+			response.sendRedirect("../like-it/categories");
 		} catch (NumberFormatException e) {
 			logger.error("Wrong id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong id");
