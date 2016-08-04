@@ -1,7 +1,8 @@
-﻿<%@ page language="java" contentType="text/html; charset=utf-8"
+<%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/WEB-INF/tld/taglib.tld" prefix="myTag"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -98,42 +99,12 @@
 				</p>
 				<div class="mark_line">
 					<span><c:out value="${rate}" /></span>
-					<form class="language-form" action="Controller" method="post">
-						<input type="hidden" name="command" value="rate" /> <input
-							type="hidden" name="answer" value="${item.id}" /> <input
-							type="hidden" name="mark" value="-1" /> <input type="submit"
-							class="mark_button" value="-1" />
-					</form>
-					<form class="language-form" action="Controller" method="post">
-						<input type="hidden" name="command" value="rate" /> <input
-							type="hidden" name="answer" value="${item.id}" /> <input
-							type="hidden" name="mark" value="1" /> <input type="submit"
-							class="mark_button" value="1" />
-					</form>
-					<form class="language-form" action="Controller" method="post">
-						<input type="hidden" name="command" value="rate" /> <input
-							type="hidden" name="answer" value="${item.id}" /> <input
-							type="hidden" name="mark" value="2" /> <input type="submit"
-							class="mark_button" value="2" />
-					</form>
-					<form class="language-form" action="Controller" method="post">
-						<input type="hidden" name="command" value="rate" /> <input
-							type="hidden" name="answer" value="${item.id}" /> <input
-							type="hidden" name="mark" value="3" /> <input type="submit"
-							class="mark_button" value="3" />
-					</form>
-					<form class="language-form" action="Controller" method="post">
-						<input type="hidden" name="command" value="rate" /> <input
-							type="hidden" name="answer" value="${item.id}" /> <input
-							type="hidden" name="mark" value="4" /> <input type="submit"
-							class="mark_button" value="4" />
-					</form>
-					<form class="language-form" action="Controller" method="post">
-						<input type="hidden" name="command" value="rate" /> <input
-							type="hidden" name="answer" value="${item.id}" /> <input
-							type="hidden" name="mark" value="5" /> <input type="submit"
-							class="mark_button" value="5" />
-					</form>
+					<myTag:answerRating  action="Controller" value="-1" answer="${item.id}"/>
+					<myTag:answerRating  action="Controller" value="1" answer="${item.id}"/>
+					<myTag:answerRating  action="Controller" value="2" answer="${item.id}"/>
+					<myTag:answerRating  action="Controller" value="3" answer="${item.id}"/>
+					<myTag:answerRating  action="Controller" value="4" answer="${item.id}"/>
+					<myTag:answerRating  action="Controller" value="5" answer="${item.id}"/>
 				</div>
 				<div class="answer_rating">
 					<c:out value="${item.rating}" />
@@ -194,5 +165,3 @@
 	</aside>
 </body>
 </html>
-
-

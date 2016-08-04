@@ -35,7 +35,6 @@ public class GetMessageCommand implements Command {
 			Message message = service.getMessage(messageId);
 			if (message != null) {
 				request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
-				request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
 				request.getRequestDispatcher("WEB-INF/jsp/message.jsp").forward(request, response);
 			}else{
 				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Message wasn't found");

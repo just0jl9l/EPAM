@@ -46,7 +46,6 @@ public class RateCommand implements Command {
 					answerService.rating(mark, answer_id);
 					message = messagweService.getMessage(message.getId());
 					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
 				}
 				response.sendRedirect("../like-it/message");
 			} else {

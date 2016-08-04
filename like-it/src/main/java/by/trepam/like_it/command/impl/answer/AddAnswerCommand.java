@@ -47,7 +47,6 @@ public class AddAnswerCommand implements Command {
 				message = messagweService.getMessage(message.getId());
 				if (message != null) {
 					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ANSWER, message.getAnswers());
 				}
 				response.sendRedirect("../like-it/message");
 			} else {
