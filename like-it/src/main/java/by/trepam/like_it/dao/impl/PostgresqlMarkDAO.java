@@ -17,11 +17,11 @@ import by.trepam.like_it.domain.Mark;
 
 public class PostgresqlMarkDAO implements MarkDAO{
 
-	public void insert(Mark mark,Integer answerID)  throws DAOException {
+	public void insert(Mark mark,Integer answerId)  throws DAOException {
 		String sql = QueryConstant.SQL_INSERT_MARK;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, answerID);
+			stm.setInt(1, answerId);
 			stm.setInt(2, mark.getAuthor().getId());
 			stm.setInt(3, mark.getValue());
 			stm.setTimestamp(4, new Timestamp(mark.getDateOfVoting().getTime()));
@@ -33,12 +33,12 @@ public class PostgresqlMarkDAO implements MarkDAO{
 		}
 	}
 
-	public void delete(Integer authorID,Integer answerID)  throws DAOException {
+	public void delete(Integer authorId,Integer answerId)  throws DAOException {
 		String sql = QueryConstant.SQL_DELETE_MARK;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, answerID);
-			stm.setInt(2, authorID);
+			stm.setInt(1, answerId);
+			stm.setInt(2, authorId);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -48,13 +48,13 @@ public class PostgresqlMarkDAO implements MarkDAO{
 		
 	}
 
-	public List<Mark> getAllMarksOfAnswer(Integer answerID)  throws DAOException {
+	public List<Mark> getAllMarksOfAnswer(Integer answerId)  throws DAOException {
 		String sql = QueryConstant.SQL_GET_ALL_MARKS_OF_ANSWER;
 		List<Mark> marks = new ArrayList<Mark>();
 		Mark mark = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, answerID);
+			stm.setInt(1, answerId);
 			ResultSet rs = stm.executeQuery();
 			while (rs.next()) {
 				mark = new Mark();
@@ -71,13 +71,13 @@ public class PostgresqlMarkDAO implements MarkDAO{
 		}
 	}
 
-	public void update(Mark mark,Integer answerID) throws DAOException {
+	public void update(Mark mark,Integer answerId) throws DAOException {
 		String sql = QueryConstant.SQL_UPDATE_MARK;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, mark.getValue());
 			stm.setTimestamp(2, new Timestamp(mark.getDateOfVoting().getTime()));
-			stm.setInt(3, answerID);
+			stm.setInt(3, answerId);
 			stm.setInt(4, mark.getAuthor().getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {

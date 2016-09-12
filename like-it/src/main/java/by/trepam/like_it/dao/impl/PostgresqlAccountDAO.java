@@ -32,11 +32,11 @@ public class PostgresqlAccountDAO implements AccountDAO {
 
 	}
 
-	public void delete(Integer accountID) throws DAOException {
+	public void delete(Integer accountId) throws DAOException {
 		String sql = QueryConstant.SQL_DELETE_ACCOUNT_BY_ID;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, accountID);
+			stm.setInt(1, accountId);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -46,16 +46,16 @@ public class PostgresqlAccountDAO implements AccountDAO {
 
 	}
 
-	public Account getAccount(Integer accountID) throws DAOException {
+	public Account getAccount(Integer accountId) throws DAOException {
 		String sql = QueryConstant.SQL_GET_ACCOUNT_BY_ID;
 		Account account = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, accountID);
+			stm.setInt(1, accountId);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				account = new Account();
-				account.setId(accountID);
+				account.setId(accountId);
 				account.setLogin(rs.getString(1));
 				account.setName(rs.getString(2));
 				account.setSurname(rs.getString(3));
@@ -113,12 +113,12 @@ public class PostgresqlAccountDAO implements AccountDAO {
 		}
 	}
 
-	public double rating(Integer accountID) throws DAOException {
+	public double rating(Integer accountId) throws DAOException {
 		String sql = QueryConstant.SQL_ACCOUNT_RATING_BY_ID;
 		double rating = 0;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, accountID);
+			stm.setInt(1, accountId);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				rating = rs.getDouble(1);

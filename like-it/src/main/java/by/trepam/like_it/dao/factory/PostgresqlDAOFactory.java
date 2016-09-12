@@ -16,6 +16,7 @@ import by.trepam.like_it.dao.impl.PostgresqlMessageDAO;
 public class PostgresqlDAOFactory implements DAOFactory{
 
 	private static PostgresqlDAOFactory factory = new PostgresqlDAOFactory();
+	
 	private AccountDAO accountDAO = new PostgresqlAccountDAO();
 	private AnswerDAO answerDAO = new PostgresqlAnswerDAO();
 	private CategoryDAO categoryDAO = new PostgresqlCategoryDAO();

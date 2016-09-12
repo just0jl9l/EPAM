@@ -20,7 +20,10 @@ public class Controller extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		CommandHandler handler = CommandHandler.getInstance();
-		String commandName = request.getParameter("command").toUpperCase().replaceAll("-", "_");
+		String commandName = request.getParameter("command");
+		if (commandName != null && "".equals(commandName)) {
+			commandName = commandName.toUpperCase().replaceAll("-", "_");
+		}
 		Command command = handler.getCommand(commandName);
 		if (command != null) {
 			command.execute(request, response);

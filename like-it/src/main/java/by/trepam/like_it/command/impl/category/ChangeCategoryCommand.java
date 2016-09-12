@@ -39,7 +39,6 @@ public class ChangeCategoryCommand implements Command {
 				String titleEn = request.getParameter(CommandConstant.PARAM_TITLE_EN);
 				String descriptionRu = request.getParameter(CommandConstant.PARAM_DESCRIPTION_RU);
 				String descriptionEn = request.getParameter(CommandConstant.PARAM_DESCRIPTION_EN);
-			//	Object image = request.getParameter(CommandConstant.PARAM_IMAGE);
 				Category categoryRu = null;
 				Category categoryEn = null;
 				if (titleRu != null && descriptionRu != null && !CommandConstant.EMPTY.equals(titleRu)

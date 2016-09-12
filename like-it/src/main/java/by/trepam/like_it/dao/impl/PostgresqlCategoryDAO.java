@@ -31,11 +31,11 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 		}
 	}
 
-	public void delete(Integer categoryID) throws DAOException {
+	public void delete(Integer categoryId) throws DAOException {
 		String sql = QueryConstant.SQL_DELETE_CATEGORY_BY_ID;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, categoryID);
+			stm.setInt(1, categoryId);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -45,17 +45,17 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 		
 	}
 
-	public Category getCategory(Integer categoryID,String lang)  throws DAOException {
+	public Category getCategory(Integer categoryId,String lang)  throws DAOException {
 		String sql = QueryConstant.SQL_GET_CATEGORY_BY_ID;
 		Category category = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, lang);
-			stm.setInt(2, categoryID);
+			stm.setInt(2, categoryId);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				category = new Category();
-				category.setId(categoryID);
+				category.setId(categoryId);
 				category.setImage(new Image(rs.getInt(1)));
 				category.setName(rs.getString(2));
 				category.setDescription(rs.getString(3));
@@ -160,11 +160,11 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 		
 	}
 
-	public void deleteText(Integer category_id, String lang) throws DAOException {
+	public void deleteText(Integer categoryId, String lang) throws DAOException {
 		String sql = QueryConstant.SQL_DELETE_CATEGORY_TEXT;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, category_id);
+			stm.setInt(1, categoryId);
 			stm.setString(2, lang);
 			stm.executeUpdate();
 		} catch (SQLException e) {

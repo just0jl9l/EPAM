@@ -32,8 +32,6 @@ public class ChangePersonalAccountCommand implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountService service = AccountServiceImpl.getInstance();
 		try {
-//			CommandUtil util = new CommandUtil();
-//			String name1 = util.getImage(request, CommandConstant.PARAM_PHOTO);
 			String name = request.getParameter(CommandConstant.PARAM_NAME);
 			String surname = request.getParameter(CommandConstant.PARAM_SURNAME);
 			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);

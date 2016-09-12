@@ -6,7 +6,7 @@ import by.trepam.like_it.domain.Image;
 public interface ImageDAO {
 
 	void insert(Image image) throws DAOException;
-	void delete(Integer imageID) throws DAOException;
-	Image getImage(Integer imageID) throws DAOException;
+	void delete(Integer imageId) throws DAOException;
+	Image getImage(Integer imageId) throws DAOException;
 	void update(Image image) throws DAOException;
 }

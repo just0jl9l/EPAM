@@ -32,8 +32,6 @@ public class RegistrationCommand implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountService service = AccountServiceImpl.getInstance();
 		try {
-//			CommandUtil util = CommandUtil.getInstance();
-//			Object photo = request.getParameter(CommandConstant.PARAM_PHOTO);
 			String login = request.getParameter(CommandConstant.PARAM_LOGIN);
 			String name = request.getParameter(CommandConstant.PARAM_NAME);
 			String surname = request.getParameter(CommandConstant.PARAM_SURNAME);

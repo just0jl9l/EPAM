@@ -27,11 +27,11 @@ public class PostgresqlImageDAO implements ImageDAO{
 		}
 	}
 
-	public void delete(Integer imageID)  throws DAOException {
+	public void delete(Integer imageId)  throws DAOException {
 		String sql = QueryConstant.SQL_DELETE_IMAGE_BY_ID;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, imageID);
+			stm.setInt(1, imageId);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -41,16 +41,16 @@ public class PostgresqlImageDAO implements ImageDAO{
 		
 	}
 
-	public Image getImage(Integer imageID) throws DAOException {
+	public Image getImage(Integer imageId) throws DAOException {
 		String sql = QueryConstant.SQL_GET_IMAGE_BY_ID;
 		Image image = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
-			stm.setInt(1, imageID);
+			stm.setInt(1, imageId);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				image = new Image();
-				image.setId(imageID);
+				image.setId(imageId);
 				image.setPath(rs.getString(1));
 				image.setFormat(rs.getString(2));
 			}
