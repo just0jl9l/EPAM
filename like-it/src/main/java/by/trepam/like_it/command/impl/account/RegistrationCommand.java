@@ -13,7 +13,8 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.service.AccountService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AccountServiceImpl;
 
 public class RegistrationCommand implements Command {
@@ -31,14 +32,15 @@ public class RegistrationCommand implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountService service = AccountServiceImpl.getInstance();
 		try {
-			Object photo = request.getParameter(CommandConstant.PARAM_PHOTO);
+//			CommandUtil util = CommandUtil.getInstance();
+//			Object photo = request.getParameter(CommandConstant.PARAM_PHOTO);
 			String login = request.getParameter(CommandConstant.PARAM_LOGIN);
 			String name = request.getParameter(CommandConstant.PARAM_NAME);
 			String surname = request.getParameter(CommandConstant.PARAM_SURNAME);
 			String status = request.getParameter(CommandConstant.PARAM_STATUS);
 			String password = request.getParameter(CommandConstant.PARAM_PASSWORD);
 			String secondPassword = request.getParameter(CommandConstant.PARAM_SECOND_PASSWORD);
-			if (service.isLoginFree(login)) {
+			if (service.isLoginValid(login)) {
 				boolean isOk = !CommandConstant.EMPTY.equals(password) && !CommandConstant.EMPTY.equals(secondPassword)
 						&& !CommandConstant.EMPTY.equals(name) && !CommandConstant.EMPTY.equals(surname)
 						&& password != null && secondPassword != null && name != null && surname != null;
@@ -56,15 +58,8 @@ public class RegistrationCommand implements Command {
 							account.setStatus(CommandConstant.STATUS_CLIENT);
 						}
 						service.addAccount(account);
-						account = service.logIn(login,password);
-						if (account != null) {
-							request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT_ID, account.getId());
-							request.getSession(true).setAttribute(CommandConstant.PARAM_STATUS, account.getStatus());
-							response.sendRedirect("../like-it");
-						} else {
-							request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, CommandConstant.TRUE);
-							response.sendRedirect("../like-it/login");
-						}
+						LoginCommand command = LoginCommand.getInstance();
+						command.execute(request, response);
 					} else {
 						request.getSession(true).setAttribute(CommandConstant.PARAM_PASSWORD_ERROR,
 								CommandConstant.TRUE);
@@ -80,10 +75,15 @@ public class RegistrationCommand implements Command {
 				response.sendRedirect("../like-it/registration");
 			}
 
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during registration", e);
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred during registration", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
 					"Exception occurred during registration");
+			response.sendRedirect("../like-it/error");
+		} catch (WrongDataException e) {
+			logger.error("Wrong account data", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Wrong account data");
 			response.sendRedirect("../like-it/error");
 		}
 	}

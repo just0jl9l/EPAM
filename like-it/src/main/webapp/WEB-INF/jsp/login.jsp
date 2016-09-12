@@ -40,7 +40,7 @@
 	</h1>
 	<form action="Controller" method="post">
 		<input type="hidden" name="command" value="login" />
-		<c:if test="${sessionScope.error == 'yes'}">
+		<c:if test="${sessionScope.error == 'true'}">
 			<span class="input_error" id="log_in_error"><c:out
 					value="${error}" /></span>
 		</c:if>

@@ -16,7 +16,9 @@ import by.trepam.like_it.domain.Mark;
 import by.trepam.like_it.domain.Message;
 import by.trepam.like_it.service.AnswerService;
 import by.trepam.like_it.service.MessageService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.DataNotFoundException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AnswerServiceImpl;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
@@ -36,22 +38,25 @@ public class RateCommand implements Command {
 		AnswerService answerService = AnswerServiceImpl.getInstance();
 		MessageService messagweService = MessageServiceImpl.getInstance();
 		try {
-			Integer mark_value = new Integer(request.getParameter(CommandConstant.PARAM_MARK));
+			Integer markValue = new Integer(request.getParameter(CommandConstant.PARAM_MARK));
 			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
+			int answerId = new Integer(request.getParameter(CommandConstant.PARAM_ANSWER));
 			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);
-			if (mark_value != null && message != null) {
-				int answer_id = new Integer(request.getParameter(CommandConstant.PARAM_ANSWER));
-				Mark mark = new Mark(mark_value, new Account(accountId));
-				if (message != null) {
-					answerService.rating(mark, answer_id);
-					message = messagweService.getMessage(message.getId());
+			Mark mark = new Mark(markValue, new Account(accountId));
+			if (message != null) {
+				answerService.rating(mark, answerId);
+				message = messagweService.getMessage(message.getId());
+				if (message != null) {								//?
 					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
+					response.sendRedirect("../like-it/message");
+				}else{
+					logger.error("Message wasn't found");
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Message wasn't found");
+					response.sendRedirect("../like-it/error");
 				}
-				response.sendRedirect("../like-it/message");
-			} else {
-				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
-				response.sendRedirect("../like-it/error");
-			}			
+			}else{
+				response.sendRedirect("../like-it/like-it");
+			}
 		} catch (NumberFormatException e) {
 			logger.error("Wrong account id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
@@ -60,9 +65,17 @@ public class RateCommand implements Command {
 			logger.error("ClassCastException occurred during rating", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during rating");
 			response.sendRedirect("../like-it/error");
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during rating", e);
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred during rating", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during rating");
+			response.sendRedirect("../like-it/error");
+		} catch (WrongDataException e) {
+			logger.error("Wrong rating data", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong rating data");
+			response.sendRedirect("../like-it/error");
+		} catch (DataNotFoundException e) {
+			logger.error("Answer wasn't found", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Answer wasn't found");
 			response.sendRedirect("../like-it/error");
 		}
 	}

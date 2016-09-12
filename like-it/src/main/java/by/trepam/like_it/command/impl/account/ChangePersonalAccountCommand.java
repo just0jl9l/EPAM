@@ -13,7 +13,8 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.service.AccountService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AccountServiceImpl;
 
 public class ChangePersonalAccountCommand implements Command {
@@ -31,7 +32,8 @@ public class ChangePersonalAccountCommand implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountService service = AccountServiceImpl.getInstance();
 		try {
-			Object photo = request.getParameter(CommandConstant.PARAM_PHOTO);
+//			CommandUtil util = new CommandUtil();
+//			String name1 = util.getImage(request, CommandConstant.PARAM_PHOTO);
 			String name = request.getParameter(CommandConstant.PARAM_NAME);
 			String surname = request.getParameter(CommandConstant.PARAM_SURNAME);
 			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
@@ -42,9 +44,8 @@ public class ChangePersonalAccountCommand implements Command {
 				account.setName(name);
 				account.setSurname(surname);
 				service.updateAccount(account);
-				account = service.getAccount(accountId);
-				request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT, account);
-				response.sendRedirect("../like-it/personal-account");
+				GetPersonalAccountCommand getCommand = GetPersonalAccountCommand.getInstance();
+				getCommand.execute(request, response);
 			} else {
 				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account data");
 				response.sendRedirect("../like-it/error");
@@ -53,9 +54,14 @@ public class ChangePersonalAccountCommand implements Command {
 			logger.error("Wrong account id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
 			response.sendRedirect("../like-it/error");
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding message", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding message");
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred during adding message", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during adding message");
+			response.sendRedirect("../like-it/error");
+		} catch (WrongDataException e) {
+			logger.error("Wrong account", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account");
 			response.sendRedirect("../like-it/error");
 		}
 	}

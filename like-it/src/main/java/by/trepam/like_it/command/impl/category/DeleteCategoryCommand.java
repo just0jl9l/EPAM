@@ -1,7 +1,6 @@
 package by.trepam.like_it.command.impl.category;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +11,9 @@ import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
-import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
 public class DeleteCategoryCommand implements Command {
@@ -34,22 +33,17 @@ public class DeleteCategoryCommand implements Command {
 		try {
 			Integer categoryId = new Integer(request.getParameter(CommandConstant.PARAM_CATEGORY_ID));
 			service.deleteCategory(categoryId);
-			List<Category> categories = service.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
-			if (categories != null && !categories.isEmpty()) {
-				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORIES, categories);
-				response.sendRedirect("../like-it/categories");
-			} else {
-				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Categories wasn't found");
-				response.sendRedirect("../like-it/error");
-			}
-		} catch (NumberFormatException e) {
-			logger.error("Wrong id", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during deleting category");
+			GetCategoriesCommand command = GetCategoriesCommand.getInstance();
+			command.execute(request, response);
+		} catch (NumberFormatException|WrongDataException e) {
+			logger.error("Wrong category id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Wrong category id");
 			response.sendRedirect("../like-it/error");
-
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding category", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during deleting category");
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred during deleting category", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during deleting category");
 			response.sendRedirect("../like-it/error");
 		}
 	}

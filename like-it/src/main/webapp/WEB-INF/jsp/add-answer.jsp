@@ -26,6 +26,8 @@
 <fmt:message bundle="${loc}" key="local.button.logout" var="logout" />
 <fmt:message bundle="${loc}" key="local.label.text" var="text" />
 <fmt:message bundle="${loc}" key="local.button.add" var="add" />
+<fmt:message bundle="${loc}" key="local.error.not_all_error"
+	var="error" />
 </head>
 <body>
 	<header> <img alt="Логотип" class="logo_image"
@@ -79,7 +81,11 @@
 		</div>
 	</div>
 	<form action="Controller" method="post">
-		<input type="hidden" name="command" value="add-answer" />
+		<input type="hidden" name="command" value="add-answer" />		
+		<c:if test="${sessionScope.error == 'true'}">
+			<span class="input_error" id="log_in_error"><c:out
+					value="${error}" /></span>
+		</c:if>
 		<div class="line">
 			<label class="input_label" for="text"><c:out value="${text}" /></label>
 			<textarea id="text" name="text"></textarea>

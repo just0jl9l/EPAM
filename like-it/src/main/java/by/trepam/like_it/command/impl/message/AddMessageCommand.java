@@ -11,13 +11,13 @@ import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
+import by.trepam.like_it.command.impl.category.GetCategoryCommand;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.domain.Message;
-import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.MessageService;
-import by.trepam.like_it.service.exception.ServiceException;
-import by.trepam.like_it.service.impl.CategoryServiceImpl;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
 public class AddMessageCommand implements Command {
@@ -34,7 +34,7 @@ public class AddMessageCommand implements Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MessageService messageService = MessageServiceImpl.getInstance();
-		CategoryService categoryService = CategoryServiceImpl.getInstance();
+		GetCategoryCommand getCategoryCommand = GetCategoryCommand.getInstance();
 		try {
 			String title = request.getParameter(CommandConstant.PARAM_TITLE);
 			String text = request.getParameter(CommandConstant.PARAM_TEXT);
@@ -48,20 +48,11 @@ public class AddMessageCommand implements Command {
 					message.setText(text);
 					message.setAuthor(new Account(accountId));
 					messageService.addMessage(message, category.getId());
-					category = categoryService.getCategory(category.getId(),
-							request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
-					if (category != null) {
-						request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY, category);
-						request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, category.getMessages());
-						response.sendRedirect("../like-it/category");
-					}else{
-						request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
-						response.sendRedirect("../like-it/error");
-					}
-				}else{
-					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
-					response.sendRedirect("../like-it/error");
-				}					
+					getCategoryCommand.execute(request, response);
+				} else {
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, CommandConstant.TRUE);
+					response.sendRedirect("../like-it/add-message");
+				}
 			} else {
 				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
 				response.sendRedirect("../like-it/error");
@@ -72,12 +63,17 @@ public class AddMessageCommand implements Command {
 			response.sendRedirect("../like-it/error");
 
 		} catch (ClassCastException e) {
-			logger.error("ClassCastException occurred during adding message", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding message");
+			logger.error("Wrong category", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong category");
 			response.sendRedirect("../like-it/error");
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding message", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding message");
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred during adding message", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during adding message");
+			response.sendRedirect("../like-it/error");
+		} catch (WrongDataException e) {
+			logger.error("Wrong message", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong message");
 			response.sendRedirect("../like-it/error");
 		}
 	}

@@ -28,6 +28,8 @@
 <fmt:message bundle="${loc}" key="local.button.change" var="change" />
 <fmt:message bundle="${loc}" key="local.label.title" var="title" />
 <fmt:message bundle="${loc}" key="local.label.text" var="text" />
+<fmt:message bundle="${loc}" key="local.error.not_all_error"
+	var="error" />
 </head>
 <body>
 	<header> <img alt="Логотип" class="logo_image"
@@ -57,14 +59,6 @@
 	</ul>
 	</nav>
 	<section class="col-6 col-m-9">
-	<form action="Controller" method="post">
-		<c:if test="${requestScope.change != 'yes'}">
-			<input type="hidden" name="command" value="add_message" />
-		</c:if>
-		<c:out value="${sessionScope.change}" />
-		<c:if test="${requestScope.change == 'yes'}">
-			<input type="hidden" name="command" value="change_message" />
-		</c:if>
 		<div class="category">
 			<img src="${sessionScope.category.image.path}"
 				alt="Категория Развлечения" class="category_image">
@@ -75,29 +69,40 @@
 				<c:out value="${sessionScope.category.description}" />
 			</p>
 		</div>
+	<form action="Controller" method="post">
+		<c:if test="${requestScope.change != 'true'}">
+			<input type="hidden" name="command" value="add_message" />
+		</c:if>
+		<c:if test="${requestScope.change == 'true'}">
+			<input type="hidden" name="command" value="change_message" />
+		</c:if>				
+		<c:if test="${sessionScope.error == 'true'}">
+			<span class="input_error" id="log_in_error"><c:out
+					value="${error}" /></span>
+		</c:if>
 		<div class="line">
 			<label class="input_label" for="title"><c:out
 					value="${title}" /></label>
-			<c:if test="${requestScope.change == 'yes'}">
+			<c:if test="${requestScope.change == 'true'}">
 				<input id="title" name="title" type="text"
 					value="${sessionScope.message.name}">
 			</c:if>
-			<c:if test="${requestScope.change != 'yes'}">
+			<c:if test="${requestScope.change != 'true'}">
 				<input id="title" name="title" type="text">
 			</c:if>
 		</div>
 		<div class="line">
 			<label class="input_label" for="text"><c:out value="${text}" /></label>
 			<textarea id="text" name="text"><c:if 
-			test="${requestScope.change == 'yes'}"><c:out 
+			test="${requestScope.change == 'true'}"><c:out 
 			value="${sessionScope.message.text}" /></c:if></textarea>
 		</div>
-		<c:if test="${requestScope.change != 'yes'}">
+		<c:if test="${requestScope.change != 'true'}">
 			<div class="center">
 				<input class="menu_item inline_button" type="submit" name="${add}">
 			</div>
 		</c:if>
-		<c:if test="${requestScope.change == 'yes'}">
+		<c:if test="${requestScope.change == 'true'}">
 			<div class="center">
 				<input class="menu_item inline_button" type="submit"
 					name="${change}">

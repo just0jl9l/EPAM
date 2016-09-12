@@ -13,17 +13,19 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.DataNotFoundException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
 public class GotoChangeCategoryCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 	private final static GotoChangeCategoryCommand command = new GotoChangeCategoryCommand();
-	
+
 	private static final String EN = "en";
 	private static final String RU = "ru";
-	
+
 	private GotoChangeCategoryCommand() {
 	}
 
@@ -37,13 +39,9 @@ public class GotoChangeCategoryCommand implements Command {
 			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
 			if (category != null) {
 				Category currentCategory = service.getCategory(category.getId(), EN);
-				if (currentCategory != null) {
-					request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_EN, currentCategory);
-				}
+				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_EN, currentCategory);
 				currentCategory = service.getCategory(category.getId(), RU);
-				if (currentCategory != null) {
-					request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_RU, currentCategory);
-				}
+				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_RU, currentCategory);
 				request.setAttribute(CommandConstant.PARAM_CHANGE, CommandConstant.TRUE);
 				request.getRequestDispatcher("WEB-INF/jsp/add-category.jsp").forward(request, response);
 			} else {
@@ -52,11 +50,19 @@ public class GotoChangeCategoryCommand implements Command {
 			}
 		} catch (ClassCastException e) {
 			logger.error("ClassCastException occurred", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} catch (DataNotFoundException e) {
+			logger.error("Category wasn't found", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
 			request.getRequestDispatcher("error.jsp").forward(request, response);
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
+		} catch (WrongDataException e) {
+			logger.error("Wrong category id", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong category id");
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}

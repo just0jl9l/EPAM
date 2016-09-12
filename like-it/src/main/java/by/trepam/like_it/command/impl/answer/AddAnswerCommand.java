@@ -16,7 +16,9 @@ import by.trepam.like_it.domain.Answer;
 import by.trepam.like_it.domain.Message;
 import by.trepam.like_it.service.AnswerService;
 import by.trepam.like_it.service.MessageService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.DataNotFoundException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AnswerServiceImpl;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
@@ -45,13 +47,17 @@ public class AddAnswerCommand implements Command {
 				answer.setText(text);
 				answerService.addAnswer(answer, message.getId());
 				message = messagweService.getMessage(message.getId());
-				if (message != null) {
+				if (message != null) {								//?
 					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
+					response.sendRedirect("../like-it/message");
+				}else{
+					logger.error("Message wasn't found");
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Message wasn't found");
+					response.sendRedirect("../like-it/error");
 				}
-				response.sendRedirect("../like-it/message");
 			} else {
-				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
-				response.sendRedirect("../like-it/error");
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, CommandConstant.TRUE);
+				response.sendRedirect("../like-it/add-answer");
 			}
 		} catch (NumberFormatException e) {
 			logger.error("Wrong account id", e);
@@ -62,10 +68,16 @@ public class AddAnswerCommand implements Command {
 			logger.error("ClassCastException occurred during adding answer", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding answer");
 			response.sendRedirect("../like-it/error");
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during adding answer", e);
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred during adding answer", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding answer");
 			response.sendRedirect("../like-it/error");
+		} catch (WrongDataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

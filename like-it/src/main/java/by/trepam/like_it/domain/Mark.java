@@ -75,7 +75,6 @@ public class Mark implements Serializable {
 	}
 
 	public int hashCode() {
-		return (int) 31 * (((null == value) ? 0 : value.hashCode()) + ((null == author) ? 0 : author.hashCode())
-				+ ((null == dateOfVoting) ? 0 : dateOfVoting.hashCode()));
+		return (int) 31 * (((null == value) ? 0 : value.hashCode()) + ((null == author) ? 0 : author.hashCode()));
 	}
 }

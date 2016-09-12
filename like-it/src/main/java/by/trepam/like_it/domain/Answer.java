@@ -119,8 +119,6 @@ public class Answer implements Serializable {
 	}
 
 	public int hashCode() {
-		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == text) ? 0 : text.hashCode())
-				+ ((null == dateOfPosting) ? 0 : dateOfPosting.hashCode()) + ((null == author) ? 0 : author.hashCode())
-				+ ((null == marks) ? 0 : marks.hashCode()) + ((null == rating) ? 0 : rating.hashCode()));
+		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == text) ? 0 : text.hashCode()));
 	}
 }

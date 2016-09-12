@@ -121,10 +121,7 @@ public class Account implements Serializable {
 	}
 
 	public int hashCode() {
-		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == login) ? 0 : login.hashCode())
-				+ ((null == password) ? 0 : password.hashCode()) + ((null == status) ? 0 : status.hashCode())
-				+ ((null == name) ? 0 : name.hashCode()) + ((null == surname) ? 0 : surname.hashCode())
-				+ ((null == photo) ? 0 : photo.hashCode()) + ((null == rating) ? 0 : rating.hashCode()));
+		return (int) 31 * (((null == id) ? 0 : id.hashCode()) );
 	}
 
 }

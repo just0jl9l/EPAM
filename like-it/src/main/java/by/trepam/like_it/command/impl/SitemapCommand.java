@@ -30,12 +30,8 @@ public class SitemapCommand implements Command {
 		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
 			List<Category> categories = service.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
-			if(categories!=null && !categories.isEmpty()){
-				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORIES, categories);
-				request.getRequestDispatcher("WEB-INF/jsp/sitemap.jsp").forward(request, response);
-			}else{
-				request.getRequestDispatcher("like-it.jsp").forward(request, response);
-			}
+			request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORIES, categories);
+			request.getRequestDispatcher("WEB-INF/jsp/sitemap.jsp").forward(request, response);
 		} catch (ServiceException e) {
 			logger.error("ServiceException occurred during getting sitemap", e);
 			request.getRequestDispatcher("like-it.jsp").forward(request, response);

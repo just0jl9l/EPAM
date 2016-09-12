@@ -109,7 +109,6 @@ public class Category implements Serializable {
 
 	public int hashCode() {
 		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == description) ? 0 : description.hashCode())
-				+ ((null == image) ? 0 : image.hashCode()) + ((null == messages) ? 0 : messages.hashCode())
 				+ ((null == name) ? 0 : name.hashCode()));
 	}
 }

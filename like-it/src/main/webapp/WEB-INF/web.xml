@@ -47,7 +47,7 @@
 		<filter-class>by.trepam.like_it.filter.CleanErrorFilter</filter-class>
 		<init-param>
 			<param-name>avoid</param-name>
-			<param-value>/registration,/login,/add-category</param-value>
+			<param-value>/registration,/login,/add-category,/error,/add-message,/add-answer</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

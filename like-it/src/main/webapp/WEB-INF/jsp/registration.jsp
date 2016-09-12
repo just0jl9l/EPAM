@@ -51,41 +51,41 @@
 			class="language_button" value="${en_button}" />
 	</form>
 	</header>
-	<form action="Controller" method="post">
-		<c:if test="${sessionScope.change != 'yes'}">
+	<form action="Controller" method="post" enctype="multipart/form-data">
+		<c:if test="${requestScope.change != 'true'}">
 			<input type="hidden" name="command" value="registration" />
 		</c:if>
-		<c:if test="${sessionScope.change == 'yes'}">
+		<c:if test="${requestScope.change == 'true'}">
 			<input type="hidden" name="command" value="change-personal-account" />
 		</c:if>
 		<figure class="col-4 col-m-12 account_photo center"> <c:if
-			test="${sessionScope.change != 'yes'}">
+			test="${requestScope.change != 'true'}">
 			<p>
 				<img src="content/0.png" alt="фотография пользователя"
 					class="big_photo">
 			</p>
-		</c:if> <c:if test="${sessionScope.change == 'yes'}">
+		</c:if> <c:if test="${requestScope.change == 'true'}">
 			<p>
 				<img src="${sessionScope.account.photo.path}"
 					alt="фотография пользователя" class="big_photo">
 			</p>
-		</c:if> <input name="photo" type="file"> </figure>
+		</c:if> <input name="photo" type="file" accept="image/*,image/png"> </figure>
 		<section class="col-6 col-m-12">
 		<div class="line">
 			<h1>
 				<c:out value="${registration_text}" />
 			</h1>
 		</div>
-		<c:if test="${sessionScope.loginError == 'yes'}">
+		<c:if test="${sessionScope.loginError == 'true'}">
 			<label class="input_error" id="login_input_error" for="login"><c:out
 					value="${login_error}" /></label>
-		</c:if> <c:if test="${sessionScope.notAllDataError == 'yes'}">
+		</c:if> <c:if test="${sessionScope.notAllDataError == 'true'}">
 			<label class="input_error" id="login_input_error" for="login"><c:out
 					value="${not_all_error}" /></label>
-		</c:if> <c:if test="${sessionScope.passwordError == 'yes'}">
+		</c:if> <c:if test="${sessionScope.passwordError == 'true'}">
 			<label class="input_error" id="login_input_error" for="password"><c:out
 					value="${password_error}" /></label>
-		</c:if> <c:if test="${sessionScope.change != 'yes'}">
+		</c:if> <c:if test="${requestScope.change != 'true'}">
 			<div class="line">
 				<label class="input_label" for="login"><c:out
 						value="${login}" /></label> <input id="login" name="login" type="text">
@@ -93,25 +93,25 @@
 		</c:if>
 		<div class="line">
 			<label class="input_label" for="name"><c:out value="${name}" /></label>
-			<c:if test="${sessionScope.change != 'yes'}">
+			<c:if test="${requestScope.change != 'true'}">
 				<input id="name" name="name" type="text">
 			</c:if>
-			<c:if test="${sessionScope.change == 'yes'}">
+			<c:if test="${requestScope.change == 'true'}">
 				<input id="name" name="name" type="text"
 					value="${sessionScope.account.name}">
 			</c:if>
 		</div>
 		<div class="line">
 			<label class="input_label"><c:out value="${surname}" /></label>
-			<c:if test="${sessionScope.change != 'yes'}">
+			<c:if test="${requestScope.change != 'true'}">
 				<input id="surname" name="surname" type="text">
 			</c:if>
-			<c:if test="${requestScope.change == 'yes'}">
+			<c:if test="${requestScope.change == 'true'}">
 				<input id="surname" name="surname" type="text"
 					value="${sessionScope.account.surname}">
 			</c:if>
 		</div>
-		<c:if test="${sessionScope.change != 'yes'}">
+		<c:if test="${requestScope.change != 'true'}">
 			<c:if test="${sessionScope.status == 'admin'}">
 				<div class="line">
 					<label class="input_label" for="status"><c:out
@@ -133,10 +133,10 @@
 			</div>
 		</c:if> </section>
 		<footer class="col-12 col-m-12 menu"> <c:if
-			test="${sessionScope.change != 'yes'}">
+			test="${requestScope.change != 'true'}">
 			<input class="menu_item inline_button" type="submit"
 				value="${sign_up}">
-		</c:if> <c:if test="${requestScope.change == 'yes'}">
+		</c:if> <c:if test="${requestScope.change == 'true'}">
 			<input class="menu_item inline_button" type="submit"
 				value="${change}">
 		</c:if> </footer>

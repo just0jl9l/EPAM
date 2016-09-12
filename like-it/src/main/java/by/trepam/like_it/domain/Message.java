@@ -122,7 +122,6 @@ public class Message implements Serializable {
 
 	public int hashCode() {
 		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == text) ? 0 : text.hashCode())
-				+ ((null == author) ? 0 : author.hashCode()) + ((null == dateOfPosting) ? 0 : dateOfPosting.hashCode())
-				+ ((null == name) ? 0 : name.hashCode()) + ((null == answers) ? 0 : answers.hashCode()));
+				+ ((null == name) ? 0 : name.hashCode()));
 	}
 }

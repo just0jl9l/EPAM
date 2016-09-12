@@ -13,7 +13,9 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Message;
 import by.trepam.like_it.service.MessageService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.DataNotFoundException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
 public class GetMessageCommand implements Command {
@@ -33,20 +35,19 @@ public class GetMessageCommand implements Command {
 		try {
 			Integer messageId = new Integer(request.getParameter(CommandConstant.PARAM_MESSAGE_ID));
 			Message message = service.getMessage(messageId);
-			if (message != null) {
-				request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
-				request.getRequestDispatcher("WEB-INF/jsp/message.jsp").forward(request, response);
-			}else{
-				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Message wasn't found");
-				request.getRequestDispatcher("error.jsp").forward(request, response);
-			}
-		} catch(NumberFormatException e){
+			request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
+			request.getRequestDispatcher("WEB-INF/jsp/message.jsp").forward(request, response);
+		} catch (DataNotFoundException e) {
+			logger.error("Message wasn't found", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Message wasn't found");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} catch (NumberFormatException | WrongDataException e) {
 			logger.error("Wrong message id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong message id");
 			request.getRequestDispatcher("error.jsp").forward(request, response);
-			
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred", e);
+
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}

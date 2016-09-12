@@ -12,7 +12,8 @@ import org.apache.logging.log4j.Logger;
 import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.service.MessageService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
 public class DeleteMessageCommand implements Command {
@@ -37,10 +38,15 @@ public class DeleteMessageCommand implements Command {
 			logger.error("Wrong id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong id");
 			response.sendRedirect("../like-it/error");
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during deleting message", e);
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred during deleting message", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
 					"Exception occurred during deleting message");
+			response.sendRedirect("../like-it/error");
+		} catch (WrongDataException e) {
+			logger.error("Wrong messaeg ID", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Wrong messaeg ID");
 			response.sendRedirect("../like-it/error");
 		}
 	}

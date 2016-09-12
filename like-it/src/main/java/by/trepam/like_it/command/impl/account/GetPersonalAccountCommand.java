@@ -13,7 +13,9 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.service.AccountService;
-import by.trepam.like_it.service.exception.ServiceException;
+import by.trepam.like_it.service.exception.DataNotFoundException;
+import by.trepam.like_it.service.exception.GettingDataException;
+import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AccountServiceImpl;
 
 public class GetPersonalAccountCommand implements Command {
@@ -39,10 +41,18 @@ public class GetPersonalAccountCommand implements Command {
 			logger.error("Wrong account id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
 			request.getRequestDispatcher("error.jsp").forward(request, response);
-
-		} catch (ServiceException e) {
-			logger.error("ServiceException occurred during getting personal data", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during getting personal data");
+		} catch (GettingDataException e) {
+			logger.error("GettingDataException occurred during getting personal data", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during getting personal data");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} catch (DataNotFoundException e) {
+			logger.error("Account wasn't found", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Account wasn't found");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} catch (WrongDataException e) {
+			logger.error("Wrong account ID", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account ID");
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}

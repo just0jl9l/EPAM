@@ -67,7 +67,6 @@ public class Image implements Serializable {
 	}
 
 	public int hashCode() {
-		return (int) 31 * (((null == id) ? 0 : id.hashCode()) + ((null == path) ? 0 : path.hashCode())
-				+ ((null == format) ? 0 : format.hashCode()));
+		return (int) 31 * (((null == id) ? 0 : id.hashCode()) );
 	}
 }

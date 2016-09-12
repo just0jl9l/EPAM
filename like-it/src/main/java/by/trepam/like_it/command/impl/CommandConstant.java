@@ -2,7 +2,7 @@ package by.trepam.like_it.command.impl;
 
 public class CommandConstant {
 
-	public static final String TRUE = "yes";
+	public static final boolean TRUE = true;
 	public static final String EMPTY = "";
 	public static final String ADMIN_NAME_EN = "Administrator";
 	public static final String ADMIN_NAME_RU = "Администратор";
