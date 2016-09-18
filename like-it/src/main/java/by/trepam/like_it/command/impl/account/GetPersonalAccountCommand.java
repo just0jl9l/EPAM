@@ -31,13 +31,13 @@ public class GetPersonalAccountCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountService service = AccountServiceImpl.getInstance();
 		try {
 			Integer accountID = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
+			AccountService service = AccountServiceImpl.getInstance();
 			Account account = service.getAccount(accountID);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT, account);
 			request.getRequestDispatcher("WEB-INF/jsp/personal-account.jsp").forward(request, response);
-		} catch (NumberFormatException e) {
+		} catch (ClassCastException e) {
 			logger.error("Wrong account id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
 			request.getRequestDispatcher("error.jsp").forward(request, response);

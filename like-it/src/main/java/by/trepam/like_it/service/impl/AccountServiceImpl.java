@@ -45,8 +45,8 @@ public class AccountServiceImpl implements AccountService {
 
 	public Account getAccount(Integer accountId)
 			throws GettingDataException, DataNotFoundException, WrongDataException {
-		Account account = null;
 		try {
+			Account account = null;
 			if (accountId == null) {
 				throw new WrongDataException("Wrong account ID");
 			}
@@ -59,13 +59,13 @@ public class AccountServiceImpl implements AccountService {
 			} else {
 				throw new DataNotFoundException("Account wasn't found");
 			}
+			return account;
 		} catch (DAOException e) {
 			throw new GettingDataException("DAOException occurred during getting account data", e);
 		}
-		return account;
 	}
 
-	public boolean isLoginValid(String login) throws GettingDataException{
+	public boolean isLoginValid(String login) throws GettingDataException {
 		try {
 			if (login != null && !CommandConstant.EMPTY.equals(login)) {
 				AccountDAO accdao = daoFactory.getAccountDAO();

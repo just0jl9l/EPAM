@@ -30,7 +30,6 @@ public class ChangePersonalAccountCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountService service = AccountServiceImpl.getInstance();
 		try {
 			String name = request.getParameter(CommandConstant.PARAM_NAME);
 			String surname = request.getParameter(CommandConstant.PARAM_SURNAME);
@@ -41,6 +40,7 @@ public class ChangePersonalAccountCommand implements Command {
 				account.setId(accountId);
 				account.setName(name);
 				account.setSurname(surname);
+				AccountService service = AccountServiceImpl.getInstance();
 				service.updateAccount(account);
 				GetPersonalAccountCommand getCommand = GetPersonalAccountCommand.getInstance();
 				getCommand.execute(request, response);

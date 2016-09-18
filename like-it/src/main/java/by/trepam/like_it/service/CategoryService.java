@@ -15,5 +15,6 @@ public interface CategoryService {
 		Integer getCategoryIdByTitle(String name) throws WrongDataException, GettingDataException, DataNotFoundException ;
 		void deleteCategory(Integer categoryId) throws WrongDataException,GettingDataException ;
 		void updateCategory(Category categoryRu, Category categoryEn) throws GettingDataException,WrongDataException;
+		Category getLangCategory(Integer id, Object lang) throws GettingDataException, WrongDataException;
 		
 }

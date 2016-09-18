@@ -4,6 +4,8 @@ public class CommandConstant {
 
 	public static final boolean TRUE = true;
 	public static final String EMPTY = "";
+	public static final String DASH = "-";
+	public static final String UNDERLINE = "_";
 	public static final String ADMIN_NAME_EN = "Administrator";
 	public static final String ADMIN_NAME_RU = "Администратор";
 	public static final String STATUS_ADMIN = "admin";

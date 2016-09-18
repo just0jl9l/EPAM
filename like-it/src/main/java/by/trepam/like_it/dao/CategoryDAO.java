@@ -16,4 +16,5 @@ public interface CategoryDAO {
 	void insertText(Category category, String lang) throws DAOException;
 	void updateText(Category category, String lang) throws DAOException;
 	void deleteText(Integer categoryId, String lang) throws DAOException;
+	Category getLangCategory(Integer categoryId,String lang)  throws DAOException;
 }

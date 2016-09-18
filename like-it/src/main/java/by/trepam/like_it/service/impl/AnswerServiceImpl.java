@@ -30,12 +30,12 @@ public class AnswerServiceImpl implements AnswerService {
 				throw new WrongDataException("Wrong rating data");
 			}
 			AnswerDAO ansdao = daoFactory.getAnswerDAO();
-			MarkDAO markdao = daoFactory.getMarkDAO();
 			Answer answer = ansdao.getAnswer(answerId);
 			if (answer == null) {
 				throw new DataNotFoundException("Answer wasn't found");
 			}
 			if (mark.getAuthor().getId() != answer.getAuthor().getId()) {
+				MarkDAO markdao = daoFactory.getMarkDAO();
 				markdao.delete(mark.getAuthor().getId(), answerId);
 				markdao.insert(mark, answerId);
 			}

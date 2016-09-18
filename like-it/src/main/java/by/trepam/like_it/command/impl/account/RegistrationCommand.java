@@ -30,15 +30,15 @@ public class RegistrationCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountService service = AccountServiceImpl.getInstance();
 		try {
 			String login = request.getParameter(CommandConstant.PARAM_LOGIN);
-			String name = request.getParameter(CommandConstant.PARAM_NAME);
-			String surname = request.getParameter(CommandConstant.PARAM_SURNAME);
-			String status = request.getParameter(CommandConstant.PARAM_STATUS);
-			String password = request.getParameter(CommandConstant.PARAM_PASSWORD);
-			String secondPassword = request.getParameter(CommandConstant.PARAM_SECOND_PASSWORD);
+			AccountService service = AccountServiceImpl.getInstance();
 			if (service.isLoginValid(login)) {
+				String name = request.getParameter(CommandConstant.PARAM_NAME);
+				String surname = request.getParameter(CommandConstant.PARAM_SURNAME);
+				String status = request.getParameter(CommandConstant.PARAM_STATUS);
+				String password = request.getParameter(CommandConstant.PARAM_PASSWORD);
+				String secondPassword = request.getParameter(CommandConstant.PARAM_SECOND_PASSWORD);
 				boolean isOk = !CommandConstant.EMPTY.equals(password) && !CommandConstant.EMPTY.equals(secondPassword)
 						&& !CommandConstant.EMPTY.equals(name) && !CommandConstant.EMPTY.equals(surname)
 						&& password != null && secondPassword != null && name != null && surname != null;
@@ -80,8 +80,7 @@ public class RegistrationCommand implements Command {
 			response.sendRedirect("../like-it/error");
 		} catch (WrongDataException e) {
 			logger.error("Wrong account data", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
-					"Wrong account data");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account data");
 			response.sendRedirect("../like-it/error");
 		}
 	}

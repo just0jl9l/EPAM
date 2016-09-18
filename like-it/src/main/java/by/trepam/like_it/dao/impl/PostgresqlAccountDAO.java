@@ -48,11 +48,11 @@ public class PostgresqlAccountDAO implements AccountDAO {
 
 	public Account getAccount(Integer accountId) throws DAOException {
 		String sql = QueryConstant.SQL_GET_ACCOUNT_BY_ID;
-		Account account = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, accountId);
 			ResultSet rs = stm.executeQuery();
+			Account account = null;
 			if (rs.next()) {
 				account = new Account();
 				account.setId(accountId);
@@ -89,12 +89,12 @@ public class PostgresqlAccountDAO implements AccountDAO {
 
 	public Account logIN(String login, String password) throws DAOException {
 		String sql = QueryConstant.SQL_ACCOUNT_LOG_IN;
-		Account account = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, login);
 			stm.setString(2, password);
 			ResultSet rs = stm.executeQuery();
+			Account account = null;
 			if (rs.next()) {
 				account = new Account();
 				account.setId(rs.getInt(1));
@@ -113,13 +113,13 @@ public class PostgresqlAccountDAO implements AccountDAO {
 		}
 	}
 
-	public double rating(Integer accountId) throws DAOException {
+	public Double rating(Integer accountId) throws DAOException {
 		String sql = QueryConstant.SQL_ACCOUNT_RATING_BY_ID;
-		double rating = 0;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, accountId);
 			ResultSet rs = stm.executeQuery();
+			Double rating = 0.0;
 			if (rs.next()) {
 				rating = rs.getDouble(1);
 			}
@@ -137,17 +137,17 @@ public class PostgresqlAccountDAO implements AccountDAO {
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, login);
 			ResultSet rs = stm.executeQuery();
-			if (rs.next()) {
-				return false;
-			}else{
+			if (!rs.next()) {
 				return true;
+			} else {
+				return false;
 			}
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
 		} catch (ConnectionPoolException e1) {
 			throw new DAOException("ConnectionPoolException", e1);
 		}
-		
+
 	}
 
 }

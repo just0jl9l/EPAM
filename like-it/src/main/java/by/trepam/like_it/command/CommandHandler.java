@@ -3,6 +3,7 @@ package by.trepam.like_it.command;
 import java.util.HashMap;
 import java.util.Map;
 
+import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.command.impl.LocalizationCommand;
 import by.trepam.like_it.command.impl.SitemapCommand;
 import by.trepam.like_it.command.impl.account.ChangePersonalAccountCommand;
@@ -58,11 +59,15 @@ public class CommandHandler {
 	}
 
 	public Command getCommand(String name) {
-		CommandName commandName = CommandName.valueOf(name);
-		Command command = commands.get(commandName);
-
-		return command;
-
+		if (name != null && !CommandConstant.EMPTY.equals(name)) {
+			name = name.toUpperCase().replaceAll(CommandConstant.DASH, CommandConstant.UNDERLINE);			
+			CommandName commandName = CommandName.valueOf(name);
+			Command command = commands.get(commandName);
+	
+			return command;
+		}else{
+			return null;
+		}
 	}
 
 }

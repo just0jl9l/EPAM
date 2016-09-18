@@ -35,8 +35,6 @@ public class RateCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AnswerService answerService = AnswerServiceImpl.getInstance();
-		MessageService messagweService = MessageServiceImpl.getInstance();
 		try {
 			Integer markValue = new Integer(request.getParameter(CommandConstant.PARAM_MARK));
 			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
@@ -44,14 +42,25 @@ public class RateCommand implements Command {
 			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);
 			Mark mark = new Mark(markValue, new Account(accountId));
 			if (message != null) {
+				AnswerService answerService = AnswerServiceImpl.getInstance();
 				answerService.rating(mark, answerId);
-				message = messagweService.getMessage(message.getId());
-				if (message != null) {								//?
+				try{
+					MessageService messagweService = MessageServiceImpl.getInstance();
+					message = messagweService.getMessage(message.getId());
 					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
 					response.sendRedirect("../like-it/message");
-				}else{
-					logger.error("Message wasn't found");
+				} catch (DataNotFoundException e) {
+					logger.error("Message wasn't found", e);
 					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Message wasn't found");
+					response.sendRedirect("../like-it/error");
+				} catch (WrongDataException e) {
+					logger.error("Wrong message id", e);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong message id");
+					response.sendRedirect("../like-it/error");
+
+				} catch (GettingDataException e) {
+					logger.error("GettingDataException occurred", e);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
 					response.sendRedirect("../like-it/error");
 				}
 			}else{

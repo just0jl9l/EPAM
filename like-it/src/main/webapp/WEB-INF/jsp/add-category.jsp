@@ -77,9 +77,7 @@
 				<label class="input_label" for="descriptionRu"><c:out
 						value="${description}(ru)" /></label>
 				<textarea id="description_ru" name="descriptionRu"><c:if
-						test="${requestScope.change == 'true'}">
-						<c:out value="${sessionScope.categoryRu.description}" />
-					</c:if></textarea>
+						test="${requestScope.change == 'true'}"><c:out value="${sessionScope.categoryRu.description}"/></c:if></textarea>
 			</div>
 			<div class="line">
 				<label class="input_label" for="titleEn"><c:out
@@ -96,9 +94,7 @@
 				<label class="input_label" for="descriptionEn"><c:out
 						value="${description}(en)" /></label>
 				<textarea id="description_en" name="descriptionEn"><c:if
-						test="${requestScope.change == 'true'}">
-						<c:out value="${sessionScope.categoryEn.description}" />
-					</c:if></textarea>
+						test="${requestScope.change == 'true'}"><c:out value="${sessionScope.categoryEn.description}"/></c:if></textarea>
 			</div>
 		</div>
 		<div class="col-12 col-m-12 menu">

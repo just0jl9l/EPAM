@@ -33,8 +33,6 @@ public class AddMessageCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MessageService messageService = MessageServiceImpl.getInstance();
-		GetCategoryCommand getCategoryCommand = GetCategoryCommand.getInstance();
 		try {
 			String title = request.getParameter(CommandConstant.PARAM_TITLE);
 			String text = request.getParameter(CommandConstant.PARAM_TEXT);
@@ -47,7 +45,9 @@ public class AddMessageCommand implements Command {
 					message.setName(title);
 					message.setText(text);
 					message.setAuthor(new Account(accountId));
+					MessageService messageService = MessageServiceImpl.getInstance();
 					messageService.addMessage(message, category.getId());
+					GetCategoryCommand getCategoryCommand = GetCategoryCommand.getInstance();
 					getCategoryCommand.execute(request, response);
 				} else {
 					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, CommandConstant.TRUE);
@@ -57,11 +57,6 @@ public class AddMessageCommand implements Command {
 				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
 				response.sendRedirect("../like-it/error");
 			}
-		} catch (NumberFormatException e) {
-			logger.error("Wrong account id", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
-			response.sendRedirect("../like-it/error");
-
 		} catch (ClassCastException e) {
 			logger.error("Wrong category", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong category");

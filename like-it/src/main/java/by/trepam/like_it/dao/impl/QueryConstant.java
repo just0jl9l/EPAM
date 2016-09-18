@@ -12,6 +12,7 @@ public class QueryConstant {
 
 	public static final String SQL_INSERT_CATEGORY = "INSERT INTO category(name, description, image) VALUES (?, ?, ?);";
 	public static final String SQL_DELETE_CATEGORY_BY_ID = "DELETE FROM category WHERE id_category = ?;";
+	public static final String SQL_GET_LANG_CATEGORY = "SELECT name, description FROM category_text WHERE lang = ? AND id_category=?;";
 	public static final String SQL_GET_CATEGORY_BY_ID = "SELECT g.image, coalesce(t.name, g.name) AS name, coalesce(t.description, g.description) AS description FROM category AS g LEFT JOIN (SELECT * FROM category_text WHERE lang = ?) AS t USING(id_category) WHERE g.id_category=?;";
 	public static final String SQL_UPDATE_CATEGORY = "UPDATE category SET name = ?, description = ?, image = ? WHERE id_category = ?;";
 	public static final String SQL_GET_ALL_CATEGORIES = "SELECT g.id_category, g.image, coalesce(t.name, g.name) AS fname, coalesce(t.description, g.description) AS description FROM category AS g LEFT JOIN (SELECT * FROM category_text WHERE lang = ?) AS t USING(id_category);";

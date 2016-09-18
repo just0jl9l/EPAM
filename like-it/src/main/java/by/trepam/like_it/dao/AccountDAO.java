@@ -10,6 +10,6 @@ public interface AccountDAO {
 	Account getAccount(Integer accountId) throws DAOException ;
 	void update(Account account) throws DAOException ;
 	Account logIN(String login,String password) throws DAOException ;
-	double rating(Integer accountId) throws DAOException ;
+	Double rating(Integer accountId) throws DAOException ;
 	boolean isLoginFree(String login) throws DAOException;
 }

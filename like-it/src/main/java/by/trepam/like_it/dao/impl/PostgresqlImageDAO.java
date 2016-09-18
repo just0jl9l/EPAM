@@ -43,11 +43,11 @@ public class PostgresqlImageDAO implements ImageDAO{
 
 	public Image getImage(Integer imageId) throws DAOException {
 		String sql = QueryConstant.SQL_GET_IMAGE_BY_ID;
-		Image image = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, imageId);
 			ResultSet rs = stm.executeQuery();
+			Image image = null;
 			if (rs.next()) {
 				image = new Image();
 				image.setId(imageId);

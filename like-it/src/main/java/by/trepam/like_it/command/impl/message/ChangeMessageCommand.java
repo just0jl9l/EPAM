@@ -32,13 +32,13 @@ public class ChangeMessageCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MessageService messageService = MessageServiceImpl.getInstance();
 		try {
 			String title = request.getParameter(CommandConstant.PARAM_TITLE);
 			String text = request.getParameter(CommandConstant.PARAM_TEXT);
 			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
 			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);			
 			if (category != null && message != null) {
+				MessageService messageService = MessageServiceImpl.getInstance();
 				messageService.updateMessage(message, title,text);
 				GetCategoryCommand getCategoryCommand = GetCategoryCommand.getInstance();
 				getCategoryCommand.execute(request, response);
@@ -46,10 +46,6 @@ public class ChangeMessageCommand implements Command {
 				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
 				response.sendRedirect("../like-it/error");
 			}
-		} catch (NumberFormatException e) {
-			logger.error("Wrong account id", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
-			response.sendRedirect("../like-it/error");
 		} catch (GettingDataException e) {
 			logger.error("GettingDataException occurred during changing message", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during changing message");

@@ -11,10 +11,11 @@ public class DBConnectionProperty {
 	private final static DBConnectionProperty property = new DBConnectionProperty();
 	private static StandardPBEStringEncryptor encryptor;
 	private static Properties props;
+	public static final String PASSWORD = "trololo";
 
 	private DBConnectionProperty() {
 		encryptor = new StandardPBEStringEncryptor();
-		encryptor.setPassword("trololo");
+		encryptor.setPassword(PASSWORD);
 		props = new EncryptableProperties(encryptor);
 		try {
 			InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("db.properties");

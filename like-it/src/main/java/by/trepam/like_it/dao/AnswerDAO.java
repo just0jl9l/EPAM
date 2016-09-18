@@ -13,5 +13,5 @@ public interface AnswerDAO {
 	Answer getAnswer(Integer answerId)throws DAOException ;
 	List<Answer> getAllAnswersOfMessage(Integer messageId)throws DAOException ;
 	void update(Answer answer,Integer messageId) throws DAOException ;
-	double rating(Integer answerId)throws DAOException ;
+	Double rating(Integer answerId)throws DAOException ;
 }

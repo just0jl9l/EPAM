@@ -31,8 +31,8 @@ public class MessageServiceImpl implements MessageService {
 
 	public Message getMessage(Integer messageId)
 			throws WrongDataException, GettingDataException, DataNotFoundException {
-		Message message = null;
 		try {
+			Message message = null;
 			if (messageId == null) {
 				throw new WrongDataException("Wrong message ID");
 			}
@@ -42,13 +42,13 @@ public class MessageServiceImpl implements MessageService {
 				throw new DataNotFoundException("Message wasn't found");
 			}
 			AnswerDAO ansdao = daoFactory.getAnswerDAO();
-			AccountDAO acdao = daoFactory.getAccountDAO();
-			ImageDAO imgdao = daoFactory.getImageDAO();
 			List<Answer> answers = ansdao.getAllAnswersOfMessage(messageId);
 			if (answers == null) {
 				throw new DataNotFoundException("Answers weren't found");
 			}
 			Account account;
+			AccountDAO acdao = daoFactory.getAccountDAO();
+			ImageDAO imgdao = daoFactory.getImageDAO();
 			for (Answer answer : answers) {
 				account = acdao.getAccount(answer.getAuthor().getId());
 				if (account == null) {
@@ -67,10 +67,10 @@ public class MessageServiceImpl implements MessageService {
 			account.setPhoto(imgdao.getImage(account.getPhoto().getId()));
 			account.setRating(acdao.rating(account.getId()));
 			message.setAuthor(account);
+			return message;
 		} catch (DAOException e) {
 			throw new GettingDataException("DAOException occurred during getting message", e);
 		}
-		return message;
 	}
 
 	public void addMessage(Message message, Integer categoryId) throws GettingDataException, WrongDataException {

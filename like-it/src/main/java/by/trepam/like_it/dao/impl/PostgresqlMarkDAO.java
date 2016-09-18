@@ -50,12 +50,12 @@ public class PostgresqlMarkDAO implements MarkDAO{
 
 	public List<Mark> getAllMarksOfAnswer(Integer answerId)  throws DAOException {
 		String sql = QueryConstant.SQL_GET_ALL_MARKS_OF_ANSWER;
-		List<Mark> marks = new ArrayList<Mark>();
-		Mark mark = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, answerId);
 			ResultSet rs = stm.executeQuery();
+			List<Mark> marks = new ArrayList<Mark>();
+			Mark mark = null;
 			while (rs.next()) {
 				mark = new Mark();
 				mark.setAuthor(new Account(rs.getInt(1)));

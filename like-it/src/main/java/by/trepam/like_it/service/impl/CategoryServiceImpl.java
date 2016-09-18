@@ -33,8 +33,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	public List<Category> getCategories(Object lang) throws DataNotFoundException, GettingDataException {
-		List<Category> categories = null;
 		try {
+			List<Category> categories = null;
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			if (lang != null) {
 				categories = catdao.getAllCategories(lang.toString());
@@ -48,16 +48,16 @@ public class CategoryServiceImpl implements CategoryService {
 			if (categories == null || categories.isEmpty()) {
 				throw new DataNotFoundException("Category list is empty");
 			}
+			return categories;
 		} catch (DAOException e) {
 			throw new GettingDataException("DAOException occurred during getting categories", e);
 		}
-		return categories;
 	}
 
 	public Category getCategory(Integer id, Object lang)
 			throws DataNotFoundException, GettingDataException, WrongDataException {
-		Category category = null;
 		try {
+			Category category = null;
 			if (id == null) {
 				throw new WrongDataException("Wrong category ID");
 			}
@@ -71,11 +71,11 @@ public class CategoryServiceImpl implements CategoryService {
 				throw new DataNotFoundException("Category wasn't found");
 			} else {
 				MessageDAO messdao = daoFactory.getMessageDAO();
-				AccountDAO acdao = daoFactory.getAccountDAO();
-				ImageDAO imgdao = daoFactory.getImageDAO();
 				List<Message> messages = messdao.getAllMessagesOfCategory(id);
 				Account ac;
+				ImageDAO imgdao = daoFactory.getImageDAO();
 				for (Message m : messages) {
+					AccountDAO acdao = daoFactory.getAccountDAO();
 					ac = acdao.getAccount(m.getAuthor().getId());
 					ac.setPhoto(imgdao.getImage(ac.getPhoto().getId()));
 					ac.setRating(acdao.rating(ac.getId()));
@@ -84,19 +84,34 @@ public class CategoryServiceImpl implements CategoryService {
 				category.setMessages(messages);
 				category.setImage(imgdao.getImage(category.getImage().getId()));
 			}
+			return category;
 		} catch (DAOException e) {
 			throw new GettingDataException("DAOException occurred during getting category", e);
 		}
-		return category;
+	}
+	
+	public Category getLangCategory(Integer id, Object lang)
+			throws GettingDataException, WrongDataException {
+		try {
+			Category category = null;
+			if (id == null || lang == null) {
+				throw new WrongDataException("Wrong data");
+			}
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
+			category = catdao.getLangCategory(id, lang.toString());
+			return category;
+		} catch (DAOException e) {
+			throw new GettingDataException("DAOException occurred during getting category", e);
+		}
 	}
 
 	public void addCategory(Category categoryRu, Category categoryEn) throws WrongDataException, GettingDataException {
 		try {
-			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			Integer id;
 			if (categoryRu == null && categoryEn == null) {
 				throw new WrongDataException("Not all data");
 			}
+			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			if (categoryRu != null) {
 				catdao.insert(categoryRu);
 				id = getCategoryIdByTitle(categoryRu.getName());
@@ -136,8 +151,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 	public Integer getCategoryIdByTitle(String name)
 			throws GettingDataException, WrongDataException, DataNotFoundException {
-		Integer id = -10;
 		try {
+			Integer id = null;
 			if (name == null || CommandConstant.EMPTY.equals(name)) {
 				throw new WrongDataException("Wrong category name");
 			}
@@ -146,10 +161,10 @@ public class CategoryServiceImpl implements CategoryService {
 			if (id == null) {
 				throw new DataNotFoundException("Category id wasn't found");
 			}
+			return id;
 		} catch (DAOException e) {
 			throw new GettingDataException("DAOException occurred during adding category", e);
 		}
-		return id;
 	}
 
 	public void deleteCategory(Integer categoryId) throws WrongDataException, GettingDataException {
@@ -169,7 +184,6 @@ public class CategoryServiceImpl implements CategoryService {
 	public void updateCategory(Category categoryRu, Category categoryEn)
 			throws GettingDataException, WrongDataException {
 		try {
-
 			if (categoryRu == null && categoryEn == null) {
 				throw new WrongDataException("Not all data");
 			}

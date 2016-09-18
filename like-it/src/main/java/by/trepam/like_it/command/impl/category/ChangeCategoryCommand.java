@@ -30,7 +30,6 @@ public class ChangeCategoryCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
 			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
 			if (category != null) {
@@ -55,13 +54,13 @@ public class ChangeCategoryCommand implements Command {
 					categoryEn.setDescription(descriptionEn);
 					categoryEn.setId(categoryId);
 				}
+				CategoryService service = CategoryServiceImpl.getInstance();
 				service.updateCategory(categoryRu, categoryEn);
 				GetCategoriesCommand command = GetCategoriesCommand.getInstance();
 				command.execute(request, response);
-			}else{
+			} else {
 				logger.error("Category wasn't found");
-				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
-						"Category wasn't found");
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
 				response.sendRedirect("../like-it/error");
 			}
 		} catch (NumberFormatException e) {

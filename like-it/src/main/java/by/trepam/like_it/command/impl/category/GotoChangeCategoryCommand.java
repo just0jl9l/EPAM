@@ -13,7 +13,6 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
-import by.trepam.like_it.service.exception.DataNotFoundException;
 import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.CategoryServiceImpl;
@@ -34,13 +33,13 @@ public class GotoChangeCategoryCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
 			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
 			if (category != null) {
-				Category currentCategory = service.getCategory(category.getId(), EN);
+				CategoryService service = CategoryServiceImpl.getInstance();
+				Category currentCategory = service.getLangCategory(category.getId(), EN);
 				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_EN, currentCategory);
-				currentCategory = service.getCategory(category.getId(), RU);
+				currentCategory = service.getLangCategory(category.getId(), RU);
 				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_RU, currentCategory);
 				request.setAttribute(CommandConstant.PARAM_CHANGE, CommandConstant.TRUE);
 				request.getRequestDispatcher("WEB-INF/jsp/add-category.jsp").forward(request, response);
@@ -55,10 +54,6 @@ public class GotoChangeCategoryCommand implements Command {
 		} catch (GettingDataException e) {
 			logger.error("GettingDataException occurred", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
-			request.getRequestDispatcher("error.jsp").forward(request, response);
-		} catch (DataNotFoundException e) {
-			logger.error("Category wasn't found", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		} catch (WrongDataException e) {
 			logger.error("Wrong category id", e);

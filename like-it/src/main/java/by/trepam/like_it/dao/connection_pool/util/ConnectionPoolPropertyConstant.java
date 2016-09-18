@@ -1,6 +1,6 @@
 package by.trepam.like_it.dao.connection_pool.util;
 
-public class PropertiesConstant {
+public class ConnectionPoolPropertyConstant {
 
 	public static final String DRIVER = "db.driver";
 	public static final String URL = "db.url";

@@ -26,8 +26,8 @@ import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.dao.connection_pool.ConnectionPool;
 import by.trepam.like_it.dao.connection_pool.exception.ConnectionPoolException;
+import by.trepam.like_it.dao.connection_pool.util.ConnectionPoolPropertyConstant;
 import by.trepam.like_it.dao.connection_pool.util.DBConnectionProperty;
-import by.trepam.like_it.dao.connection_pool.util.PropertiesConstant;
 
 public class PostgresqlConnectionPool implements ConnectionPool {
 	
@@ -45,12 +45,12 @@ public class PostgresqlConnectionPool implements ConnectionPool {
 
 	private PostgresqlConnectionPool() {
 		DBConnectionProperty property = DBConnectionProperty.getInstance();
-		this.driver = property.getValue(PropertiesConstant.DRIVER);
-		this.url = property.getValue(PropertiesConstant.URL);
-		this.password = property.getValue(PropertiesConstant.PASSWORD);
-		this.user = property.getValue(PropertiesConstant.USER);
+		this.driver = property.getValue(ConnectionPoolPropertyConstant.DRIVER);
+		this.url = property.getValue(ConnectionPoolPropertyConstant.URL);
+		this.password = property.getValue(ConnectionPoolPropertyConstant.PASSWORD);
+		this.user = property.getValue(ConnectionPoolPropertyConstant.USER);
 		try{
-			this.numberOfConnections = Integer.parseInt(property.getValue(PropertiesConstant.CONNECTIONS_NUMBER));
+			this.numberOfConnections = Integer.parseInt(property.getValue(ConnectionPoolPropertyConstant.CONNECTIONS_NUMBER));
 		}catch(NumberFormatException e){
 			numberOfConnections = 5;
 		}

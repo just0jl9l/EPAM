@@ -35,35 +35,40 @@ public class AddAnswerCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AnswerService answerService = AnswerServiceImpl.getInstance();
-		MessageService messagweService = MessageServiceImpl.getInstance();
 		try {
-			Integer account_id = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
+			Integer accountId = (Integer) request.getSession(true).getAttribute(CommandConstant.PARAM_ACCOUNT_ID);
 			String text = request.getParameter(CommandConstant.PARAM_TEXT);
 			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);
 			if (text != null && message != null && !CommandConstant.EMPTY.equals(text)) {
+				int messageId = message.getId();
 				Answer answer = new Answer();
-				answer.setAuthor(new Account(account_id));
+				answer.setAuthor(new Account(accountId));
 				answer.setText(text);
-				answerService.addAnswer(answer, message.getId());
-				message = messagweService.getMessage(message.getId());
-				if (message != null) {								//?
+				AnswerService answerService = AnswerServiceImpl.getInstance();
+				answerService.addAnswer(answer, messageId);
+				try{
+					MessageService messagweService = MessageServiceImpl.getInstance();
+					message = messagweService.getMessage(messageId);
 					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
 					response.sendRedirect("../like-it/message");
-				}else{
-					logger.error("Message wasn't found");
+				} catch (DataNotFoundException e) {
+					logger.error("Message wasn't found", e);
 					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Message wasn't found");
+					response.sendRedirect("../like-it/error");
+				} catch (WrongDataException e) {
+					logger.error("Wrong message id", e);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong message id");
+					response.sendRedirect("../like-it/error");
+
+				} catch (GettingDataException e) {
+					logger.error("GettingDataException occurred", e);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
 					response.sendRedirect("../like-it/error");
 				}
 			} else {
 				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, CommandConstant.TRUE);
 				response.sendRedirect("../like-it/add-answer");
 			}
-		} catch (NumberFormatException e) {
-			logger.error("Wrong account id", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account id");
-			response.sendRedirect("../like-it/error");
-
 		} catch (ClassCastException e) {
 			logger.error("ClassCastException occurred during adding answer", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding answer");
@@ -73,11 +78,9 @@ public class AddAnswerCommand implements Command {
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding answer");
 			response.sendRedirect("../like-it/error");
 		} catch (WrongDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Wrong data", e);
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong data");
+			response.sendRedirect("../like-it/error");
 		}
 	}
 

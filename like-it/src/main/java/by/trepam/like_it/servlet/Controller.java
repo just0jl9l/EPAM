@@ -12,24 +12,31 @@ import by.trepam.like_it.command.CommandHandler;
 
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String COMMAND = "command";
 
 	public Controller() {
 		super();
 	}
 
-	protected void service(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		process(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		process(request, response);
+	}
+
+	private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CommandHandler handler = CommandHandler.getInstance();
-		String commandName = request.getParameter("command");
-		if (commandName != null && "".equals(commandName)) {
-			commandName = commandName.toUpperCase().replaceAll("-", "_");
-		}
+		String commandName = request.getParameter(COMMAND);
 		Command command = handler.getCommand(commandName);
 		if (command != null) {
 			command.execute(request, response);
 		} else {
 			response.sendRedirect("../like-it");
 		}
+
 	}
 
 }

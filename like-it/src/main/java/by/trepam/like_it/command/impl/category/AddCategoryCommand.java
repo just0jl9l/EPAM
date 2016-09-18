@@ -30,7 +30,6 @@ public class AddCategoryCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
 			String titleRu = request.getParameter(CommandConstant.PARAM_TITLE_RU);
 			String titleEn = request.getParameter(CommandConstant.PARAM_TITLE_EN);
@@ -50,6 +49,7 @@ public class AddCategoryCommand implements Command {
 				categoryEn.setName(titleEn);
 				categoryEn.setDescription(descriptionEn);
 			}
+			CategoryService service = CategoryServiceImpl.getInstance();
 			service.addCategory(categoryRu, categoryEn);
 			GetCategoriesCommand command = GetCategoriesCommand.getInstance();
 			command.execute(request, response);

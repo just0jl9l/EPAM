@@ -31,8 +31,8 @@ public class LoginCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountService service = AccountServiceImpl.getInstance();
 		try {
+			AccountService service = AccountServiceImpl.getInstance();
 			Account account = service.logIn(request.getParameter(CommandConstant.PARAM_LOGIN),
 					request.getParameter(CommandConstant.PARAM_PASSWORD));
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT_ID, account.getId());

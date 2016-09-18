@@ -29,9 +29,9 @@ public class DeleteMessageCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MessageService messageService = MessageServiceImpl.getInstance();
 		try {
 			Integer messageId = new Integer(request.getParameter(CommandConstant.PARAM_MESSAGE_ID));
+			MessageService messageService = MessageServiceImpl.getInstance();
 			messageService.deleteMessage(messageId);
 			response.sendRedirect("../like-it/categories");
 		} catch (NumberFormatException e) {

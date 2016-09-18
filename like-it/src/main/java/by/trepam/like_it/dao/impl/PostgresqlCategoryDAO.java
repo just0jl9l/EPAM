@@ -14,7 +14,7 @@ import by.trepam.like_it.dao.exception.DAOException;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.domain.Image;
 
-public class PostgresqlCategoryDAO implements CategoryDAO{
+public class PostgresqlCategoryDAO implements CategoryDAO {
 
 	public void insert(Category category) throws DAOException {
 		String sql = QueryConstant.SQL_INSERT_CATEGORY;
@@ -42,17 +42,17 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 		} catch (ConnectionPoolException e1) {
 			throw new DAOException("ConnectionPoolException", e1);
 		}
-		
+
 	}
 
-	public Category getCategory(Integer categoryId,String lang)  throws DAOException {
+	public Category getCategory(Integer categoryId, String lang) throws DAOException {
 		String sql = QueryConstant.SQL_GET_CATEGORY_BY_ID;
-		Category category = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, lang);
 			stm.setInt(2, categoryId);
 			ResultSet rs = stm.executeQuery();
+			Category category = null;
 			if (rs.next()) {
 				category = new Category();
 				category.setId(categoryId);
@@ -68,14 +68,36 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 		}
 	}
 
+	public Category getLangCategory(Integer categoryId, String lang) throws DAOException {
+		String sql = QueryConstant.SQL_GET_LANG_CATEGORY;
+		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
+				PreparedStatement stm = connection.prepareStatement(sql)) {
+			stm.setString(1, lang);
+			stm.setInt(2, categoryId);
+			ResultSet rs = stm.executeQuery();
+			Category category = null;
+			if (rs.next()) {
+				category = new Category();
+				category.setId(categoryId);
+				category.setName(rs.getString(1));
+				category.setDescription(rs.getString(2));
+			}
+			return category;
+		} catch (SQLException e) {
+			throw new DAOException("SQLException", e);
+		} catch (ConnectionPoolException e1) {
+			throw new DAOException("ConnectionPoolException", e1);
+		}
+	}
+
 	public List<Category> getAllCategories(String lang) throws DAOException {
 		String sql = QueryConstant.SQL_GET_ALL_CATEGORIES;
-		List<Category> categories = new ArrayList<Category>();
-		Category category = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, lang);
 			ResultSet rs = stm.executeQuery();
+			List<Category> categories = new ArrayList<Category>();
+			Category category = null;
 			while (rs.next()) {
 				category = new Category();
 				category.setId(rs.getInt(1));
@@ -110,20 +132,20 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 
 	public Integer getCategoryId(String name) throws DAOException {
 		String sql = QueryConstant.SQL_GET_CATEGORY_ID_BY_NAME;
-		Integer id=-10;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, name);
 			ResultSet rs = stm.executeQuery();
+			Integer id = null;
 			while (rs.next()) {
 				id = rs.getInt(1);
 			}
+			return id;
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
 		} catch (ConnectionPoolException e1) {
 			throw new DAOException("ConnectionPoolException", e1);
 		}
-		return id;
 	}
 
 	public void insertText(Category category, String lang) throws DAOException {
@@ -137,9 +159,9 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
-		}	 catch (ConnectionPoolException e1) {
+		} catch (ConnectionPoolException e1) {
 			throw new DAOException("ConnectionPoolException", e1);
-		}	
+		}
 	}
 
 	public void updateText(Category category, String lang) throws DAOException {
@@ -157,7 +179,7 @@ public class PostgresqlCategoryDAO implements CategoryDAO{
 		} catch (ConnectionPoolException e1) {
 			throw new DAOException("ConnectionPoolException", e1);
 		}
-		
+
 	}
 
 	public void deleteText(Integer categoryId, String lang) throws DAOException {

@@ -31,9 +31,9 @@ public class GetMessageCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MessageService service = MessageServiceImpl.getInstance();
 		try {
 			Integer messageId = new Integer(request.getParameter(CommandConstant.PARAM_MESSAGE_ID));
+			MessageService service = MessageServiceImpl.getInstance();
 			Message message = service.getMessage(messageId);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
 			request.getRequestDispatcher("WEB-INF/jsp/message.jsp").forward(request, response);
@@ -45,7 +45,6 @@ public class GetMessageCommand implements Command {
 			logger.error("Wrong message id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong message id");
 			request.getRequestDispatcher("error.jsp").forward(request, response);
-
 		} catch (GettingDataException e) {
 			logger.error("GettingDataException occurred", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");

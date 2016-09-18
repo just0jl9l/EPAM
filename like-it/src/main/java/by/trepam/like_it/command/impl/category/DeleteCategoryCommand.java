@@ -29,13 +29,13 @@ public class DeleteCategoryCommand implements Command {
 	}
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CategoryService service = CategoryServiceImpl.getInstance();
 		try {
 			Integer categoryId = new Integer(request.getParameter(CommandConstant.PARAM_CATEGORY_ID));
+			CategoryService service = CategoryServiceImpl.getInstance();
 			service.deleteCategory(categoryId);
 			GetCategoriesCommand command = GetCategoriesCommand.getInstance();
 			command.execute(request, response);
-		} catch (NumberFormatException|WrongDataException e) {
+		} catch (NumberFormatException | WrongDataException e) {
 			logger.error("Wrong category id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
 					"Wrong category id");

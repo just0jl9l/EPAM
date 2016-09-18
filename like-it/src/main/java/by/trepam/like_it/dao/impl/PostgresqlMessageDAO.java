@@ -50,11 +50,11 @@ public class PostgresqlMessageDAO implements MessageDAO{
 
 	public Message getMessage(Integer messageId)  throws DAOException {
 		String sql = QueryConstant.SQL_GET_MESSAGE_BY_ID;
-		Message message = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageId);
 			ResultSet rs = stm.executeQuery();
+		Message message = null;
 			if (rs.next()) {
 				message = new Message();
 				message.setId(messageId);
@@ -73,12 +73,12 @@ public class PostgresqlMessageDAO implements MessageDAO{
 
 	public List<Message> getAllMessagesOfCategory(Integer categoryId) throws DAOException {
 		String sql = QueryConstant.SQL_GET_ALL_MESSAGES_OF_CATEGORY;
-		List<Message> messages = new ArrayList<Message>();
-		Message message = null;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, categoryId);
 			ResultSet rs = stm.executeQuery();
+			List<Message> messages = new ArrayList<Message>();
+			Message message = null;
 			while (rs.next()) {
 				message = new Message();
 				message.setId(rs.getInt(1));
