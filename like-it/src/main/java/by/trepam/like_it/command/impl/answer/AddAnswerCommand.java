@@ -22,6 +22,11 @@ import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AnswerServiceImpl;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
+/**
+ * Class of command, that is used to add answer of logged user.
+ *
+ */
+
 public class AddAnswerCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
@@ -46,7 +51,7 @@ public class AddAnswerCommand implements Command {
 				answer.setText(text);
 				AnswerService answerService = AnswerServiceImpl.getInstance();
 				answerService.addAnswer(answer, messageId);
-				try{
+				try {
 					MessageService messagweService = MessageServiceImpl.getInstance();
 					message = messagweService.getMessage(messageId);
 					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
@@ -71,11 +76,13 @@ public class AddAnswerCommand implements Command {
 			}
 		} catch (ClassCastException e) {
 			logger.error("ClassCastException occurred during adding answer", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding answer");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during adding answer");
 			response.sendRedirect("../like-it/error");
 		} catch (GettingDataException e) {
 			logger.error("GettingDataException occurred during adding answer", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during adding answer");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during adding answer");
 			response.sendRedirect("../like-it/error");
 		} catch (WrongDataException e) {
 			logger.error("Wrong data", e);

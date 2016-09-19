@@ -14,16 +14,16 @@ public class LikeItContextListener implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		try {
-			if(pool!=null){
+			if (pool != null) {
 				pool.close();
 			}
 		} catch (ConnectionPoolException e) {
 			throw new RuntimeException("JDBC Driver error", e);
-		}	
+		}
 	}
 
 	@Override
-	public void contextInitialized(ServletContextEvent arg0) {		
+	public void contextInitialized(ServletContextEvent arg0) {
 		try {
 			pool = PostgresqlConnectionPool.getInstance();
 			pool.init();
@@ -31,8 +31,6 @@ public class LikeItContextListener implements ServletContextListener {
 			throw new RuntimeException("JDBC Driver error", e);
 		}
 
-	
 	}
-
 
 }

@@ -20,6 +20,11 @@ import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
+/**
+ * Class of command, that is used to add message of logged user.
+ *
+ */
+
 public class AddMessageCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());

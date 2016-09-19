@@ -6,7 +6,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Interface class, all command objects implement the methods of this class.
+ */
+
 public interface Command {
 
-	void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException ;
+	/**
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+
+	void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

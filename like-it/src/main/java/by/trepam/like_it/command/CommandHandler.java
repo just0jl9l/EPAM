@@ -26,6 +26,11 @@ import by.trepam.like_it.command.impl.message.DeleteMessageCommand;
 import by.trepam.like_it.command.impl.message.GetMessageCommand;
 import by.trepam.like_it.command.impl.message.GotoChangeMessageCommand;
 
+/**
+ * Class that associates the names of commands with the corresponding objects.
+ *
+ */
+
 public class CommandHandler {
 	private static CommandHandler handler = new CommandHandler();
 	private Map<CommandName, Command> commands = new HashMap<CommandName, Command>();
@@ -53,19 +58,32 @@ public class CommandHandler {
 		commands.put(CommandName.GOTO_CHANGE_PERSONAL_ACCOUNT, GotoChangePersonalAccountCommand.getInstance());
 		commands.put(CommandName.CHANGE_PERSONAL_ACCOUNT, ChangePersonalAccountCommand.getInstance());
 	}
-	
-	public static CommandHandler getInstance(){
+
+	/**
+	 * The method returns an object of CommandHandler
+	 * 
+	 * @return
+	 */
+
+	public static CommandHandler getInstance() {
 		return handler;
 	}
 
+	/**
+	 * Method returns an object of command with corresponding name
+	 * 
+	 * @param name
+	 * @return
+	 */
+
 	public Command getCommand(String name) {
 		if (name != null && !CommandConstant.EMPTY.equals(name)) {
-			name = name.toUpperCase().replaceAll(CommandConstant.DASH, CommandConstant.UNDERLINE);			
+			name = name.toUpperCase().replaceAll(CommandConstant.DASH, CommandConstant.UNDERLINE);
 			CommandName commandName = CommandName.valueOf(name);
 			Command command = commands.get(commandName);
-	
+
 			return command;
-		}else{
+		} else {
 			return null;
 		}
 	}

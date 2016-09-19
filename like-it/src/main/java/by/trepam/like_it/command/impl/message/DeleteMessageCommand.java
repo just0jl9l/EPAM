@@ -16,6 +16,11 @@ import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
+/**
+ * Class of command, that is used to delete message.
+ *
+ */
+
 public class DeleteMessageCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
@@ -45,8 +50,7 @@ public class DeleteMessageCommand implements Command {
 			response.sendRedirect("../like-it/error");
 		} catch (WrongDataException e) {
 			logger.error("Wrong messaeg ID", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
-					"Wrong messaeg ID");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong messaeg ID");
 			response.sendRedirect("../like-it/error");
 		}
 	}

@@ -18,7 +18,8 @@ public class Controller extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		process(request, response);
 	}
 
@@ -27,7 +28,8 @@ public class Controller extends HttpServlet {
 		process(request, response);
 	}
 
-	private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void process(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		CommandHandler handler = CommandHandler.getInstance();
 		String commandName = request.getParameter(COMMAND);
 		Command command = handler.getCommand(commandName);

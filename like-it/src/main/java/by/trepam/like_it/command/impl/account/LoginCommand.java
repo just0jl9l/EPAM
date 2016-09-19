@@ -18,6 +18,11 @@ import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AccountServiceImpl;
 
+/**
+ * Class of command, that is used to log in.
+ *
+ */
+
 public class LoginCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());

@@ -93,7 +93,7 @@ public class MessageServiceImpl implements MessageService {
 			MessageDAO mesdao = daoFactory.getMessageDAO();
 			mesdao.delete(messageId);
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during deleting message", e);
 		}
 	}
 
@@ -109,7 +109,7 @@ public class MessageServiceImpl implements MessageService {
 			MessageDAO mesdao = daoFactory.getMessageDAO();
 			mesdao.update(message);
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during updating message", e);
 		}
 
 	}

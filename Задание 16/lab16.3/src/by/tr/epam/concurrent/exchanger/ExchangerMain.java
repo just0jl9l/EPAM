@@ -13,8 +13,8 @@ public class ExchangerMain{
     public static void main(String[] args) throws InterruptedException {
         String[] p1 = new String[]{"{посылка A->D}", "{посылка A->C}"};//груз для 1-го грузовика
         String[] p2 = new String[]{"{посылка B->C}", "{посылка B->D}"};//груз для 2-го грузовика
-        new Thread(new Truck(1, "A", "D", p1,EXCHANGER)).start();//1-й грузовик отправляется из А в D
+        new Thread(new Truck(1, "A", "D", p1, EXCHANGER)).start();//1-й грузовик отправляется из А в D
         Thread.sleep(100);
-        new Thread(new Truck(2, "B", "C", p2,EXCHANGER)).start();//2-й грузовик отправляется из В в С
+        new Thread(new Truck(2, "B", "C", p2, EXCHANGER)).start();//2-й грузовик отправляется из В в С
     } 
 }

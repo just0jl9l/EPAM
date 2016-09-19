@@ -11,9 +11,9 @@ import by.trepam.like_it.dao.connection_pool.impl.PostgresqlConnectionPool;
 import by.trepam.like_it.dao.exception.DAOException;
 import by.trepam.like_it.domain.Image;
 
-public class PostgresqlImageDAO implements ImageDAO{
+public class PostgresqlImageDAO implements ImageDAO {
 
-	public void insert(Image image)  throws DAOException {
+	public void insert(Image image) throws DAOException {
 		String sql = QueryConstant.SQL_INSERT_IMAGE;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -27,7 +27,7 @@ public class PostgresqlImageDAO implements ImageDAO{
 		}
 	}
 
-	public void delete(Integer imageId)  throws DAOException {
+	public void delete(Integer imageId) throws DAOException {
 		String sql = QueryConstant.SQL_DELETE_IMAGE_BY_ID;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -38,7 +38,7 @@ public class PostgresqlImageDAO implements ImageDAO{
 		} catch (ConnectionPoolException e1) {
 			throw new DAOException("ConnectionPoolException", e1);
 		}
-		
+
 	}
 
 	public Image getImage(Integer imageId) throws DAOException {

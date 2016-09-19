@@ -22,6 +22,11 @@ import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AnswerServiceImpl;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
+/**
+ * Class of command, that is used to add answer mark of logged user.
+ *
+ */
+
 public class RateCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
@@ -44,7 +49,7 @@ public class RateCommand implements Command {
 			if (message != null) {
 				AnswerService answerService = AnswerServiceImpl.getInstance();
 				answerService.rating(mark, answerId);
-				try{
+				try {
 					MessageService messagweService = MessageServiceImpl.getInstance();
 					message = messagweService.getMessage(message.getId());
 					request.getSession(true).setAttribute(CommandConstant.PARAM_MESSAGE, message);
@@ -63,7 +68,7 @@ public class RateCommand implements Command {
 					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred");
 					response.sendRedirect("../like-it/error");
 				}
-			}else{
+			} else {
 				response.sendRedirect("../like-it/like-it");
 			}
 		} catch (NumberFormatException e) {

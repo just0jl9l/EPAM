@@ -17,6 +17,11 @@ import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
+/**
+ * Class of command, that is used to add category.
+ *
+ */
+
 public class AddCategoryCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
@@ -53,7 +58,7 @@ public class AddCategoryCommand implements Command {
 			service.addCategory(categoryRu, categoryEn);
 			GetCategoriesCommand command = GetCategoriesCommand.getInstance();
 			command.execute(request, response);
-		}catch (WrongDataException e){
+		} catch (WrongDataException e) {
 			logger.error("WrongDataException occurred during adding category", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_NOT_ALL_DATA_ERROR, CommandConstant.TRUE);
 			response.sendRedirect("../like-it/add-category");

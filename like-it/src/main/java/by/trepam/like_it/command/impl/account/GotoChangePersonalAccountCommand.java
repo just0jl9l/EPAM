@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 
+/**
+ * Class of command, that is used to go to the page of changing account data of
+ * logged user.
+ *
+ */
+
 public class GotoChangePersonalAccountCommand implements Command {
 
 	private final static GotoChangePersonalAccountCommand command = new GotoChangePersonalAccountCommand();

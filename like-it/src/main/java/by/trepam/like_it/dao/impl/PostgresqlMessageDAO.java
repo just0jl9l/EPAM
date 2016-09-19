@@ -15,9 +15,9 @@ import by.trepam.like_it.dao.exception.DAOException;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.domain.Message;
 
-public class PostgresqlMessageDAO implements MessageDAO{
+public class PostgresqlMessageDAO implements MessageDAO {
 
-	public void insert(Message message,Integer categoryId)  throws DAOException {
+	public void insert(Message message, Integer categoryId) throws DAOException {
 		String sql = QueryConstant.SQL_INSERT_MESSAGE;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -45,16 +45,16 @@ public class PostgresqlMessageDAO implements MessageDAO{
 		} catch (ConnectionPoolException e1) {
 			throw new DAOException("ConnectionPoolException", e1);
 		}
-		
+
 	}
 
-	public Message getMessage(Integer messageId)  throws DAOException {
+	public Message getMessage(Integer messageId) throws DAOException {
 		String sql = QueryConstant.SQL_GET_MESSAGE_BY_ID;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageId);
 			ResultSet rs = stm.executeQuery();
-		Message message = null;
+			Message message = null;
 			if (rs.next()) {
 				message = new Message();
 				message.setId(messageId);

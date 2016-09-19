@@ -14,9 +14,13 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
-import by.trepam.like_it.service.exception.DataNotFoundException;
 import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.impl.CategoryServiceImpl;
+
+/**
+ * Class of command, that is used to get all existing categories.
+ *
+ */
 
 public class GetCategoriesCommand implements Command {
 
@@ -38,10 +42,6 @@ public class GetCategoriesCommand implements Command {
 			request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORIES, categories);
 			request.getRequestDispatcher("WEB-INF/jsp/categories.jsp").forward(request, response);
 
-		} catch (DataNotFoundException e) {
-			logger.error("Categories wasn't found", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Categories wasn't found");
-			request.getRequestDispatcher("error.jsp").forward(request, response);
 		} catch (GettingDataException e) {
 			logger.error("GettingDataException occurred during getting categories", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,

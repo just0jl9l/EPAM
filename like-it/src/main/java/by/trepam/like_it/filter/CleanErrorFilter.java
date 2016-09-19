@@ -30,13 +30,13 @@ public class CleanErrorFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		String url = request.getServletPath();
 		HttpSession session = request.getSession(false);
-		if (null != session && !avoidList.contains(url)){
-			session.setAttribute(CommandConstant.PARAM_ERROR, null);			
-			session.setAttribute(CommandConstant.PARAM_PASSWORD_ERROR,null);
-			session.setAttribute(CommandConstant.PARAM_NOT_ALL_DATA_ERROR,null);
-			session.setAttribute(CommandConstant.PARAM_LOGIN_ERROR,null);
+		if (null != session && !avoidList.contains(url)) {
+			session.setAttribute(CommandConstant.PARAM_ERROR, null);
+			session.setAttribute(CommandConstant.PARAM_PASSWORD_ERROR, null);
+			session.setAttribute(CommandConstant.PARAM_NOT_ALL_DATA_ERROR, null);
+			session.setAttribute(CommandConstant.PARAM_LOGIN_ERROR, null);
 		}
-		chain.doFilter(request, response);		
+		chain.doFilter(request, response);
 	}
 
 	public void init(FilterConfig config) throws ServletException {

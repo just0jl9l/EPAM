@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 		return service;
 	}
 
-	public List<Category> getCategories(Object lang) throws DataNotFoundException, GettingDataException {
+	public List<Category> getCategories(Object lang) throws GettingDataException {
 		try {
 			List<Category> categories = null;
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
@@ -44,9 +44,6 @@ public class CategoryServiceImpl implements CategoryService {
 			ImageDAO imgdao = daoFactory.getImageDAO();
 			for (Category c : categories) {
 				c.setImage(imgdao.getImage(c.getImage().getId()));
-			}
-			if (categories == null || categories.isEmpty()) {
-				throw new DataNotFoundException("Category list is empty");
 			}
 			return categories;
 		} catch (DAOException e) {
@@ -89,16 +86,15 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new GettingDataException("DAOException occurred during getting category", e);
 		}
 	}
-	
-	public Category getLangCategory(Integer id, Object lang)
-			throws GettingDataException, WrongDataException {
+
+	public Category getCategoryText(Integer id, Object lang) throws GettingDataException, WrongDataException {
 		try {
 			Category category = null;
 			if (id == null || lang == null) {
 				throw new WrongDataException("Wrong data");
 			}
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
-			category = catdao.getLangCategory(id, lang.toString());
+			category = catdao.getCategoryText(id, lang.toString());
 			return category;
 		} catch (DAOException e) {
 			throw new GettingDataException("DAOException occurred during getting category", e);
@@ -163,7 +159,7 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 			return id;
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding category", e);
+			throw new GettingDataException("DAOException occurred during getting category id by name", e);
 		}
 	}
 
@@ -177,7 +173,7 @@ public class CategoryServiceImpl implements CategoryService {
 			deleteCategoryText(categoryId, RU);
 			catdao.delete(categoryId);
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during deleting category", e);
 		}
 	}
 
@@ -190,9 +186,17 @@ public class CategoryServiceImpl implements CategoryService {
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			if (categoryRu != null) {
 				catdao.update(categoryRu);
-				updateCategoryText(categoryRu, RU);
+				if (getCategoryText(categoryRu.getId(), RU) != null) {
+					updateCategoryText(categoryRu, RU);
+				} else {
+					addCategoryText(categoryRu, RU);
+				}
 				if (categoryEn != null) {
-					updateCategoryText(categoryEn, EN);
+					if (getCategoryText(categoryEn.getId(), EN) != null) {
+						updateCategoryText(categoryEn, EN);
+					} else {
+						addCategoryText(categoryEn, EN);
+					}
 				} else {
 					deleteCategoryText(categoryRu.getId(), EN);
 				}
@@ -200,11 +204,15 @@ public class CategoryServiceImpl implements CategoryService {
 				if (categoryEn != null) {
 					deleteCategoryText(categoryEn.getId(), RU);
 					catdao.update(categoryEn);
-					updateCategoryText(categoryEn, EN);
+					if (getCategoryText(categoryEn.getId(), EN) != null) {
+						updateCategoryText(categoryEn, EN);
+					} else {
+						addCategoryText(categoryEn, EN);
+					}
 				}
 			}
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during updating category", e);
 		}
 
 	}
@@ -217,7 +225,7 @@ public class CategoryServiceImpl implements CategoryService {
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			catdao.updateText(category, lang);
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during updating category text", e);
 		}
 
 	}
@@ -230,7 +238,7 @@ public class CategoryServiceImpl implements CategoryService {
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
 			catdao.deleteText(categoryId, lang);
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during deleting category", e);
 		}
 
 	}

@@ -121,7 +121,7 @@ public class Account implements Serializable {
 	}
 
 	public int hashCode() {
-		return (int) 31 * (((null == id) ? 0 : id.hashCode()) );
+		return (int) 31 * (((null == id) ? 0 : id.hashCode()));
 	}
 
 }

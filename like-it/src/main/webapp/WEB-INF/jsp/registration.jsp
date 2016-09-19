@@ -51,7 +51,7 @@
 			class="language_button" value="${en_button}" />
 	</form>
 	</header>
-	<form action="Controller" method="post" enctype="multipart/form-data">
+	<form action="Controller" method="post">
 		<c:if test="${requestScope.change != 'true'}">
 			<input type="hidden" name="command" value="registration" />
 		</c:if>

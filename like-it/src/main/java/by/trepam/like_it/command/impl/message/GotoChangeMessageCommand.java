@@ -13,6 +13,11 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Message;
 
+/**
+ * Class of command, that is used to go to the page of changing message.
+ *
+ */
+
 public class GotoChangeMessageCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 	private final static GotoChangeMessageCommand command = new GotoChangeMessageCommand();

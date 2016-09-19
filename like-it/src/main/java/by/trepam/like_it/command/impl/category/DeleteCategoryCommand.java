@@ -16,6 +16,11 @@ import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
+/**
+ * Class of command, that is used to delete existing category.
+ *
+ */
+
 public class DeleteCategoryCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
@@ -37,8 +42,7 @@ public class DeleteCategoryCommand implements Command {
 			command.execute(request, response);
 		} catch (NumberFormatException | WrongDataException e) {
 			logger.error("Wrong category id", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
-					"Wrong category id");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong category id");
 			response.sendRedirect("../like-it/error");
 		} catch (GettingDataException e) {
 			logger.error("GettingDataException occurred during deleting category", e);

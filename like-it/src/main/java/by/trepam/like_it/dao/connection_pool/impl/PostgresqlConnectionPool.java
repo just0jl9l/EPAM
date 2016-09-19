@@ -29,8 +29,13 @@ import by.trepam.like_it.dao.connection_pool.exception.ConnectionPoolException;
 import by.trepam.like_it.dao.connection_pool.util.ConnectionPoolPropertyConstant;
 import by.trepam.like_it.dao.connection_pool.util.DBConnectionProperty;
 
+/**
+ * Provides connections to database management system PostgreSQL.
+ *
+ */
+
 public class PostgresqlConnectionPool implements ConnectionPool {
-	
+
 	private static PostgresqlConnectionPool pool = new PostgresqlConnectionPool();
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
 
@@ -49,14 +54,15 @@ public class PostgresqlConnectionPool implements ConnectionPool {
 		this.url = property.getValue(ConnectionPoolPropertyConstant.URL);
 		this.password = property.getValue(ConnectionPoolPropertyConstant.PASSWORD);
 		this.user = property.getValue(ConnectionPoolPropertyConstant.USER);
-		try{
-			this.numberOfConnections = Integer.parseInt(property.getValue(ConnectionPoolPropertyConstant.CONNECTIONS_NUMBER));
-		}catch(NumberFormatException e){
+		try {
+			this.numberOfConnections = Integer
+					.parseInt(property.getValue(ConnectionPoolPropertyConstant.CONNECTIONS_NUMBER));
+		} catch (NumberFormatException e) {
 			numberOfConnections = 5;
 		}
 	}
-	
-	public static ConnectionPool getInstance(){
+
+	public static ConnectionPool getInstance() {
 		return pool;
 	}
 
@@ -134,9 +140,9 @@ public class PostgresqlConnectionPool implements ConnectionPool {
 				givenConnections.remove(this);
 				freeConnections.put(this);
 			} catch (InterruptedException e) {
-				throw new RuntimeException("InterruptedException occurred during connection closing",e);
+				throw new RuntimeException("InterruptedException occurred during connection closing", e);
 			} catch (SQLException e) {
-				throw new RuntimeException("SQLException occurred during connection closing",e);
+				throw new RuntimeException("SQLException occurred during connection closing", e);
 			}
 
 		}

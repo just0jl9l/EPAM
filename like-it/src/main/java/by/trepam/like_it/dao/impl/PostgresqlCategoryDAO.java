@@ -68,8 +68,8 @@ public class PostgresqlCategoryDAO implements CategoryDAO {
 		}
 	}
 
-	public Category getLangCategory(Integer categoryId, String lang) throws DAOException {
-		String sql = QueryConstant.SQL_GET_LANG_CATEGORY;
+	public Category getCategoryText(Integer categoryId, String lang) throws DAOException {
+		String sql = QueryConstant.SQL_GET_CATEGORY_TEXT;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setString(1, lang);
@@ -172,7 +172,6 @@ public class PostgresqlCategoryDAO implements CategoryDAO {
 			stm.setString(2, category.getDescription());
 			stm.setInt(3, category.getId());
 			stm.setString(4, lang);
-			System.out.println(stm.toString());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);

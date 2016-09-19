@@ -19,6 +19,11 @@ import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.MessageServiceImpl;
 
+/**
+ * Class of command, that is used to change message.
+ *
+ */
+
 public class ChangeMessageCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
@@ -36,10 +41,10 @@ public class ChangeMessageCommand implements Command {
 			String title = request.getParameter(CommandConstant.PARAM_TITLE);
 			String text = request.getParameter(CommandConstant.PARAM_TEXT);
 			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
-			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);			
+			Message message = (Message) request.getSession(true).getAttribute(CommandConstant.PARAM_MESSAGE);
 			if (category != null && message != null) {
 				MessageService messageService = MessageServiceImpl.getInstance();
-				messageService.updateMessage(message, title,text);
+				messageService.updateMessage(message, title, text);
 				GetCategoryCommand getCategoryCommand = GetCategoryCommand.getInstance();
 				getCategoryCommand.execute(request, response);
 			} else {
@@ -48,11 +53,13 @@ public class ChangeMessageCommand implements Command {
 			}
 		} catch (GettingDataException e) {
 			logger.error("GettingDataException occurred during changing message", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during changing message");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during changing message");
 			response.sendRedirect("../like-it/error");
 		} catch (ClassCastException e) {
 			logger.error("ClassCastException occurred during changing message", e);
-			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Exception occurred during changing message");
+			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+					"Exception occurred during changing message");
 			response.sendRedirect("../like-it/error");
 		} catch (WrongDataException e) {
 			logger.error("Wrong data", e);

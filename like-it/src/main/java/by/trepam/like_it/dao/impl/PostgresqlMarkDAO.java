@@ -15,9 +15,9 @@ import by.trepam.like_it.dao.exception.DAOException;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.domain.Mark;
 
-public class PostgresqlMarkDAO implements MarkDAO{
+public class PostgresqlMarkDAO implements MarkDAO {
 
-	public void insert(Mark mark,Integer answerId)  throws DAOException {
+	public void insert(Mark mark, Integer answerId) throws DAOException {
 		String sql = QueryConstant.SQL_INSERT_MARK;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -33,7 +33,7 @@ public class PostgresqlMarkDAO implements MarkDAO{
 		}
 	}
 
-	public void delete(Integer authorId,Integer answerId)  throws DAOException {
+	public void delete(Integer authorId, Integer answerId) throws DAOException {
 		String sql = QueryConstant.SQL_DELETE_MARK;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -45,10 +45,10 @@ public class PostgresqlMarkDAO implements MarkDAO{
 		} catch (ConnectionPoolException e1) {
 			throw new DAOException("ConnectionPoolException", e1);
 		}
-		
+
 	}
 
-	public List<Mark> getAllMarksOfAnswer(Integer answerId)  throws DAOException {
+	public List<Mark> getAllMarksOfAnswer(Integer answerId) throws DAOException {
 		String sql = QueryConstant.SQL_GET_ALL_MARKS_OF_ANSWER;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -71,7 +71,7 @@ public class PostgresqlMarkDAO implements MarkDAO{
 		}
 	}
 
-	public void update(Mark mark,Integer answerId) throws DAOException {
+	public void update(Mark mark, Integer answerId) throws DAOException {
 		String sql = QueryConstant.SQL_UPDATE_MARK;
 		try (Connection connection = PostgresqlConnectionPool.getInstance().getConnection();
 				PreparedStatement stm = connection.prepareStatement(sql)) {

@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 
+/**
+ * Class of command, that is used to log out.
+ *
+ */
+
 public class LogoutCommand implements Command {
 	private final static LogoutCommand command = new LogoutCommand();
 

@@ -17,6 +17,11 @@ import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.CategoryServiceImpl;
 
+/**
+ * Class of command, that is used to go to the page of changing category.
+ *
+ */
+
 public class GotoChangeCategoryCommand implements Command {
 
 	private final static Logger logger = LogManager.getLogger(Logger.class.getName());
@@ -37,9 +42,9 @@ public class GotoChangeCategoryCommand implements Command {
 			Category category = (Category) request.getSession(true).getAttribute(CommandConstant.PARAM_CATEGORY);
 			if (category != null) {
 				CategoryService service = CategoryServiceImpl.getInstance();
-				Category currentCategory = service.getLangCategory(category.getId(), EN);
+				Category currentCategory = service.getCategoryText(category.getId(), EN);
 				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_EN, currentCategory);
-				currentCategory = service.getLangCategory(category.getId(), RU);
+				currentCategory = service.getCategoryText(category.getId(), RU);
 				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY_RU, currentCategory);
 				request.setAttribute(CommandConstant.PARAM_CHANGE, CommandConstant.TRUE);
 				request.getRequestDispatcher("WEB-INF/jsp/add-category.jsp").forward(request, response);

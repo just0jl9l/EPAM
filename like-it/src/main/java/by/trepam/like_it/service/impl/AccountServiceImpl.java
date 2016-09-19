@@ -25,8 +25,8 @@ public class AccountServiceImpl implements AccountService {
 
 	public Account logIn(String login, String password)
 			throws GettingDataException, WrongDataException, DataNotFoundException {
-		Account account = null;
 		try {
+			Account account = null;
 			if (login != null && login != CommandConstant.EMPTY && password != null
 					&& password != CommandConstant.EMPTY) {
 				AccountDAO acdao = daoFactory.getAccountDAO();
@@ -34,13 +34,13 @@ public class AccountServiceImpl implements AccountService {
 				if (account == null) {
 					throw new DataNotFoundException("Account wasn't found");
 				}
+				return account;
 			} else {
 				throw new WrongDataException("Wrong data");
 			}
 		} catch (DAOException e) {
 			throw new GettingDataException("DAOException occurred during logination", e);
 		}
-		return account;
 	}
 
 	public Account getAccount(Integer accountId)
@@ -74,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
 				return false;
 			}
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during checking login", e);
 		}
 	}
 
@@ -86,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
 			AccountDAO accdao = daoFactory.getAccountDAO();
 			accdao.insert(account);
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during adding account", e);
 		}
 
 	}
@@ -99,7 +99,7 @@ public class AccountServiceImpl implements AccountService {
 			AccountDAO accdao = daoFactory.getAccountDAO();
 			accdao.update(account);
 		} catch (DAOException e) {
-			throw new GettingDataException("DAOException occurred during adding message", e);
+			throw new GettingDataException("DAOException occurred during updating account", e);
 		}
 
 	}
