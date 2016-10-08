@@ -59,19 +59,19 @@ public class AddMessageCommand implements Command {
 						category = service.getCategory(category.getId(),
 								request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
 						request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORY, category);
-						request.getRequestDispatcher("WEB-INF/jsp/category.jsp").forward(request, response);
+						response.sendRedirect("../like-it/category");
 					} catch (DataNotFoundException e) {
 						request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
-						request.getRequestDispatcher("error.jsp").forward(request, response);
+						response.sendRedirect("../like-it/error");
 					} catch (NumberFormatException | WrongDataException e) {
 						logger.error("Wrong category id", e);
 						request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Category wasn't found");
-						request.getRequestDispatcher("error.jsp").forward(request, response);
+						response.sendRedirect("../like-it/error");
 					} catch (GettingDataException e) {
 						logger.error("GettingDataException occurred during getting category", e);
 						request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
 								"Exception occurred during getting category");
-						request.getRequestDispatcher("error.jsp").forward(request, response);
+						response.sendRedirect("../like-it/error");
 					}
 				} else {
 					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, CommandConstant.TRUE);

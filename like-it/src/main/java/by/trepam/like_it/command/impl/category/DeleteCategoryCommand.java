@@ -1,6 +1,7 @@
 package by.trepam.like_it.command.impl.category;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
+import by.trepam.like_it.domain.Category;
 import by.trepam.like_it.service.CategoryService;
 import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
@@ -38,8 +40,19 @@ public class DeleteCategoryCommand implements Command {
 			Integer categoryId = new Integer(request.getParameter(CommandConstant.PARAM_CATEGORY_ID));
 			CategoryService service = CategoryServiceImpl.getInstance();
 			service.deleteCategory(categoryId);
-			GetCategoriesCommand command = GetCategoriesCommand.getInstance();
-			command.execute(request, response);
+			try {
+				CategoryService service1 = CategoryServiceImpl.getInstance();
+				List<Category> categories = service1
+						.getCategories(request.getSession(true).getAttribute(CommandConstant.PARAM_LOCAL));
+				request.getSession(true).setAttribute(CommandConstant.PARAM_CATEGORIES, categories);
+				response.sendRedirect("../like-it/categories");
+
+			} catch (GettingDataException e) {
+				logger.error("GettingDataException occurred during getting categories", e);
+				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+						"Exception occurred during getting categories");
+				response.sendRedirect("../like-it/error");
+			}
 		} catch (NumberFormatException | WrongDataException e) {
 			logger.error("Wrong category id", e);
 			request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong category id");

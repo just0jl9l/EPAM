@@ -27,7 +27,7 @@ public class LogoutCommand implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT_ID, null);
 		request.getSession(true).setAttribute(CommandConstant.PARAM_STATUS, null);
-		request.getRequestDispatcher("like-it.jsp").forward(request, response);
+		response.sendRedirect("../like-it");
 	}
 
 }

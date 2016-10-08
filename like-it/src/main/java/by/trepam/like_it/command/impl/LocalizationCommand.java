@@ -26,7 +26,7 @@ public class LocalizationCommand implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession(true).setAttribute(CommandConstant.PARAM_LOCAL,
 				request.getParameter(CommandConstant.PARAM_LOCAL));
-		request.getRequestDispatcher("like-it.jsp").forward(request, response);
+		response.sendRedirect("../like-it");
 	}
 
 }

@@ -13,6 +13,7 @@ import by.trepam.like_it.command.Command;
 import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.domain.Account;
 import by.trepam.like_it.service.AccountService;
+import by.trepam.like_it.service.exception.DataNotFoundException;
 import by.trepam.like_it.service.exception.GettingDataException;
 import by.trepam.like_it.service.exception.WrongDataException;
 import by.trepam.like_it.service.impl.AccountServiceImpl;
@@ -47,8 +48,25 @@ public class ChangePersonalAccountCommand implements Command {
 				account.setSurname(surname);
 				AccountService service = AccountServiceImpl.getInstance();
 				service.updateAccount(account);
-				GetPersonalAccountCommand getCommand = GetPersonalAccountCommand.getInstance();
-				getCommand.execute(request, response);
+				try {
+					AccountService service1 = AccountServiceImpl.getInstance();
+					account = service1.getAccount(accountId);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ACCOUNT, account);
+					response.sendRedirect("../like-it/personal-account");
+				} catch (GettingDataException e) {
+					logger.error("GettingDataException occurred during getting personal data", e);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR,
+							"Exception occurred during getting personal data");
+					response.sendRedirect("../like-it/error");
+				} catch (DataNotFoundException e) {
+					logger.error("Account wasn't found", e);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Account wasn't found");
+					response.sendRedirect("../like-it/error");
+				} catch (WrongDataException e) {
+					logger.error("Wrong account ID", e);
+					request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account ID");
+					response.sendRedirect("../like-it/error");
+				}
 			} else {
 				request.getSession(true).setAttribute(CommandConstant.PARAM_ERROR, "Wrong account data");
 				response.sendRedirect("../like-it/error");
