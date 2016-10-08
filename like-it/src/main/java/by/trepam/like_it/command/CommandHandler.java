@@ -7,6 +7,7 @@ import by.trepam.like_it.command.impl.CommandConstant;
 import by.trepam.like_it.command.impl.LocalizationCommand;
 import by.trepam.like_it.command.impl.SitemapCommand;
 import by.trepam.like_it.command.impl.account.ChangePersonalAccountCommand;
+import by.trepam.like_it.command.impl.account.DeletePersonalAccountCommand;
 import by.trepam.like_it.command.impl.account.GetPersonalAccountCommand;
 import by.trepam.like_it.command.impl.account.GotoChangePersonalAccountCommand;
 import by.trepam.like_it.command.impl.account.LoginCommand;
@@ -57,6 +58,7 @@ public class CommandHandler {
 		commands.put(CommandName.DELETE_MESSAGE, DeleteMessageCommand.getInstance());
 		commands.put(CommandName.GOTO_CHANGE_PERSONAL_ACCOUNT, GotoChangePersonalAccountCommand.getInstance());
 		commands.put(CommandName.CHANGE_PERSONAL_ACCOUNT, ChangePersonalAccountCommand.getInstance());
+		commands.put(CommandName.DELETE_PERSONAL_ACCOUNT, DeletePersonalAccountCommand.getInstance());
 	}
 
 	/**

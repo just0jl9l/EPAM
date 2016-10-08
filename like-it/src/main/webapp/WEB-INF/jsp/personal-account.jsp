@@ -24,6 +24,7 @@
 <fmt:message bundle="${loc}" key="local.label.name" var="name" />
 <fmt:message bundle="${loc}" key="local.label.surname" var="surname" />
 <fmt:message bundle="${loc}" key="local.label.edit" var="edit" />
+<fmt:message bundle="${loc}" key="local.label.delete" var="delete" />
 </head>
 <body>
 	<header> <img alt="Логотип" class="logo_image"
@@ -78,6 +79,9 @@
 	</section>
 	<footer class="col-12 col-m-12 menu"> <a
 		href="../like-it/Controller?command=goto-change-personal-account&accountId=${sessionScope.account.id}"
-		class="menu_item inline_button"><c:out value="${edit}" /></a> </footer>
+		class="menu_item inline_button"><c:out value="${edit}" /></a> 
+		<a
+		href="../like-it/Controller?command=delete-personal-account&accountId=${sessionScope.account.id}"
+		class="menu_item inline_button"><c:out value="${delete}" /></a></footer>
 </body>
 </html>

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,6 @@ public class PostgresqlMessageDAO implements MessageDAO {
 			stm.setString(2, message.getText());
 			stm.setInt(3, categoryId);
 			stm.setInt(4, message.getAuthor().getId());
-			stm.setTimestamp(5, new Timestamp(message.getDateOfPosting().getTime()));
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);

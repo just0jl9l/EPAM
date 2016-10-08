@@ -66,7 +66,7 @@ public interface AccountDAO {
 	Double rating(Integer accountId) throws DAOException;
 
 	/**
-	 * Method return true, if account with this login doesn't exist in database,
+	 * Method returns true, if account with this login doesn't exist in database,
 	 * or false otherwise.
 	 * 
 	 * @param login

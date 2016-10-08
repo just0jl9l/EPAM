@@ -104,4 +104,17 @@ public class AccountServiceImpl implements AccountService {
 
 	}
 
+	public void deleteAccount(Integer accountId) throws GettingDataException, WrongDataException {
+		try {
+			if (accountId == null) {
+				throw new WrongDataException("Wrong account");
+			}
+			AccountDAO accdao = daoFactory.getAccountDAO();
+			accdao.delete(accountId);
+		} catch (DAOException e) {
+			throw new GettingDataException("DAOException occurred during deleting account", e);
+		}
+		
+	}
+
 }

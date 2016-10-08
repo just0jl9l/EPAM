@@ -21,7 +21,6 @@ public class Answer implements Serializable {
 
 	public Answer() {
 		text = DomainConstant.EMPTY;
-		dateOfPosting = new Timestamp(new Date().getTime());
 		author = new Account();
 		marks = new ArrayList<Mark>();
 	}
@@ -29,7 +28,6 @@ public class Answer implements Serializable {
 	public Answer(Integer id) {
 		this.id = id;
 		text = DomainConstant.EMPTY;
-		dateOfPosting = new Timestamp(new Date().getTime());
 		author = new Account();
 		marks = new ArrayList<Mark>();
 	}

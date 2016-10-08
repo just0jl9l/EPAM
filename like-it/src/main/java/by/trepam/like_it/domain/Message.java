@@ -20,7 +20,6 @@ public class Message implements Serializable {
 		name = DomainConstant.EMPTY;
 		text = DomainConstant.EMPTY;
 		author = new Account();
-		dateOfPosting = new Timestamp(new Date().getTime());
 		answers = new ArrayList<Answer>();
 	}
 
@@ -29,7 +28,6 @@ public class Message implements Serializable {
 		name = DomainConstant.EMPTY;
 		text = DomainConstant.EMPTY;
 		author = new Account();
-		dateOfPosting = new Timestamp(new Date().getTime());
 		answers = new ArrayList<Answer>();
 	}
 

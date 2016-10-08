@@ -169,8 +169,6 @@ public class CategoryServiceImpl implements CategoryService {
 				throw new WrongDataException("Wrong category ID");
 			}
 			CategoryDAO catdao = daoFactory.getCategoryDAO();
-			deleteCategoryText(categoryId, EN);
-			deleteCategoryText(categoryId, RU);
 			catdao.delete(categoryId);
 		} catch (DAOException e) {
 			throw new GettingDataException("DAOException occurred during deleting category", e);

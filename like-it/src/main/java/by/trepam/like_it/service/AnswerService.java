@@ -15,7 +15,7 @@ import by.trepam.like_it.service.exception.WrongDataException;
 public interface AnswerService {
 
 	/**
-	 * Method add mark of answer with answerId, if it exists. If this answer
+	 * Method adds mark of answer with answerId, if it exists. If this answer
 	 * already has mark of this mark's author, mark will be overwrite. If mark
 	 * and answer have the same author, this mark won't be inserted.
 	 * 

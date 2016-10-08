@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +22,7 @@ public class PostgresqlAnswerDAO implements AnswerDAO {
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageId);
 			stm.setString(2, answer.getText());
-			stm.setTimestamp(3, new Timestamp(answer.getDateOfPosting().getTime()));
-			stm.setInt(4, answer.getAuthor().getId());
+			stm.setInt(3, answer.getAuthor().getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);
@@ -99,9 +97,8 @@ public class PostgresqlAnswerDAO implements AnswerDAO {
 				PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, messageId);
 			stm.setString(2, answer.getText());
-			stm.setTimestamp(3, new Timestamp(answer.getDateOfPosting().getTime()));
-			stm.setInt(4, answer.getAuthor().getId());
-			stm.setInt(5, answer.getId());
+			stm.setInt(3, answer.getAuthor().getId());
+			stm.setInt(4, answer.getId());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("SQLException", e);

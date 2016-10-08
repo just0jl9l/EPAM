@@ -47,7 +47,7 @@ public interface AccountService {
 	boolean isLoginValid(String login) throws GettingDataException;
 
 	/**
-	 * Method add account, if it does not already exist.
+	 * Method adds account, if it does not already exist.
 	 * 
 	 * @param account
 	 * @throws GettingDataException
@@ -56,11 +56,20 @@ public interface AccountService {
 	void addAccount(Account account) throws GettingDataException, WrongDataException;
 
 	/**
-	 * Method update account, if it already exists.
+	 * Method updates account, if it already exists.
 	 * 
 	 * @param account
 	 * @throws GettingDataException
 	 * @throws WrongDataException
 	 */
 	void updateAccount(Account account) throws GettingDataException, WrongDataException;
+
+	/**
+	 * Method deletes account, if it already exists.
+	 * 
+	 * @param account
+	 * @throws GettingDataException
+	 * @throws WrongDataException
+	 */
+	void deleteAccount(Integer accountId) throws GettingDataException, WrongDataException;
 }
